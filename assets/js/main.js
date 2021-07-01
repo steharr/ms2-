@@ -1,17 +1,20 @@
-var grid = document.getElementById('game-grid');
+const grid = document.getElementById('game-grid');
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
     const gridHeight = 20;
-    const gridWidth = 50;
-    const startMouse = [0, 0];
-    const startCat = [0, gridHeight - 1];
-    const startCheese = [gridWidth - 1, gridHeight - 1];
+    const gridWidth = 30;
+    const corners = calculateCornerCoordinates(gridHeight, gridWidth);
+    const startMouse = corners[0];
+    const startCat = corners[3];
+    const startCheese = corners[2];
 
     generateLevel(gridHeight, gridWidth);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
+    calculateCornerCoordinates();
+    console.log(createGridArray());
 });
 
 // Level Generator: creates a game grid based on a given height and width value
@@ -35,16 +38,20 @@ function generateLevel(gridHeight, gridWidth) {
     }
 }
 
-// Characters
+// **********Characters**********
 function drawAsset(startPosition, assetType) {
     fillCell(startPosition[0], startPosition[1], assetType);
 }
 
 
-// Coordinate System Information
+// **********Coordinate System Information**********
+
+// Grid array generator: scans the game grid and creates an array which details what asset in each square
+// gives the game state
+// empty = 0, mouse = 1, cat=2, obstacle=3, cheese=4
 function createGridArray() {
     var gridArray = [];
-    var rows = document.getElementsByClassName('game-box-row');
+    var rows = document.getElementsByClassName('grid-row');
     for (row of rows) {
         var gridRow = [];
         Array.from(row.children).forEach(function (cell) {
@@ -54,17 +61,31 @@ function createGridArray() {
                 gridRow.push(1);
             } else if (cell.className.includes('cat')) {
                 gridRow.push(2);
-            } else if (cell.className.includes('cheese')) {
-                gridRow.push(3);
             } else if (cell.className.includes('obstacle')) {
+                gridRow.push(3);
+            } else if (cell.className.includes('cheese')) {
                 gridRow.push(4);
             }
         });
+        gridArray.push(gridRow);
     }
-
+    return gridArray;
 }
 
-// DOM Manipulation
+// calculates the corner coordinates of the grid so that the level can be generated dynamically more easily
+function calculateCornerCoordinates(gridHeight, gridWidth) {
+    var corners = [];
+    // top left
+    corners.push([0, 0]);
+    // top right
+    corners.push([gridWidth - 1, 0]);
+    // bottom right
+    corners.push([gridWidth - 1, gridHeight - 1,]);
+    // bottom left
+    corners.push([0, gridHeight - 1]);
+    return corners;
+}
+// **********DOM Manipulation**********
 function fillCell(xCoord, yCoord, fillClass) {
     let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`)
     if (targetCell.className.includes('empty')) {
