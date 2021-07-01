@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const startMouse = corners[0];
     const startCat = corners[3];
     const startCheese = corners[2];
+    const startObstacle = [15, 10];
 
     generateLevel(gridHeight, gridWidth);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
-    calculateCornerCoordinates();
-    console.log(createGridArray());
+    drawAsset(startObstacle, "obstacle");
 });
 
 // Level Generator: creates a game grid based on a given height and width value
@@ -38,16 +38,56 @@ function generateLevel(gridHeight, gridWidth) {
     }
 }
 
-// **********Characters**********
+// **********Asset Generation**********
 function drawAsset(startPosition, assetType) {
     fillCell(startPosition[0], startPosition[1], assetType);
 }
 
+// **********Movement**********
+
+// User controlled events
+document.addEventListener('keydown', (event) => {
+    var coordMouse = findCoordinates(1);
+    var button = event.key;
+    if (button === "ArrowDown") {
+        moveCharacter(coordMouse, "down", "mouse");
+    } else if (button === "ArrowUp") {
+        moveCharacter(coordMouse, "up", "mouse");
+    } else if (button === "ArrowLeft") {
+        moveCharacter(coordMouse, "left", "mouse");
+    } else if (button === "ArrowRight") {
+        moveCharacter(coordMouse, "right", "mouse");
+    }
+}, false);
+
+// Movement function
+function moveCharacter(coordinates, moveDirection, characterType) {
+    // first empty the current cell
+    emptyCell(coordinates[0], coordinates[1], characterType);
+    // then determine which coordinate needs to be incremented or decremented
+    switch (moveDirection) {
+        case "up":
+            coordinates[1]--;
+            break;
+        case "down":
+            coordinates[1]++;
+            break;
+        case "left":
+            coordinates[0]--;
+            break;
+        case "right":
+            coordinates[0]++;
+            break;
+    }
+    // then fill cell at adjusted coord
+    fillCell(coordinates[0], coordinates[1], characterType);
+}
 
 // **********Coordinate System Information**********
 
 // Grid array generator: scans the game grid and creates an array which details what asset in each square
 // gives the game state
+// Identifiers for each character:
 // empty = 0, mouse = 1, cat=2, obstacle=3, cheese=4
 function createGridArray() {
     var gridArray = [];
@@ -85,6 +125,25 @@ function calculateCornerCoordinates(gridHeight, gridWidth) {
     corners.push([0, gridHeight - 1]);
     return corners;
 }
+
+// calculates the coordinates of a requested asset
+function findCoordinates(assetId) {
+
+    var requestedCoordinates = [];
+    var gameState = createGridArray();
+
+    for (let i = 0; i < gameState.length; i++) {
+        requestedCoordinates[0] = gameState[i].indexOf(assetId);
+        if (requestedCoordinates[0] != -1) {
+            requestedCoordinates[1] = i;
+            break;
+        }
+    }
+
+    return requestedCoordinates;
+}
+
+
 // **********DOM Manipulation**********
 function fillCell(xCoord, yCoord, fillClass) {
     let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`)
