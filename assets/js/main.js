@@ -43,9 +43,8 @@ function drawAsset(startPosition, assetType) {
     fillCell(startPosition[0], startPosition[1], assetType);
 }
 
-// **********Movement**********
 
-// User controlled events
+// **********User generated events**********
 document.addEventListener('keydown', (event) => {
     var coordMouse = findCoordinates(1);
     var button = event.key;
@@ -58,8 +57,42 @@ document.addEventListener('keydown', (event) => {
     } else if (button === "ArrowRight") {
         moveCharacter(coordMouse, "right", "mouse");
     }
+
+    activateEnemyAI();
 }, false);
 
+// **********Enemy AI**********
+function activateEnemyAI() {
+    let coordMouse = findCoordinates(1);
+    let coordCat = findCoordinates(2);
+    let distance = calculateDistance(coordCat, coordMouse);
+    var nextMove;
+    var randomChance = Math.floor(Math.random() * 6);
+
+    // compare the absolute value of the distance of the mouse from the cat
+    // in the x direction and the y direction
+    // whichever direction is larger in magnitude, move towards it
+    if (Math.abs(distance[0]) > Math.abs(distance[1])) {
+        if (distance[0] > 0) {
+            nextMove = "left";
+        } else if (distance[0] < 0) {
+            nextMove = "right";
+        }
+    } else if (Math.abs(distance[0]) < Math.abs(distance[1])) {
+        if (distance[1] > 0) {
+            nextMove = "up";
+        } else if (distance[1] < 0) {
+            nextMove = "down";
+        }
+    }
+    if (randomChance % 2 == 0) {
+        // move the cat according to the determined next move
+        moveCharacter(coordCat, nextMove, "cat");
+    }
+}
+
+
+// **********Movement**********
 // Movement function
 function moveCharacter(coordinates, moveDirection, characterType) {
     // first empty the current cell
@@ -141,6 +174,14 @@ function findCoordinates(assetId) {
     }
 
     return requestedCoordinates;
+}
+
+// calculates axes distances between two points
+function calculateDistance(firstPoint, secondPoint) {
+    var distance = [];
+    distance[0] = firstPoint[0] - secondPoint[0];
+    distance[1] = firstPoint[1] - secondPoint[1];
+    return distance;
 }
 
 
