@@ -1,0 +1,30 @@
+
+/******* Utility Classes *******/
+.outline {
+    border: 1px solid #e6f3f7;
+}
+/******* Game Console *******/
+.main-game-console {
+margin-top: 2rem;
+}
+/******* Game Grid *******/
+.grid-row {
+    display: flex;
+}
+.grid-cell {
+    height: 20px;
+    width: 20px;
+}
+/******* Game Assets *******/
+.obstacle {
+    background-color: #4b4c4d;  
+}
+.empty {
+    background-color: #d1d6de;
+}
+.mouse {
+    background-color:#3baff7;
+}
+.cat {
+    background-color: #f73b3b;
+}
