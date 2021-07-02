@@ -68,8 +68,13 @@ document.addEventListener('keydown', (event) => {
     } else if (button === "ArrowRight") {
         moveCharacter(coordMouse, "right", "mouse");
     }
-
+    // check for victory
+    checkForVictory();
+    // move the cat
     activateEnemyAI();
+    // check for defeat
+    checkForFailure();
+
 }, false);
 
 // **********Enemy AI**********
@@ -182,6 +187,25 @@ function moveCharacter(oldCoordinates, moveDirection, characterType) {
     }
 }
 
+
+// **********End Game Functions**********
+function checkForVictory() {
+    let coordVictory = findCoordinates(5);
+    if (coordVictory != 'not found') {
+        alert("You won the game!");
+    }
+}
+
+function checkForFailure() {
+    let coordFailure = findCoordinates(6);
+    if (coordFailure != 'not found') {
+        alert("You lost the game!");
+    }
+}
+
+
+
+
 // **********Coordinate System Information**********
 
 // Grid array generator: scans the game grid and creates an array which details what asset in each square
@@ -194,20 +218,25 @@ function createGridArray() {
     for (row of rows) {
         var gridRow = [];
         Array.from(row.children).forEach(function (cell) {
-            if (cell.className.includes('empty')) {
+            if (cell.classList.contains('empty')) {
                 gridRow.push(0);
-            } else if (cell.className.includes('mouse')) {
-                gridRow.push(1);
-            } else if (cell.className.includes('cat')) {
-                gridRow.push(2);
-            } else if (cell.className.includes('obstacle')) {
-                gridRow.push(3);
-            } else if (cell.className.includes('cheese')) {
+            } else if (cell.classList.contains('mouse') && cell.classList.contains('cat')) {
+                gridRow.push(6);
+            } else if (cell.classList.contains('mouse') && cell.classList.contains('cheese')) {
+                gridRow.push(5);
+            } else if (cell.classList.contains('cheese')) {
                 gridRow.push(4);
+            } else if (cell.classList.contains('obstacle')) {
+                gridRow.push(3);
+            } else if (cell.classList.contains('cat')) {
+                gridRow.push(2);
+            } else if (cell.classList.contains('mouse')) {
+                gridRow.push(1);
             }
         });
         gridArray.push(gridRow);
     }
+    console.log(gridArray);
     return gridArray;
 }
 
@@ -230,14 +259,22 @@ function findCoordinates(assetId) {
 
     var requestedCoordinates = [];
     var gameState = createGridArray();
+    var found;
 
     for (let i = 0; i < gameState.length; i++) {
         requestedCoordinates[0] = gameState[i].indexOf(assetId);
         if (requestedCoordinates[0] != -1) {
             requestedCoordinates[1] = i;
+            found = true;
             break;
+        } else {
+            found = false;
         }
     }
+    if (found == false) {
+        requestedCoordinates = 'not found';
+    }
+
 
     return requestedCoordinates;
 }
@@ -281,7 +318,7 @@ function checkForObstacle(xCoord, yCoord, obstacleClass) {
 
     let cellClasses = targetCell.classList;
     if (cellClasses.contains(obstacleClass)) {
-        return true; // if the cell does exist and it contains the class return tue
+        return true; // if the cell does exist and it contains the class return true
     } else {
         return false; //else return false
     }
