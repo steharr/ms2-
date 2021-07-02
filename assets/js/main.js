@@ -67,6 +67,7 @@ function activateEnemyAI() {
     let coordCat = findCoordinates(2);
     let distance = calculateDistance(coordCat, coordMouse);
     var nextMove;
+    var nextMoveAxis;
     var randomChance = Math.floor(Math.random() * 3);
 
     // compare the absolute value of the distance of the mouse from the cat
@@ -85,9 +86,10 @@ function activateEnemyAI() {
             nextMove = "down";
         }
     }
+    // if randomChance is divisible by 2 the cat can move
     if (randomChance % 2 == 0) {
-        // move the cat according to the determined next move
-        moveCharacter(coordCat, nextMove, "cat");
+        // move the cat according to the determined next move, if the move was blocked then recalculate
+        moveCharacter(coordCat, nextMove, "cat")
     }
 }
 
@@ -112,7 +114,7 @@ function moveCharacter(oldCoordinates, moveDirection, characterType) {
             break;
     }
     // check if there is an obstacle in the way
-    let obstacleCheck = checkCellClass(newCoordinates[0], newCoordinates[1], 'obstacle');
+    let obstacleCheck = checkForObstacle(newCoordinates[0], newCoordinates[1], 'obstacle');
     if (obstacleCheck === false) {
         // first empty the current cell
         emptyCell(oldCoordinates[0], oldCoordinates[1], characterType);
@@ -215,11 +217,17 @@ function emptyCell(xCoord, yCoord, emptyClass) {
     targetCell.classList.add('empty');
 }
 // Check for the prescence a specified class to a specified cell
-function checkCellClass(xCoord, yCoord, checkClass) {
+function checkForObstacle(xCoord, yCoord, obstacleClass) {
     let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
-    let cellClasses = targetCell.classList;
-    if (cellClasses.contains(checkClass)) {
-        return true;
+
+    if (targetCell === null) {
+        return true; // if the cell doesnt exist return false
     }
-    return false;
+
+    let cellClasses = targetCell.classList;
+    if (cellClasses.contains(obstacleClass)) {
+        return true; // if the cell does exist and it contains the class return tue
+    } else {
+        return false; //else return false
+    }
 }
