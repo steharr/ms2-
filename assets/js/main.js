@@ -2,13 +2,13 @@ const grid = document.getElementById('game-grid');
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
-    const gridHeight = 20;
-    const gridWidth = 30;
+    const gridHeight = 10;
+    const gridWidth = 20;
     const corners = calculateCornerCoordinates(gridHeight, gridWidth);
     const startMouse = corners[0];
     const startCat = corners[3];
     const startCheese = corners[2];
-    const startObstacle = [15, 10];
+    const startObstacle = [10, 5];
 
     generateLevel(gridHeight, gridWidth);
     drawAsset(startMouse, "mouse");
@@ -67,7 +67,7 @@ function activateEnemyAI() {
     let coordCat = findCoordinates(2);
     let distance = calculateDistance(coordCat, coordMouse);
     var nextMove;
-    var randomChance = Math.floor(Math.random() * 6);
+    var randomChance = Math.floor(Math.random() * 3);
 
     // compare the absolute value of the distance of the mouse from the cat
     // in the x direction and the y direction
@@ -94,26 +94,36 @@ function activateEnemyAI() {
 
 // **********Movement**********
 // Movement function
-function moveCharacter(coordinates, moveDirection, characterType) {
-    // first empty the current cell
-    emptyCell(coordinates[0], coordinates[1], characterType);
+function moveCharacter(oldCoordinates, moveDirection, characterType) {
+    let newCoordinates = [oldCoordinates[0], oldCoordinates[1]];
     // then determine which coordinate needs to be incremented or decremented
     switch (moveDirection) {
         case "up":
-            coordinates[1]--;
+            newCoordinates[1]--;
             break;
         case "down":
-            coordinates[1]++;
+            newCoordinates[1]++;
             break;
         case "left":
-            coordinates[0]--;
+            newCoordinates[0]--;
             break;
         case "right":
-            coordinates[0]++;
+            newCoordinates[0]++;
             break;
     }
-    // then fill cell at adjusted coord
-    fillCell(coordinates[0], coordinates[1], characterType);
+    // check if there is an obstacle in the way
+    let obstacleCheck = checkCellClass(newCoordinates[0], newCoordinates[1], 'obstacle');
+    if (obstacleCheck === false) {
+        // first empty the current cell
+        emptyCell(oldCoordinates[0], oldCoordinates[1], characterType);
+        // then fill cell at adjusted coord
+        fillCell(newCoordinates[0], newCoordinates[1], characterType);
+        // return a boolean to indicate that the character has successfully moved
+        return true;
+    } else {
+        // return a boolean to indicate that the character has been blocked
+        return false;
+    }
 }
 
 // **********Coordinate System Information**********
@@ -186,17 +196,30 @@ function calculateDistance(firstPoint, secondPoint) {
 
 
 // **********DOM Manipulation**********
+// Add a specified class to a specified cell
 function fillCell(xCoord, yCoord, fillClass) {
-    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`)
-    if (targetCell.className.includes('empty')) {
+    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
+    let cellClasses = targetCell.classList;
+    if (cellClasses.contains('empty')) {
         targetCell.classList.remove('empty');
     }
     targetCell.classList.add(fillClass);
 }
+// Remove a specified class to a specified cell
 function emptyCell(xCoord, yCoord, emptyClass) {
-    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`)
-    if (targetCell.className.includes(emptyClass)) {
+    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
+    let cellClasses = targetCell.classList;
+    if (cellClasses.contains(emptyClass)) {
         targetCell.classList.remove(emptyClass);
     }
     targetCell.classList.add('empty');
+}
+// Check for the prescence a specified class to a specified cell
+function checkCellClass(xCoord, yCoord, checkClass) {
+    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
+    let cellClasses = targetCell.classList;
+    if (cellClasses.contains(checkClass)) {
+        return true;
+    }
+    return false;
 }
