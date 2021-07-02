@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
     drawAsset(startObstacle, "obstacle");
-    console.log(createObstacles(gridHeight, gridWidth));
 });
 
 // Level Generator: creates a game grid based on a given height and width value
@@ -54,14 +53,7 @@ function generateLevel(gridHeight, gridWidth) {
 function drawAsset(position, assetType) {
     fillCell(position[0], position[1], assetType);
 }
-function randomChance(divider, limit) {
-    var randomChance = Math.floor(Math.random() * limit);
-    if (randomChance % divider === 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
+
 
 // **********User generated events**********
 document.addEventListener('keydown', (event) => {
@@ -85,34 +77,73 @@ function activateEnemyAI() {
     let coordMouse = findCoordinates(1);
     let coordCat = findCoordinates(2);
     let distance = calculateDistance(coordCat, coordMouse);
-    var nextMove;
-    let xAxisMove = false;
-    let yAxisMove = false;
-    var randomChance = Math.floor(Math.random() * 3);
+    var nextMove = determineCatMove(distance);
 
+    // var randomChance = Math.floor(Math.random() * 3);
+    var catMove = randomChance(1, 1);
+
+    // if randomChance is true the cat can move
+    if (catMove === true) {
+        // move the cat according to the determined next move, if the move was blocked then recalculate
+        if (moveCharacter(coordCat, nextMove[0], "cat") === false) {
+            console.log("the cats blocked direction was along the " + nextMove[1] + " axis")
+            switch (nextMove[1]) {
+                case 'x':
+                    // check the y axis for free entry and go that way
+                    if (checkForImmediateObstacle(coordCat, 'obstacle', 'up') === false) {
+                        console.log("the cat decided to try move up");
+                        moveCharacter(coordCat, "up", "cat");
+                        break;
+                    }
+                    if (checkForImmediateObstacle(coordCat, 'obstacle', 'down') === false) {
+                        console.log("the cat decided to try move down");
+                        moveCharacter(coordCat, "down", "cat");
+                        break;
+                    }
+                    break;
+                case 'y':
+                    // check the x axis for free entry and go that way
+                    if (checkForImmediateObstacle(coordCat, 'obstacle', 'left') === false) {
+                        console.log("the cat decided to try move left");
+                        moveCharacter(coordCat, "left", "cat");
+                        break;
+                    }
+                    if (checkForImmediateObstacle(coordCat, 'obstacle', 'right') === false) {
+                        console.log("the cat decided to try move right");
+                        moveCharacter(coordCat, "right", "cat");
+                        break;
+                    }
+                    break;
+            }
+        }
+    }
     // compare the absolute value of the distance of the mouse from the cat
     // in the x direction and the y direction
     // whichever direction is larger in magnitude, move towards it
-    // *ToDo: refactor this section
-    if (Math.abs(distance[0]) > Math.abs(distance[1])) {
-        if (distance[0] > 0) {
-            nextMove = "left";
-        } else if (distance[0] < 0) {
-            nextMove = "right";
+    function determineCatMove(distance) {
+        let determinedMove;
+        let determinedMoveAxis;
+        var determinedAction = [];
+
+        if (Math.abs(distance[0]) > Math.abs(distance[1])) {
+
+            if (distance[0] > 0) {
+                determinedMove = "left";
+            } else if (distance[0] < 0) {
+                determinedMove = "right";
+            }
+            determinedMoveAxis = "x"; // next move will be attempted in the x axis direction 
+
+        } else if (Math.abs(distance[0]) < Math.abs(distance[1])) {
+
+            if (distance[1] > 0) {
+                determinedMove = "up";
+            } else if (distance[1] < 0) {
+                determinedMove = "down";
+            }
+            determinedMoveAxis = "y"; // next move will be attempted in the y axis direction 
         }
-        xAxisMove = true; // next move will be attempted in the x axis direction 
-    } else if (Math.abs(distance[0]) < Math.abs(distance[1])) {
-        if (distance[1] > 0) {
-            nextMove = "up";
-        } else if (distance[1] < 0) {
-            nextMove = "down";
-        }
-        yAxisMove = true; // next move will be attempted in the x axis direction 
-    }
-    // if randomChance is divisible by 2 the cat can move
-    if (randomChance % 2 == 0) {
-        // move the cat according to the determined next move, if the move was blocked then recalculate
-        moveCharacter(coordCat, nextMove, "cat")
+        return determinedAction = [determinedMove, determinedMoveAxis];
     }
 }
 
@@ -241,6 +272,7 @@ function emptyCell(xCoord, yCoord, emptyClass) {
 }
 // Check for the prescence a specified class to a specified cell
 function checkForObstacle(xCoord, yCoord, obstacleClass) {
+
     let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
 
     if (targetCell === null) {
@@ -254,3 +286,51 @@ function checkForObstacle(xCoord, yCoord, obstacleClass) {
         return false; //else return false
     }
 }
+
+function checkForImmediateObstacle(currentCoords, obstacleClass, direction) {
+    let xCoordCheck;
+    let yCoordCheck;
+    switch (direction) {
+        case "up":
+            yCoordCheck = currentCoords[1] - 1;
+            xCoordCheck = currentCoords[0];
+            break;
+        case "down":
+            yCoordCheck = currentCoords[1] + 1;
+            xCoordCheck = currentCoords[0];
+            break;
+        case "left":
+            xCoordCheck = currentCoords[0] - 1;
+            yCoordCheck = currentCoords[1];
+            break;
+        case "right":
+            xCoordCheck = currentCoords[0] + 1;
+            yCoordCheck = currentCoords[1];
+            break;
+    }
+
+    let targetCell = document.querySelector(`[data-x='${xCoordCheck}'][data-y='${yCoordCheck}']`);
+
+    if (targetCell === null) {
+        return true; // if the cell doesnt exist return false
+    }
+
+    let cellClasses = targetCell.classList;
+    if (cellClasses.contains(obstacleClass)) {
+        return true; // if the cell does exist and it contains the class return tue
+    } else {
+        return false; //else return false
+    }
+
+}
+
+// **********Misc Functions**********
+function randomChance(divider, limit) {
+    var randomChance = Math.floor(Math.random() * limit);
+    if (randomChance % divider === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
