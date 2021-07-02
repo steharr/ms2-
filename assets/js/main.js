@@ -15,18 +15,30 @@ document.addEventListener('DOMContentLoaded', function () {
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
     drawAsset(startObstacle, "obstacle");
+    console.log(createObstacles(gridHeight, gridWidth));
 });
 
 // Level Generator: creates a game grid based on a given height and width value
 // * create rows accord. to height
 // * in each row, create multiple cells accord. to width
 function generateLevel(gridHeight, gridWidth) {
+
+
     for (let i = 0; i < gridHeight; i++) {
+
         var row = document.createElement('div');
         row.setAttribute('class', 'grid-row');
+
         for (let j = 0; j < gridWidth; j++) {
+
+            var obstacle = randomChance(10, 10);
             var cell = document.createElement('div');
-            cell.setAttribute('class', 'grid-cell outline empty');
+
+            if (obstacle) {
+                cell.setAttribute('class', 'grid-cell outline obstacle');
+            } else {
+                cell.setAttribute('class', 'grid-cell outline empty');
+            }
             // give the cell attributes representing a coordinate system
             cell.dataset.x = j;
             cell.dataset.y = i;
@@ -39,10 +51,17 @@ function generateLevel(gridHeight, gridWidth) {
 }
 
 // **********Asset Generation**********
-function drawAsset(startPosition, assetType) {
-    fillCell(startPosition[0], startPosition[1], assetType);
+function drawAsset(position, assetType) {
+    fillCell(position[0], position[1], assetType);
 }
-
+function randomChance(divider, limit) {
+    var randomChance = Math.floor(Math.random() * limit);
+    if (randomChance % divider === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 // **********User generated events**********
 document.addEventListener('keydown', (event) => {
@@ -67,24 +86,28 @@ function activateEnemyAI() {
     let coordCat = findCoordinates(2);
     let distance = calculateDistance(coordCat, coordMouse);
     var nextMove;
-    var nextMoveAxis;
+    let xAxisMove = false;
+    let yAxisMove = false;
     var randomChance = Math.floor(Math.random() * 3);
 
     // compare the absolute value of the distance of the mouse from the cat
     // in the x direction and the y direction
     // whichever direction is larger in magnitude, move towards it
+    // *ToDo: refactor this section
     if (Math.abs(distance[0]) > Math.abs(distance[1])) {
         if (distance[0] > 0) {
             nextMove = "left";
         } else if (distance[0] < 0) {
             nextMove = "right";
         }
+        xAxisMove = true; // next move will be attempted in the x axis direction 
     } else if (Math.abs(distance[0]) < Math.abs(distance[1])) {
         if (distance[1] > 0) {
             nextMove = "up";
         } else if (distance[1] < 0) {
             nextMove = "down";
         }
+        yAxisMove = true; // next move will be attempted in the x axis direction 
     }
     // if randomChance is divisible by 2 the cat can move
     if (randomChance % 2 == 0) {
