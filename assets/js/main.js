@@ -6,15 +6,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const gridWidth = 20;
     const corners = calculateCornerCoordinates(gridHeight, gridWidth);
     const startMouse = corners[0];
-    const startCat = corners[3];
+    // const startCat = corners[1];
+    const startCat = [9, 4];
     const startCheese = corners[2];
-    const startObstacle = [10, 5];
 
     generateLevel(gridHeight, gridWidth);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
-    drawAsset(startObstacle, "obstacle");
+
 });
 
 // Level Generator: creates a game grid based on a given height and width value
@@ -30,7 +30,7 @@ function generateLevel(gridHeight, gridWidth) {
 
         for (let j = 0; j < gridWidth; j++) {
 
-            var obstacle = randomChance(10, 10);
+            var obstacle = randomChance(5, 10);
             var cell = document.createElement('div');
 
             if (obstacle) {
@@ -47,10 +47,12 @@ function generateLevel(gridHeight, gridWidth) {
         // append the row to the grid
         grid.appendChild(row);
     }
+
 }
 
 // **********Asset Generation**********
 function drawAsset(position, assetType) {
+    emptyCell(position[0], position[1], 'obstacle')
     fillCell(position[0], position[1], assetType);
 }
 
@@ -69,11 +71,15 @@ document.addEventListener('keydown', (event) => {
         moveCharacter(coordMouse, "right", "mouse");
     }
     // check for victory
-    checkForVictory();
+    if (checkForVictory()) {
+        alert('success!');
+    }
     // move the cat
     activateEnemyAI();
     // check for defeat
-    checkForFailure();
+    if (checkForFailure()) {
+        alert('failure!');
+    }
 
 }, false);
 
@@ -192,14 +198,20 @@ function moveCharacter(oldCoordinates, moveDirection, characterType) {
 function checkForVictory() {
     let coordVictory = findCoordinates(5);
     if (coordVictory != 'not found') {
-        alert("You won the game!");
+        // alert("You won the game!");
+        return true;
+    } else {
+        return false;
     }
 }
 
 function checkForFailure() {
     let coordFailure = findCoordinates(6);
     if (coordFailure != 'not found') {
-        alert("You lost the game!");
+        // alert("You lost the game!");
+        return true;
+    } else {
+        return false;
     }
 }
 
