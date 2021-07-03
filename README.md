@@ -1,6 +1,8 @@
-# **Project title**
+# **Cat and Mouse**
+Cat and Mouse is a desktop-only browser game where the user controls a mouse navigating through a level full of obstacles to get to a block of cheese. The mouse is being chased by a cat through the level which encourages the user to be strategic with each move they make. The user also has to reach the cheese before a time limit runs out. This encourages the user to make drastic decisions to reach the goal. The end result is a fast-paced tactical chase game.
 
-***
+This game idea arose from a previous experimentation project where I was attempting to make a Tetris clone. I ended up with a basic prototype of a grid game where you control a blue block that is being chased by a red block. This was a key inspiration for this project. The prototype is available [here.](https://github.com/steharr/js-prototype-chasing-game)
+
 ## **UX**
 The **five planes of user experience design** developed by Jesse James Garrett was used as the conceptual framework for the development process of this site
 
@@ -23,6 +25,7 @@ As as developer I want to...
 2. Design a game with a basic artificial intelligence
 3. Create something that I can use in my portfolio
 4. Design a game with some level of difficulty that requires strategic thinking
+5. Design a game which is unique on each playthrough
 
 #### Site Viewer:
 
@@ -39,12 +42,10 @@ As a user playing a game...
 As a user playing this particular game...
 
 ### **Scope Plane**
-For the Scope plane, I made some initial key design choices....
 
-#### **Key Design Choices**
+For the Scope plane, I first planned out the scope of the features I wanted to include. I then planned out key decisions for the game design so that I would be more focused on how I could achieve what I needed in the game. 
 
-
-### **Planned Feature List**
+### **Planned Scope of Game Features**
 In order to plan out the development process, I created a list of features which I wanted to implement. I split these features into two groups. One group was for features that would be needed for a minimum viable product. The second group was a list of features that would be good to have, but were not top priority. I planned to implement as many of these features as possible, if I achived all features in the minimum viable product group. 
 
 **Group 1: Minimum Viable Product**
@@ -58,32 +59,52 @@ In order to plan out the development process, I created a list of features which
 |Competent Enemy AI|Enemy AI has the ability to act after detecting an obstacle|10|
 |Multiple Level Layout|Level Generator can make multiple levels|9|
 |User Success Feedback|When the user gets the goal destination|8|
-|Winning Screen Modal|Success Modal|7|
-|Enemy Capture Feedback|When the users mouse character gets caught by the cat|7|
+|Enemy Capture Feedback|When the users mouse character gets caught by the cat|8|
+|Time Limit| A time limit to encourage the user to make drastic moves|8|
+|Restart Button|User can restart a level at any point|8|
+|Character Graphics|Visual animations/images for cat and mouse|8|
+|Level Aesthetics|Visual layout of obstacles that mouse has to navigate|8|
+|Difficulty Selection|User can choose how hard the game should be|8|
+|Level Aesthetics|Visual layout of obstacles that mouse has to navigate|8|
+|Winning Screen Modal|Success Modal|6|
 |Losing Screen Modal|Failure Modal|6|
-|Time Limit| A time limit to encourage the user to make drastic moves|6|
-|Restart Button|User can restart a level at any point|6|
-|Graphics|Sprites for the mouse and cat|6|
-|Main Menu|User can choose level, cat difficulty|6|
-
 
 **Group 2: Secondary Features**
 |Feature|Description|Importance (1-10)|
 |:--:|:--:|:--:|
-|Advanced Enemy AI|Enemy AI can calculate the nearest route to the goal destination|High|
-|Sound Effects||High|
-|Multiple Device Compatible||High|
-|Fetch Quests||High|
-|Multiple Enemies||High|
-|Powerups||High|
-|Animated Avatars||High|
-|Animated Levels||High|
-|Weapons||High|
-|High Scores||High|
-|Object Orientated Programming||High|
-|Cat Expressions Graphic||High|
+|Treacherous Level Obstacles|Mouse can get killed if he moves into certain obstacles |6|
+|Main Menu|A main menu for the user to initialise the game, also shows instructions on how to play |6|
+|Sound Effects|Sounds for key moments in the game|6|
+|High Scores|Score calculation based on close evades with the cat|6|
+|Advanced Enemy AI|Enemy Cat AI can calculate the nearest route to the goal destination and play defensively|5|
+|Fetch Quests|Levels where cat has to retrieve item and return to base|5|
+|Multiple Enemies|Multiple Cat enemies to evade|4|
+|OOB - JS Classes|For more readable code|4|
+|Multiple Device Compatible|Playable on Phone as well as desktop|2|
+|Powerups|Enable mouse and/or cat to move more quickly through the level|2|
+|Animated Avatars|Character assets show animated movement from blcok to blocks|1|
 
+#### **Key Design Choices**
 
+1. Game Grid
+
+I decided that each level should be composed of a series of cells which make up a grid. Each cell in the grid would have its own coordinate with an x-value and a y-value. This resulted in a game coordinate system which all functions in the game could use to make calculations. I wanted the ability to represent the grid as a two dimensional Array of numbers. One of the first things I planned to program would be a 'game state' function to calculate this Array. The numbers in the array would each represent what is currently occupying a specific cell on the grid. For example if the game state array had an element like: `gameState[2][1] = 1`, this would mean that there was an obstacle at coordinate x=2, y=1.
+
+2. Game Graphics
+
+I had been doing some reseacrh on how Javascript games are made and one option for the game graphics I saw was to use the javascript **CanvasAPI**. I decided against this because I was new to Javascript and felt that I could more easily achieve the results I needed with vanilla Javascript DOM manipulation. I thought that the **CanvasAPI** would require a certain amount of time I didnt have to understand fully. The game graphics therefore ended up being `div` elements with background colors and images.
+
+3. Level Generation
+
+I wanted the level generation to be varied. In order to achieve this I decided that the level generator would be semi random. I would create a generator that randomly placed obstacles on the level according to inputted difficulty variables. During the testing stages of the project, I would then create rules for the generator in order to combat potential issues that could arise from random level generation. i.e. levels where the user starts in a obscured position would need to be addressed.
+
+4. Movement Mechanics
+
+I decied that movement was only possible in the x and y direction in order to keep the progrmming as simple as possible. The characters would only be able to move one cell along these axes at a time. 
+
+5. Enemy AI
+
+I decided that enemy movement would only occur once the user moved their character i.e. the cat would not make a move unless the user had made a move themselves. This was partially a technically decision; it would be alot easier for me to program the game events this way. It also could be argued that stylistically this matched with the game; cats stalk their prey and pounce on them when they make a movement.
 
 ### **Structure Plane**
 For the structure of the site ....
