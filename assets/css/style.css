@@ -1,7 +1,7 @@
 
 /******* Utility Classes *******/
 .outline {
-    border: 1px solid #e6f3f7;
+    /* border: 1px solid #e6f3f7; */
 }
 /******* Game Console *******/
 .main-game-console {
@@ -9,9 +9,11 @@ margin-top: 2rem;
 }
 /******* Game Grid *******/
 .grid-row {
-    display: flex;
+    display: inline-block;
+    margin-bottom: 0px;
 }
 .grid-cell {
+    display: inline-block;
     height: 50px;
     width: 50px;
 }
@@ -20,7 +22,7 @@ margin-top: 2rem;
     background-color: #4b4c4d;  
 }
 .empty {
-    background-color: #d1d6de;
+    /* background-color: #d1d6de; */
 }
 .mouse {
     background-color:#3baff7;
