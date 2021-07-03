@@ -4,7 +4,7 @@ const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
 const startCat = [gridWidth / 2, gridHeight / 2];
 const startCheese = corners[2];
-const timeLimit = 2000;
+const timeLimit = 10000;
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
@@ -280,9 +280,6 @@ function checkForFailure() {
         return false;
     }
 }
-
-
-
 
 // **********Coordinate System Information**********
 
