@@ -106,30 +106,32 @@ function drawAsset(position, assetType) {
 document.addEventListener('keydown', (event) => {
     var coordMouse = findCoordinates(1);
     var button = event.key;
-    if (button === "ArrowDown") {
-        moveCharacter(coordMouse, "down", "mouse");
-        manipulateArrowKey('down', true);
-    } else if (button === "ArrowUp") {
-        moveCharacter(coordMouse, "up", "mouse");
-        manipulateArrowKey('up', true);
-    } else if (button === "ArrowLeft") {
-        moveCharacter(coordMouse, "left", "mouse");
-        manipulateArrowKey('left', true);
-    } else if (button === "ArrowRight") {
-        moveCharacter(coordMouse, "right", "mouse");
-        manipulateArrowKey('right', true);
-    }
-    // check for victory
-    if (checkForVictory()) {
-        // alert('success!');
+    if (button === " ") { // regenerate a new level if the user presses space
         location.reload();
-    }
-    // move the cat
-    activateEnemyAI();
-    // check for defeat
-    if (checkForFailure()) {
-        // alert('failure!');
-        restartLevel();
+    } else { //allow the user to control their character
+        if (button === "ArrowDown") {
+            moveCharacter(coordMouse, "down", "mouse");
+            manipulateArrowKey('down', true);
+        } else if (button === "ArrowUp") {
+            moveCharacter(coordMouse, "up", "mouse");
+            manipulateArrowKey('up', true);
+        } else if (button === "ArrowLeft") {
+            moveCharacter(coordMouse, "left", "mouse");
+            manipulateArrowKey('left', true);
+        } else if (button === "ArrowRight") {
+            moveCharacter(coordMouse, "right", "mouse");
+            manipulateArrowKey('right', true);
+        }
+        // check for victory
+        if (checkForVictory()) {
+            location.reload();
+        }
+        // move the cat
+        activateEnemyAI();
+        // check for defeat
+        if (checkForFailure()) {
+            restartLevel();
+        }
     }
 
 }, false);
@@ -143,7 +145,6 @@ document.addEventListener('keyup', (event) => {
         }
     }
 }, false);
-
 
 // **********Enemy AI**********
 function activateEnemyAI() {
