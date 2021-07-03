@@ -1,27 +1,69 @@
-const grid = document.getElementById('game-grid');
+const gridHeight = 10;
+const gridWidth = 18;
+const corners = calculateCornerCoordinates(gridHeight, gridWidth);
+const startMouse = corners[0];
+const startCat = [gridWidth / 2, gridHeight / 2];
+const startCheese = corners[2];
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
-    const gridHeight = 10;
-    const gridWidth = 20;
-    const corners = calculateCornerCoordinates(gridHeight, gridWidth);
-    const startMouse = corners[0];
-    // const startCat = corners[1];
-    const startCat = [9, 4];
-    const startCheese = corners[2];
+    // const gridHeight = 10;
+    // const gridWidth = 18;
+    // const corners = calculateCornerCoordinates(gridHeight, gridWidth);
+    // const startMouse = corners[0];
+    // const startCat = [gridWidth / 2, gridHeight / 2];
+    // const startCheese = corners[2];
 
-    generateLevel(gridHeight, gridWidth);
+    generateRandomizedLevel(gridHeight, gridWidth);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
 
 });
 
+// restart level
+function restartLevel() {
+    // get the current grid gamestate layout
+    var gameState = createGridArray();
+    console.log(gameState);
+    // clear the level
+    destroyLevel();
+    // redraw the level
+    regenerateExistingLevel(gameState);
+    drawAsset(startMouse, "mouse");
+    drawAsset(startCat, "cat");
+    drawAsset(startCheese, "cheese");
+}
+
+function regenerateExistingLevel(gameState) {
+    const grid = document.getElementById('game-grid');
+    for (let i = 0; i < gameState.length; i++) {
+        var row = document.createElement('div');
+        row.setAttribute('class', 'grid-row');
+        for (let j = 0; j < gameState[i].length; j++) {
+            var cell = document.createElement('div');
+            if (gameState[i][j] === 3) {
+                cell.setAttribute('class', 'grid-cell outline obstacle');
+            } else {
+                cell.setAttribute('class', 'grid-cell outline empty');
+            }
+            // give the cell attributes representing a coordinate system
+            cell.dataset.x = j;
+            cell.dataset.y = i;
+            // append the cell to the row
+            row.appendChild(cell);
+        }
+        // append the row to the grid
+        grid.appendChild(row);
+    }
+}
+
+
 // Level Generator: creates a game grid based on a given height and width value
 // * create rows accord. to height
 // * in each row, create multiple cells accord. to width
-function generateLevel(gridHeight, gridWidth) {
-
+function generateRandomizedLevel(gridHeight, gridWidth) {
+    const grid = document.getElementById('game-grid');
 
     for (let i = 0; i < gridHeight; i++) {
 
@@ -50,6 +92,15 @@ function generateLevel(gridHeight, gridWidth) {
 
 }
 
+// * adapted from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
+function destroyLevel() {
+    const grid = document.getElementById('game-grid');
+    while (grid.firstChild) {
+        grid.removeChild(grid.firstChild);
+    }
+
+}
+
 // **********Asset Generation**********
 function drawAsset(position, assetType) {
     emptyCell(position[0], position[1], 'obstacle')
@@ -72,13 +123,15 @@ document.addEventListener('keydown', (event) => {
     }
     // check for victory
     if (checkForVictory()) {
-        alert('success!');
+        // alert('success!');
+        location.reload();
     }
     // move the cat
     activateEnemyAI();
     // check for defeat
     if (checkForFailure()) {
-        alert('failure!');
+        // alert('failure!');
+        location.reload();
     }
 
 }, false);
@@ -154,7 +207,10 @@ function activateEnemyAI() {
             }
             determinedMoveAxis = "y"; // next move will be attempted in the y axis direction 
         }
-        return determinedAction = [determinedMove, determinedMoveAxis];
+
+        determinedAction = [determinedMove, determinedMoveAxis];
+
+        return determinedAction;
     }
 }
 
