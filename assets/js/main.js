@@ -4,11 +4,12 @@ const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
 const startCat = [gridWidth / 2, gridHeight / 2];
 const startCheese = corners[2];
-const timeLimit = 12;
+const timeLimit = 1200;
+var timerInterval;
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
-    generateRandomizedLevel(gridHeight, gridWidth);
+    generateRandomizedLevel(gridHeight, gridWidth, 1);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
@@ -56,21 +57,28 @@ function regenerateExistingLevel(gameState) {
 // Level Generator: creates a game grid based on a given height and width value
 // * create rows accord. to height
 // * in each row, create multiple cells accord. to width
-function generateRandomizedLevel(gridHeight, gridWidth) {
+function generateRandomizedLevel(gridHeight, gridWidth, obstacleRowLimit) {
     const grid = document.getElementById('game-grid');
-
+    var obstacleAllowed;
     for (let i = 0; i < gridHeight; i++) {
-
+        obstacleRowCount = 0;
         var row = document.createElement('div');
         row.setAttribute('class', 'grid-row');
 
         for (let j = 0; j < gridWidth; j++) {
 
-            var obstacle = randomChance(5, 10);
+
             var cell = document.createElement('div');
 
-            if (obstacle) {
+            if (obstacleRowCount <= obstacleRowLimit) {
+                var obstacleAllowed = randomChance(5, 10);
+            } else {
+                var obstacleAllowed = false;
+            }
+
+            if (obstacleAllowed) {
                 cell.setAttribute('class', 'grid-cell outline obstacle');
+                obstacleRowCount++;
             } else {
                 cell.setAttribute('class', 'grid-cell outline empty');
             }
@@ -130,6 +138,7 @@ document.addEventListener('keydown', (event) => {
         activateEnemyAI();
         // check for defeat
         if (checkForFailure()) {
+            clearInterval(timerInterval);
             restartLevel();
         }
     }
@@ -490,7 +499,7 @@ function countdownTimer(inputSeconds) {
     elementSecs.textContent = startCountdownSeconds;
     elementMins.textContent = startCountdownMinutes;
 
-    var timerInterval = setInterval(function () {
+    timerInterval = setInterval(function () {
         // let decrementedSeconds = addLeadingZeros(parseInt(elementSecs.textContent - 1));
         elementSecs.textContent = addLeadingZeros(parseInt(elementSecs.textContent - 1));
 
