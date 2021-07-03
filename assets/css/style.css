@@ -37,21 +37,9 @@ margin-top: 2rem;
     background-image: url('../images/mouse-right.gif');
     background-size: cover;
 }
-.mouse-left {
-    background-color:#3baff7;
-    background-image: url('../images/mouse-left.gif');
-    background-size: cover;
-}
-
 .cat {
     background-color: #f73b3b;
     background-image: url('../images/cat-right.gif');
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.cat-left {
-    background-color: #f73b3b;
-    background-image: url('../images/cat-left.gif');
     background-position: center;
     background-repeat: no-repeat;
 }

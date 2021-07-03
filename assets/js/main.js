@@ -239,9 +239,11 @@ function moveCharacter(oldCoordinates, moveDirection, characterType) {
             break;
         case "left":
             newCoordinates[0]--;
+            changeCharacterFaceDirection(characterType, "left");
             break;
         case "right":
             newCoordinates[0]++;
+            changeCharacterFaceDirection(characterType, "right");
             break;
     }
     // check if there is an obstacle in the way
@@ -510,5 +512,16 @@ function addLeadingZeros(number) {
         return "0" + number;
     } else {
         return number;
+    }
+}
+
+// CSS Manipulation
+function changeCharacterFaceDirection(character, direction) {
+    let ruleList = document.styleSheets[2].cssRules;
+    // console.log(typeof (ruleList[2].selectorText));
+    for (let i = 0; i < ruleList.length; i++) {
+        if (ruleList[i].selectorText === `.${character}`) {
+            ruleList[i].style.backgroundImage = `url(../images/${character}-${direction}.gif)`;
+        }
     }
 }
