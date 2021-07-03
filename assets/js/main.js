@@ -114,12 +114,16 @@ document.addEventListener('keydown', (event) => {
     var button = event.key;
     if (button === "ArrowDown") {
         moveCharacter(coordMouse, "down", "mouse");
+        manipulateArrowKey('down', true);
     } else if (button === "ArrowUp") {
         moveCharacter(coordMouse, "up", "mouse");
+        manipulateArrowKey('up', true);
     } else if (button === "ArrowLeft") {
         moveCharacter(coordMouse, "left", "mouse");
+        manipulateArrowKey('left', true);
     } else if (button === "ArrowRight") {
         moveCharacter(coordMouse, "right", "mouse");
+        manipulateArrowKey('right', true);
     }
     // check for victory
     if (checkForVictory()) {
@@ -135,6 +139,17 @@ document.addEventListener('keydown', (event) => {
     }
 
 }, false);
+
+document.addEventListener('keyup', (event) => {
+    //  check for a highlighted key and un-highlight it
+    let highlightCheck = document.getElementsByClassName('highlight');
+    if (highlightCheck.length > 0) {
+        for (let i = 0; i < highlightCheck.length; i++) {
+            highlightCheck[i].classList.remove('highlight');
+        }
+    }
+}, false);
+
 
 // **********Enemy AI**********
 function activateEnemyAI() {
@@ -357,6 +372,32 @@ function calculateDistance(firstPoint, secondPoint) {
 
 
 // **********DOM Manipulation**********
+// highlight an arrow key when one button is pressed
+function manipulateArrowKey(direction, highlight) {
+    let arrow;
+
+    switch (direction) {
+        case 'up':
+            arrow = document.getElementById('arrow-up');
+            break;
+        case 'down':
+            arrow = document.getElementById('arrow-down');
+            break;
+        case 'left':
+            arrow = document.getElementById('arrow-left');
+            break;
+        case 'right':
+            arrow = document.getElementById('arrow-right');
+            break;
+    }
+    if (highlight) {
+        arrow.classList.add('highlight');
+    } else {
+        arrow.classList.remove('highlight');
+    }
+}
+
+
 // Add a specified class to a specified cell
 function fillCell(xCoord, yCoord, fillClass) {
     let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
@@ -438,4 +479,6 @@ function randomChance(divider, limit) {
         return false;
     }
 }
+
+
 

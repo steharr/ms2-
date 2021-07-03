@@ -1,7 +1,14 @@
 
+.body{
+    font-size: 11px;
+}
+
 /******* Utility Classes *******/
 .outline {
     /* border: 1px solid #e6f3f7; */
+}
+.highlight{
+    background-color: yellow;
 }
 /******* Game Console *******/
 .main-game-console {
@@ -32,4 +39,36 @@ margin-top: 2rem;
 }
 .cheese {
     background-color:#ede911;
+}
+
+/******* User controller *******/
+.arrows-up{
+    display:flex;
+    justify-content: center;
+}
+.arrows-left-right{
+    display:flex;
+    justify-content: space-around;
+}
+.arrows-down{
+    display:flex;
+    justify-content: center;
+}
+.controller-button-container{
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    font-size: 1.5rem;
+}
+
+.controller-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.controller-center-circle{
+    background-color: #4b4c4d;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
 }
