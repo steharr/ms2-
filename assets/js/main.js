@@ -4,28 +4,21 @@ const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
 const startCat = [gridWidth / 2, gridHeight / 2];
 const startCheese = corners[2];
+const timeLimit = 2000;
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
-    // const gridHeight = 10;
-    // const gridWidth = 18;
-    // const corners = calculateCornerCoordinates(gridHeight, gridWidth);
-    // const startMouse = corners[0];
-    // const startCat = [gridWidth / 2, gridHeight / 2];
-    // const startCheese = corners[2];
-
     generateRandomizedLevel(gridHeight, gridWidth);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
-
+    countdownTimer(timeLimit);
 });
 
 // restart level
 function restartLevel() {
     // get the current grid gamestate layout
     var gameState = createGridArray();
-    console.log(gameState);
     // clear the level
     destroyLevel();
     // redraw the level
@@ -33,6 +26,7 @@ function restartLevel() {
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
+    countdownTimer(timeLimit);
 }
 
 function regenerateExistingLevel(gameState) {
@@ -135,7 +129,7 @@ document.addEventListener('keydown', (event) => {
     // check for defeat
     if (checkForFailure()) {
         // alert('failure!');
-        location.reload();
+        restartLevel();
     }
 
 }, false);
@@ -165,17 +159,17 @@ function activateEnemyAI() {
     if (catMove === true) {
         // move the cat according to the determined next move, if the move was blocked then recalculate
         if (moveCharacter(coordCat, nextMove[0], "cat") === false) {
-            console.log("the cats blocked direction was along the " + nextMove[1] + " axis")
+            // console.log("the cats blocked direction was along the " + nextMove[1] + " axis")
             switch (nextMove[1]) {
                 case 'x':
                     // check the y axis for free entry and go that way
                     if (checkForImmediateObstacle(coordCat, 'obstacle', 'up') === false) {
-                        console.log("the cat decided to try move up");
+                        // console.log("the cat decided to try move up");
                         moveCharacter(coordCat, "up", "cat");
                         break;
                     }
                     if (checkForImmediateObstacle(coordCat, 'obstacle', 'down') === false) {
-                        console.log("the cat decided to try move down");
+                        // console.log("the cat decided to try move down");
                         moveCharacter(coordCat, "down", "cat");
                         break;
                     }
@@ -183,12 +177,12 @@ function activateEnemyAI() {
                 case 'y':
                     // check the x axis for free entry and go that way
                     if (checkForImmediateObstacle(coordCat, 'obstacle', 'left') === false) {
-                        console.log("the cat decided to try move left");
+                        // console.log("the cat decided to try move left");
                         moveCharacter(coordCat, "left", "cat");
                         break;
                     }
                     if (checkForImmediateObstacle(coordCat, 'obstacle', 'right') === false) {
-                        console.log("the cat decided to try move right");
+                        // console.log("the cat decided to try move right");
                         moveCharacter(coordCat, "right", "cat");
                         break;
                     }
@@ -319,7 +313,6 @@ function createGridArray() {
         });
         gridArray.push(gridRow);
     }
-    console.log(gridArray);
     return gridArray;
 }
 
@@ -480,5 +473,44 @@ function randomChance(divider, limit) {
     }
 }
 
+// **********Game Console information**********
+function countdownTimer(inputSeconds) {
+    const elementMins = document.getElementById('time-left-mins');
+    const elementSecs = document.getElementById('time-left-secs');
+    var startCountdownSeconds;
+    var startCountdownMinutes = addLeadingZeros(Math.floor(inputSeconds / 60));
+
+    startCountdownSeconds = inputSeconds - (startCountdownMinutes * 60)
+    if (startCountdownSeconds === 0) {
+        startCountdownMinutes = parseInt(startCountdownMinutes) - 1;
+        startCountdownMinutes = addLeadingZeros(startCountdownMinutes);
+        startCountdownSeconds = 59;
+    }
+
+    elementSecs.textContent = startCountdownSeconds;
+    elementMins.textContent = startCountdownMinutes;
+
+    var timerInterval = setInterval(function () {
+        // let decrementedSeconds = addLeadingZeros(parseInt(elementSecs.textContent - 1));
+        elementSecs.textContent = addLeadingZeros(parseInt(elementSecs.textContent - 1));
+
+        if (parseInt(elementSecs.textContent) === 0 && parseInt(elementMins.textContent) === 0) {
+            clearInterval(timerInterval);
+            alert('times up!');
+            restartLevel();
+        } else if (parseInt(elementSecs.textContent) === 0) {
+            elementMins.textContent = addLeadingZeros(parseInt(elementMins.textContent - 1));
+            elementSecs.textContent = 59;
+        }
+
+    }, 1000);
+}
 
 
+function addLeadingZeros(number) {
+    if (number < 10) {
+        return "0" + number;
+    } else {
+        return number;
+    }
+}
