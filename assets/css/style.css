@@ -49,6 +49,26 @@ margin-top: 2rem;
 }
 
 /******* User controller *******/
+.side-game-console{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+}
+.game-console-nav-buttons{
+    display:flex;
+    justify-content: flex-end;
+    align-items:flex-end;
+    width:100%;
+}
+.game-console-game-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+}
+.game-console-setup{
+    border-radius: 5px;;
+}
 .arrows-up{
     display:flex;
     justify-content: center;
@@ -67,7 +87,9 @@ margin-top: 2rem;
     border-radius: 50%;
     font-size: 1.5rem;
 }
-
+.level-difficulty h2{
+    font-size: 1rem;
+}
 .controller-center {
     display: flex;
     justify-content: center;
@@ -78,4 +100,10 @@ margin-top: 2rem;
     height: 2rem;
     width: 2rem;
     border-radius: 50%;
+}
+.game-console-setup{
+    background-color: #4b4c4d;
+    display:flex;
+    flex-direction: column;
+    width: 100%;
 }
