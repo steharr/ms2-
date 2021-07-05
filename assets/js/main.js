@@ -4,8 +4,10 @@ const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
 const startCat = [gridWidth / 2, gridHeight / 2];
 const startCheese = corners[2];
-const timeLimit = 1200;
+const timeLimit = 60;
+var difficulty = [];
 var timerInterval;
+
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
@@ -13,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
+
+    if (checkForAwkwardLevel()) {
+        location.reload();
+    }
     countdownTimer(timeLimit);
 });
 
@@ -29,6 +35,72 @@ function restartLevel() {
     drawAsset(startCheese, "cheese");
     countdownTimer(timeLimit);
 }
+
+// add an event handler for when difficulty is chosen
+// adapted from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
+document.querySelectorAll('.btn-difficulty-level').forEach(item => {
+    item.addEventListener('click', event => {
+        //handle click
+        var diff = this.textContent;
+        console.log(diff);
+        // generateDifficultyVariables(diff);
+    })
+})
+
+
+function generateDifficultyVariables(chosenDifficulty) {
+    // find the chosen difficulty from the DOM
+    var maxObstaclesPerRow;
+    var catSpeed;
+    var chanceOfObstacle;
+    var timeLimit;
+    switch (chosenDifficulty) {
+        case 'Easy':
+            maxObstaclesPerRow = 2;
+
+            catSpeed = [];
+            timeLimit = 180;
+            break;
+        case 'Medium':
+            maxObstaclesPerRow = 2;
+            catSpeed = 10;
+            timeLimit = 120;
+            break;
+        case 'Hard':
+            maxObstaclesPerRow = 2;
+            catSpeed = 10;
+            timeLimit = 60;
+            break;
+    }
+}
+
+function checkForAwkwardLevel() {
+    const assets = [startMouse, startCat, startCheese];
+    var isAwkward = false;
+    // check in vicinty of all assets to see if there is an obstacle in the way
+    assets.forEach((asset) => {
+        let obstacleCount = 0;
+        // check immediate up, down, left and right direction for an obstacle 
+        if (checkForImmediateObstacle(asset, 'obstacle', 'up')) {
+            obstacleCount++;
+        }
+        if (checkForImmediateObstacle(asset, 'obstacle', 'down')) {
+            obstacleCount++;
+        }
+        if (checkForImmediateObstacle(asset, 'obstacle', 'left')) {
+            obstacleCount++;
+        }
+        if (checkForImmediateObstacle(asset, 'obstacle', 'right')) {
+            obstacleCount++;
+        }
+        console.log("asset at ", asset, " has ", obstacleCount, "obstacles");
+        if (obstacleCount === 4) {
+            isAwkward = true;
+        }
+    });
+    return isAwkward;
+}
+
 
 function regenerateExistingLevel(gameState) {
     const grid = document.getElementById('game-grid');
@@ -53,11 +125,10 @@ function regenerateExistingLevel(gameState) {
     }
 }
 
-
 // Level Generator: creates a game grid based on a given height and width value
 // * create rows accord. to height
 // * in each row, create multiple cells accord. to width
-function generateRandomizedLevel(gridHeight, gridWidth, obstacleRowLimit) {
+function generateRandomizedLevel(gridHeight, gridWidth, maxObstaclesPerRow) {
     const grid = document.getElementById('game-grid');
     var obstacleAllowed;
     for (let i = 0; i < gridHeight; i++) {
@@ -70,8 +141,8 @@ function generateRandomizedLevel(gridHeight, gridWidth, obstacleRowLimit) {
 
             var cell = document.createElement('div');
 
-            if (obstacleRowCount <= obstacleRowLimit) {
-                var obstacleAllowed = randomChance(5, 10);
+            if (obstacleRowCount <= maxObstaclesPerRow) {
+                var obstacleAllowed = probability(20, 100);
             } else {
                 var obstacleAllowed = false;
             }
@@ -163,7 +234,7 @@ function activateEnemyAI() {
     var nextMove = determineCatMove(distance);
 
     // var randomChance = Math.floor(Math.random() * 3);
-    var catMove = randomChance(1, 1);
+    var catMove = probability(15, 20);
 
     // if randomChance is true the cat can move
     if (catMove === true) {
@@ -473,9 +544,18 @@ function checkForImmediateObstacle(currentCoords, obstacleClass, direction) {
 }
 
 // **********Misc Functions**********
-function randomChance(divider, limit) {
-    var randomChance = Math.floor(Math.random() * limit);
-    if (randomChance % divider === 0) {
+// function randomChance(divider, limit) {
+//     var randomChance = Math.floor(Math.random() * limit);
+//     if (randomChance % divider === 0) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
+function probability(numerator, denominator) {
+    let randomNumberGenerator = Math.floor(Math.random() * (denominator) + 1);
+    console.log(randomNumberGenerator);
+    if (randomNumberGenerator <= numerator) {
         return true;
     } else {
         return false;
