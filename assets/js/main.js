@@ -1,4 +1,4 @@
-const gridHeight = 10;
+const gridHeight = 16;
 const gridWidth = 18;
 const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
@@ -613,13 +613,4 @@ function changeCharacterFaceDirection(character, direction) {
             ruleList[i].style.backgroundImage = `url(../images/${character}-${direction}.gif)`;
         }
     }
-}
-
-function addRandomizedGrassPatterns() {
-    let grass = ['one', 'two', 'three'];
-    var elemsEmpty = document.getElementsByClassName('empty');
-    Array.from(elemsEmpty).forEach((elem) => {
-        let randPattern = Math.floor(Math.random() * 3);
-        elem.style.backgroundImage = `url(../images/grass-${grass[randPattern]}.png)`;
-    });
 }

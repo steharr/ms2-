@@ -1,42 +1,43 @@
 
-.body{
-    font-size: 11px;
+body{
+    background-color: #F78B52;
 }
-
+header{
+    background-color: #892E3D;
+}
 /******* Utility Classes *******/
 .outline {
     /* border: 1px solid #177012; */
 }
 .highlight{
-    background-color: yellow;
+    background-color: #FFBA49;
 }
 /******* Main Page Header*******/
 .main-page-overhead{
     display:flex;
     justify-content: center;
-    background-color:#4b4c4d;
     width: 100%;
-    color:#ede911;
+    color:#FFBA49;
 }
 .link-github{
     position: absolute;
     right: 1rem;
     font-size: 2rem;
-    color:#ede911;
+    color:#FFBA49;
 }
 /******* Main Page Footer*******/
 footer {
     width: 100%;
     height: 5rem;
     position: absolute;
+    background-color: #56172E;
     bottom: 0;
-    background-color: #4b4c4d;
 }
 .footer-contents{
     display:flex;
     justify-content: center;
     align-items: center;
-    color:#ede911;
+    color:#FFBA49;
 }
 /******* Game Console Container*******/
 .main-game-console {
@@ -47,6 +48,8 @@ footer {
     border-radius: 1rem;
     padding: 1rem;
     border: .25rem solid black;
+    background-color: #892E3D;
+    color:#fff;
 }
 /******* Game Grid *******/
 #game-grid{
