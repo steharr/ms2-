@@ -57,7 +57,7 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url('../images/bg-grass.png');
+    background-image: url('../images/bg-grass-blurred.png');
     border-radius: .25rem;
 }
 .grid-row {
@@ -70,8 +70,9 @@ footer {
 }
 /******* Game Assets *******/
 .obstacle {
-    background-color: #4b4c4d; 
+    /* background-color: #4b4c4d;  */
     border-radius: 5px; 
+    background-image: url('../images/crate.png');
 }
 .empty {
     /* background-color: #d1d6de; */
