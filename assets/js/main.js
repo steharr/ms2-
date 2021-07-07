@@ -11,7 +11,7 @@ var timerInterval;
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
-    generateRandomizedLevel(gridHeight, gridWidth, 1);
+    generateRandomizedLevel(gridHeight, gridWidth, 10);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
@@ -36,16 +36,16 @@ function restartLevel() {
     countdownTimer(timeLimit);
 }
 
-// add an event handler for when difficulty is chosen
-// adapted from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
-document.querySelectorAll('.btn-difficulty-level').forEach(item => {
-    item.addEventListener('click', event => {
-        //handle click
-        var diff = this.textContent;
-        console.log(diff);
-        // generateDifficultyVariables(diff);
-    })
-})
+// // add an event handler for when difficulty is chosen
+// // adapted from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
+// document.querySelectorAll('.btn-difficulty-level').forEach(item => {
+//     item.addEventListener('click', event => {
+//         //handle click
+//         var diff = this.textContent;
+//         console.log(diff);
+//         // generateDifficultyVariables(diff);
+//     })
+// })
 
 
 function generateDifficultyVariables(chosenDifficulty) {
@@ -110,9 +110,9 @@ function regenerateExistingLevel(gameState) {
         for (let j = 0; j < gameState[i].length; j++) {
             var cell = document.createElement('div');
             if (gameState[i][j] === 3) {
-                cell.setAttribute('class', 'grid-cell outline obstacle');
+                cell.setAttribute('class', 'grid-cell obstacle');
             } else {
-                cell.setAttribute('class', 'grid-cell outline empty');
+                cell.setAttribute('class', 'grid-cell empty');
             }
             // give the cell attributes representing a coordinate system
             cell.dataset.x = j;
@@ -128,31 +128,14 @@ function regenerateExistingLevel(gameState) {
 // Level Generator: creates a game grid based on a given height and width value
 // * create rows accord. to height
 // * in each row, create multiple cells accord. to width
-function generateRandomizedLevel(gridHeight, gridWidth, maxObstaclesPerRow) {
+function generateRandomizedLevel(gridHeight, gridWidth, maxObstacles) {
     const grid = document.getElementById('game-grid');
-    var obstacleAllowed;
     for (let i = 0; i < gridHeight; i++) {
-        obstacleRowCount = 0;
         var row = document.createElement('div');
         row.setAttribute('class', 'grid-row');
-
         for (let j = 0; j < gridWidth; j++) {
-
-
             var cell = document.createElement('div');
-
-            if (obstacleRowCount <= maxObstaclesPerRow) {
-                var obstacleAllowed = probability(20, 100);
-            } else {
-                var obstacleAllowed = false;
-            }
-
-            if (obstacleAllowed) {
-                cell.setAttribute('class', 'grid-cell outline obstacle');
-                obstacleRowCount++;
-            } else {
-                cell.setAttribute('class', 'grid-cell outline empty');
-            }
+            cell.setAttribute('class', 'grid-cell empty');
             // give the cell attributes representing a coordinate system
             cell.dataset.x = j;
             cell.dataset.y = i;
@@ -162,7 +145,30 @@ function generateRandomizedLevel(gridHeight, gridWidth, maxObstaclesPerRow) {
         // append the row to the grid
         grid.appendChild(row);
     }
-    // addRandomizedGrassPatterns();
+    generateRandomizedObstacles(grid, maxObstacles);
+
+    function generateRandomizedObstacles(grid, maxObstacles) {
+        let totalCells = gridHeight * gridWidth;
+        let usedCoords = [];
+        let obstacleCount = 0;
+        let obstacleAllowed;
+        for (let i = 0; i < totalCells; i++) {
+            if (obstacleCount < maxObstacles) {
+                // probability that the obstacle will occur
+                obstacleAllowed = probability(2, 10);
+                if (obstacleAllowed) {
+                    // generate a random x and y coordinate
+                    let randCoord = [Math.floor(Math.random() * gridWidth), Math.floor(Math.random() * gridHeight)];
+                    console.dir(randCoord);
+                    // draw an obstacle at that coordinate
+                    fillCell(randCoord[0], randCoord[1], 'obstacle');
+                }
+            }
+        }
+
+    }
+
+
 }
 
 // * adapted from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
@@ -234,7 +240,7 @@ function activateEnemyAI() {
     var nextMove = determineCatMove(distance);
 
     // var randomChance = Math.floor(Math.random() * 3);
-    var catMove = probability(15, 20);
+    var catMove = probability(98, 100);
 
     // if randomChance is true the cat can move
     if (catMove === true) {
@@ -544,14 +550,6 @@ function checkForImmediateObstacle(currentCoords, obstacleClass, direction) {
 }
 
 // **********Misc Functions**********
-// function randomChance(divider, limit) {
-//     var randomChance = Math.floor(Math.random() * limit);
-//     if (randomChance % divider === 0) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
 function probability(numerator, denominator) {
     let randomNumberGenerator = Math.floor(Math.random() * (denominator) + 1);
     console.log(randomNumberGenerator);
