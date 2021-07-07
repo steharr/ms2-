@@ -18,79 +18,94 @@
 </head>
 
 <body>
-
+    <!-- game overhead header -->
+    <header>
+        <div class="main-page-overhead">
+            <h1>Cat and Mouse Game</h1>
+            <a class="link-github" href="https://github.com/steharr/ms2-cat-and-mouse-game" target="_blank"
+                rel="noopener"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
     <!-- Main Game Grid -->
-    <div class="container">
-        <div class="row main-game-console">
-            <div class="col-10">
-                <div id="game-grid"></div>
+    <!-- <div class="container"> -->
+    <div class="main-game-console">
+
+        <div id="game-grid">
+        </div>
+
+        <div class="side-game-console">
+
+            <div class="game-console-nav-buttons">
+                <!-- restart button -->
+                <button type="button" onclick="restartLevel()"><i class="fas fa-undo-alt"></i></button>
+                <!-- main menu button -->
+                <button type="button" onclick=""><i class="fas fa-home"></i></button>
             </div>
-            <div class="col-2 side-game-console">
 
-                <div class="game-console-nav-buttons">
-                    <!-- restart button -->
-                    <button type="button" onclick="restartLevel()"><i class="fas fa-undo-alt"></i></button>
-                    <!-- main menu button -->
-                    <button type="button" onclick=""><i class="fas fa-home"></i></button>
+            <div class="game-console-game-buttons">
+                <div class="game-console-setup">
+                    <!-- level difficulty -->
+                    <div class="level-difficulty">
+                        <h2>Choose Level Difficulty</h2>
+                        <button class="btn-difficulty-level" type="button">Easy</button>
+                        <button class="btn-difficulty-level" type="button">Medium</button>
+                        <button class="btn-difficulty-level" type="button">Hard</button>
+                    </div>
                 </div>
-
-                <div class="game-console-game-buttons">
-                    <div class="game-console-setup">
-                        <!-- level difficulty -->
-                        <div class="level-difficulty">
-                            <h2>Choose Level Difficulty</h2>
-                            <button class="btn-difficulty-level" type="button">Easy</button>
-                            <button class="btn-difficulty-level" type="button">Medium</button>
-                            <button class="btn-difficulty-level" type="button">Hard</button>
+                <div class="game-console-info">
+                    <!-- time limit -->
+                    <div class="time-limit-block">
+                        <div class="time-limit-text">
+                            Time Left:
+                            <span id="time-left-mins">
+                                00
+                            </span>
+                            :
+                            <span id="time-left-secs">
+                                00
+                            </span>
                         </div>
+                        <div class="time-limit-digits"></div>
                     </div>
-                    <div class="game-console-info">
-                        <!-- time limit -->
-                        <div class="time-limit-block">
-                            <div class="time-limit-text">
-                                Time Left:
-                                <span id="time-left-mins">
-                                    00
-                                </span>
-                                :
-                                <span id="time-left-secs">
-                                    00
-                                </span>
-                            </div>
-                            <div class="time-limit-digits"></div>
-                        </div>
-                        <!-- score -->
-                        <div class="score-block">
-                            <div class="score-text">Score:</div>
-                            <div class="score-digits"></div>
-                        </div>
+                    <!-- score -->
+                    <div class="score-block">
+                        <div class="score-text">Score:</div>
+                        <div class="score-digits"></div>
                     </div>
-                    <div class="game-console-user-control-feedback">
-                        <!-- arrow buttons -->
-                        <div class="arrows">
-                            <div class="arrows-up">
-                                <button class="controller-button-container" id="arrow-up" type="button" onclick=""><i
-                                        class="fas fa-arrow-alt-circle-up"></i></button>
-                            </div>
-                            <div class="arrows-left-right">
-                                <button class="controller-button-container" id="arrow-left" type="button" onclick=""><i
-                                        class="fas fa-arrow-alt-circle-left"></i></button>
-                                <div class="controller-center"><span class="controller-center-circle"></span></div>
-                                <button class="controller-button-container" id="arrow-right" type="button" onclick=""><i
-                                        class="fas fa-arrow-alt-circle-right"></i></button>
-                            </div>
-                            <div class="arrows-down">
-                                <button class="controller-button-container" id="arrow-down" type="button" onclick=""><i
-                                        class="fas fa-arrow-alt-circle-down"></i></button>
-                            </div>
+                </div>
+                <div class="game-console-user-control-feedback">
+                    <!-- arrow buttons -->
+                    <div class="arrows">
+                        <div class="arrows-up">
+                            <button class="controller-button-container" id="arrow-up" type="button" onclick=""><i
+                                    class="fas fa-arrow-alt-circle-up"></i></button>
+                        </div>
+                        <div class="arrows-left-right">
+                            <button class="controller-button-container" id="arrow-left" type="button" onclick=""><i
+                                    class="fas fa-arrow-alt-circle-left"></i></button>
+                            <div class="controller-center"><span class="controller-center-circle"></span></div>
+                            <button class="controller-button-container" id="arrow-right" type="button" onclick=""><i
+                                    class="fas fa-arrow-alt-circle-right"></i></button>
+                        </div>
+                        <div class="arrows-down">
+                            <button class="controller-button-container" id="arrow-down" type="button" onclick=""><i
+                                    class="fas fa-arrow-alt-circle-down"></i></button>
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>
+
     </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-contents">
+            <div id="copyright">
+                <p>&#169; Stephen Harrold 2021</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Custom JavaScript -->
     <script src="assets\js\main.js"></script>

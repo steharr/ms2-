@@ -162,7 +162,7 @@ function generateRandomizedLevel(gridHeight, gridWidth, maxObstaclesPerRow) {
         // append the row to the grid
         grid.appendChild(row);
     }
-
+    // addRandomizedGrassPatterns();
 }
 
 // * adapted from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
@@ -613,4 +613,13 @@ function changeCharacterFaceDirection(character, direction) {
             ruleList[i].style.backgroundImage = `url(../images/${character}-${direction}.gif)`;
         }
     }
+}
+
+function addRandomizedGrassPatterns() {
+    let grass = ['one', 'two', 'three'];
+    var elemsEmpty = document.getElementsByClassName('empty');
+    Array.from(elemsEmpty).forEach((elem) => {
+        let randPattern = Math.floor(Math.random() * 3);
+        elem.style.backgroundImage = `url(../images/grass-${grass[randPattern]}.png)`;
+    });
 }

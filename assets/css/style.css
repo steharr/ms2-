@@ -5,19 +5,60 @@
 
 /******* Utility Classes *******/
 .outline {
-    /* border: 1px solid #e6f3f7; */
+    /* border: 1px solid #177012; */
 }
 .highlight{
     background-color: yellow;
 }
-/******* Game Console *******/
+/******* Main Page Header*******/
+.main-page-overhead{
+    display:flex;
+    justify-content: center;
+    background-color:#4b4c4d;
+    width: 100%;
+    color:#ede911;
+}
+.link-github{
+    position: absolute;
+    right: 1rem;
+    font-size: 2rem;
+    color:#ede911;
+}
+/******* Main Page Footer*******/
+footer {
+    width: 100%;
+    height: 5rem;
+    position: absolute;
+    bottom: 0;
+    background-color: #4b4c4d;
+}
+.footer-contents{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color:#ede911;
+}
+/******* Game Console Container*******/
 .main-game-console {
-margin-top: 2rem;
+    display: flex;
+    margin-top: 2rem;
+    margin-left: 20%;
+    margin-right: 20%;
+    border-radius: 1rem;
+    padding: 1rem;
+    border: .25rem solid black;
 }
 /******* Game Grid *******/
+#game-grid{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../images/bg-grass.png');
+    border-radius: .25rem;
+}
 .grid-row {
-    display: inline-block;
-    margin-bottom: 0px;
+    display: flex;
 }
 .grid-cell {
     display: inline-block;
@@ -36,16 +77,19 @@ margin-top: 2rem;
     background-color:#3baff7;
     background-image: url('../images/mouse-right.gif');
     background-size: cover;
+    border-radius: .25rem;
 }
 .cat {
     background-color: #f73b3b;
     background-image: url('../images/cat-right.gif');
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: .25rem;
 }
 
 .cheese {
     background-color:#ede911;
+    border-radius: .25rem;
 }
 
 /******* User controller *******/
@@ -53,6 +97,7 @@ margin-top: 2rem;
     display:flex;
     flex-direction: column;
     align-items:center;
+    width: 100%;
 }
 .game-console-nav-buttons{
     display:flex;
