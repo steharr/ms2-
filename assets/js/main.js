@@ -1,4 +1,4 @@
-const gridHeight = 16;
+const gridHeight = 14;
 const gridWidth = 18;
 const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
@@ -11,7 +11,7 @@ var timerInterval;
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
-    generateRandomizedLevel(gridHeight, gridWidth, 10);
+    generateRandomizedLevel(gridHeight, gridWidth, 20);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
@@ -162,6 +162,7 @@ function generateRandomizedLevel(gridHeight, gridWidth, maxObstacles) {
                     console.dir(randCoord);
                     // draw an obstacle at that coordinate
                     fillCell(randCoord[0], randCoord[1], 'obstacle');
+                    obstacleCount++;
                 }
             }
         }
