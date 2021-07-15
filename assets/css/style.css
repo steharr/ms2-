@@ -1,16 +1,18 @@
+/* font */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Luckiest+Guy&family=Otomanopee+One&family=Press+Start+2P&family=Yomogi&display=swap');
 
+/******* General Classes *******/
 body{
     background-color: #F78B52;
+    font-family: 'Otomanopee One', sans-serif;
 }
 header{
     background-color: #892E3D;
 }
-/******* Utility Classes *******/
-.outline {
-    /* border: 1px solid #177012; */
-}
-.highlight{
-    background-color: #FFBA49;
+
+.page-container{
+    position:relative;
+    min-height: 100vh;
 }
 /******* Main Page Header*******/
 .main-page-overhead{
@@ -30,8 +32,8 @@ footer {
     width: 100%;
     height: 5rem;
     position: absolute;
-    background-color: #56172E;
     bottom: 0;
+    background-color: #56172E;
 }
 .footer-contents{
     display:flex;
@@ -41,13 +43,14 @@ footer {
 }
 /******* Game Console Container*******/
 .main-game-console {
+    position: relative;
     display: flex;
     margin-top: 2rem;
     margin-left: 20%;
     margin-right: 20%;
     border-radius: 1rem;
-    padding: 1rem;
-    border: .25rem solid black;
+    padding: .5rem;
+    border: .25rem solid #401122;
     background-color: #892E3D;
     color:#fff;
 }
@@ -70,17 +73,18 @@ footer {
 }
 /******* Game Assets *******/
 .obstacle {
-    /* background-color: #4b4c4d;  */
     border-radius: 5px; 
     background-image: url('../images/crate.png');
 }
-.empty {
-    /* background-color: #d1d6de; */
-}
+/* .empty {
+   
+} */
 .mouse {
     background-color:#3baff7;
     background-image: url('../images/mouse-right.gif');
-    background-size: cover;
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position:center;
     border-radius: .25rem;
 }
 .cat {
@@ -90,25 +94,45 @@ footer {
     background-repeat: no-repeat;
     border-radius: .25rem;
 }
-
 .cheese {
-    background-color:#ede911;
+    background-color:#D4A001;
+    background-image: url('../images/cheese.gif');
     border-radius: .25rem;
 }
-
-/******* User controller *******/
+/******* Side Game Console *******/
 .side-game-console{
     display:flex;
     flex-direction: column;
     align-items:center;
     width: 100%;
+    background-color: #993344;
+    padding: .25rem;
+    margin-left: .25rem;
+    border-radius: .25rem;
+    border: 1px solid #B83D52;
 }
+/* Upper corner buttons */
 .game-console-nav-buttons{
     display:flex;
     justify-content: flex-end;
     align-items:flex-end;
     width:100%;
 }
+.btn-nav{
+    margin-left: .25rem;
+    background-color: #F78B52;
+    border: .125rem solid #A4A9AD;
+    border-radius: .5rem;
+    -webkit-transition: background-color 0.35s ease-in-out;
+    -moz-transition: background-color 0.35s ease-in-out;
+    -o-transition: background-color 0.35s ease-in-out;
+    transition: background-color 0.35s ease-in-out;
+}
+.btn-nav:hover,
+.btn-nav:focus {
+    background-color: #FFBA49;
+}
+/* Level setup buttons */
 .game-console-game-buttons{
     display: flex;
     flex-direction: column;
@@ -116,28 +140,61 @@ footer {
     height: 100%;
 }
 .game-console-setup{
-    border-radius: 5px;;
-}
-.arrows-up{
+    border-radius: .5rem;
     display:flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
 }
-.arrows-left-right{
-    display:flex;
-    justify-content: space-around;
+.game-console-setup h2{
+    font-size: 1.5rem;
 }
-.arrows-down{
-    display:flex;
-    justify-content: center;
+.btn-difficulty-level{
+    font-size: 1rem;
+    text-decoration: none;
+    background-color: #F78B52;
+    border: .125rem solid #A4A9AD;
+    border-radius: .5rem;
+    -webkit-transition: background-color 0.35s ease-in-out;
+    -moz-transition: background-color 0.35s ease-in-out;
+    -o-transition: background-color 0.35s ease-in-out;
+    transition: background-color 0.35s ease-in-out;
 }
+.btn-difficulty-level:hover,
+.btn-difficulty-level:focus {
+    background-color: #FFBA49;
+}
+/* Countdown timer and high score */
+.game-console-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+}
+.score-digits,
+.time-limit-digits{
+    display: inline-block;
+    width: 60%;
+    border-radius: .5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background-color: #F78B52;
+    border: .125rem solid #A4A9AD;
+    color: black;
+}
+
+/* Game controller buttons */
 .controller-button-container{
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
     font-size: 1.5rem;
 }
-.level-difficulty h2{
-    font-size: 1rem;
+.arrows-up{
+    margin-bottom:.5rem;
+    display:flex;
+    justify-content: center;
 }
 .controller-center {
     display: flex;
@@ -145,14 +202,58 @@ footer {
     align-items: center;
 }
 .controller-center-circle{
-    background-color: #4b4c4d;
+    background-color: #F78B52;
+    border: .125rem solid #A4A9AD;
     height: 2rem;
     width: 2rem;
     border-radius: 50%;
 }
-.game-console-setup{
-    background-color: #4b4c4d;
+.arrows-left-right{
     display:flex;
+    justify-content: center;
+}
+#arrow-left{
+    margin-right: 1rem;
+}
+#arrow-right{
+    margin-left: 1rem;
+}
+.arrows-down{
+    margin-top:.5rem;
+    display:flex;
+    justify-content: center;
+}
+.controller-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F78B52;
+    border: .125rem solid #A4A9AD;
+    font-size: 2.5rem;
+}
+.controller-button-container:hover,
+.controller-button-container:focus{
+    background-color: #FFBA49;
+}
+.highlight{
+    background-color: #FFBA49 !important;
+}
+
+/******* Game Ending Modals *******/
+.modal-game {
+    display: none;
     flex-direction: column;
-    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    border: .25rem solid #401122;
+    background-color: #892E3D;
+    position: absolute;
+    top: 37.5%;
+    left: 37.5%;
+    height: 10rem;
+    width: 20rem;
+    border-radius: .5rem;
+}
+.open-game-modal{
+    display: flex;
 }
