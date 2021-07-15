@@ -76,9 +76,6 @@ footer {
     border-radius: 5px; 
     background-image: url('../images/crate.png');
 }
-/* .empty {
-   
-} */
 .mouse {
     background-color:#3baff7;
     background-image: url('../images/mouse-right.gif');
@@ -248,11 +245,12 @@ footer {
     border: .25rem solid #401122;
     background-color: #892E3D;
     position: absolute;
-    top: 37.5%;
+    top: 35%;
     left: 37.5%;
-    height: 10rem;
+    height: 12rem;
     width: 20rem;
     border-radius: .5rem;
+    text-align: center;
 }
 .open-game-modal{
     display: flex;

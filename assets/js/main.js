@@ -4,7 +4,7 @@ const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
 const startCat = [gridWidth / 2, gridHeight / 2];
 const startCheese = corners[2];
-const timeLimit = 600;
+const timeLimit = 10;
 var difficulty = [];
 var timerInterval;
 
@@ -41,6 +41,7 @@ function restartLevel() {
 }
 function toggleGameModal(endGameMode) {
     deactivateUserControls();
+    clearInterval(timerInterval);
     let modal = document.querySelector(`#end-game-modal`);
     if (endGameMode === "success") {
         modal.innerHTML = `
@@ -52,6 +53,13 @@ function toggleGameModal(endGameMode) {
         modal.innerHTML = `
         <h2>You Lost!</h2>
         <p>The Cat caught you!</p>
+        <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
+        `
+    }
+    else if (endGameMode === "timeup") {
+        modal.innerHTML = `
+        <h2>You Ran Out of Time!</h2>
+        <p>You need to go faster!</p>
         <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
         `
     }
@@ -208,7 +216,6 @@ function handleKeydown(event) {
         // check for defeat
         if (checkForFailure()) {
             toggleGameModal("failure");
-            clearInterval(timerInterval);
         }
     }
 }
@@ -573,13 +580,12 @@ function countdownTimer(inputSeconds) {
     elementMins.textContent = startCountdownMinutes;
 
     timerInterval = setInterval(function () {
-        // let decrementedSeconds = addLeadingZeros(parseInt(elementSecs.textContent - 1));
         elementSecs.textContent = addLeadingZeros(parseInt(elementSecs.textContent - 1));
 
         if (parseInt(elementSecs.textContent) === 0 && parseInt(elementMins.textContent) === 0) {
             clearInterval(timerInterval);
-            alert('times up!');
-            restartLevel();
+            toggleGameModal('timeup');
+            // restartLevel();
         } else if (parseInt(elementSecs.textContent) === 0) {
             elementMins.textContent = addLeadingZeros(parseInt(elementMins.textContent - 1));
             elementSecs.textContent = 59;
