@@ -1,17 +1,17 @@
-const gridHeight = 14;
-const gridWidth = 18;
+const gridHeight = 12;
+const gridWidth = 16;
 const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
 const startCat = [gridWidth / 2, gridHeight / 2];
 const startCheese = corners[2];
-const timeLimit = 60;
+const timeLimit = 600;
 var difficulty = [];
 var timerInterval;
 
 
 // initialize game
 document.addEventListener('DOMContentLoaded', function () {
-    generateRandomizedLevel(gridHeight, gridWidth, 20);
+    generateRandomizedLevel(gridHeight, gridWidth, 40);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
@@ -20,10 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
         location.reload();
     }
     countdownTimer(timeLimit);
+    activateUserControls()
 });
 
 // restart level
 function restartLevel() {
+    toggleGameModal();
+    activateUserControls();
+    changeCharacterGifAction('cat', 'left');
     // get the current grid gamestate layout
     var gameState = createGridArray();
     // clear the level
@@ -35,43 +39,23 @@ function restartLevel() {
     drawAsset(startCheese, "cheese");
     countdownTimer(timeLimit);
 }
-
-// // add an event handler for when difficulty is chosen
-// // adapted from https://flaviocopes.com/how-to-add-event-listener-multiple-elements-javascript/
-// document.querySelectorAll('.btn-difficulty-level').forEach(item => {
-//     item.addEventListener('click', event => {
-//         //handle click
-//         var diff = this.textContent;
-//         console.log(diff);
-//         // generateDifficultyVariables(diff);
-//     })
-// })
-
-
-function generateDifficultyVariables(chosenDifficulty) {
-    // find the chosen difficulty from the DOM
-    var maxObstaclesPerRow;
-    var catSpeed;
-    var chanceOfObstacle;
-    var timeLimit;
-    switch (chosenDifficulty) {
-        case 'Easy':
-            maxObstaclesPerRow = 2;
-
-            catSpeed = [];
-            timeLimit = 180;
-            break;
-        case 'Medium':
-            maxObstaclesPerRow = 2;
-            catSpeed = 10;
-            timeLimit = 120;
-            break;
-        case 'Hard':
-            maxObstaclesPerRow = 2;
-            catSpeed = 10;
-            timeLimit = 60;
-            break;
+function toggleGameModal(endGameMode) {
+    deactivateUserControls();
+    let modal = document.querySelector(`#end-game-modal`);
+    if (endGameMode === "success") {
+        modal.innerHTML = `
+        <h2>You Won!</h2>
+        <p>You got the Cheese!</p>
+        <button class="btn-nav" type="button" onclick="location.reload()">Next Level</button>
+        `
+    } else if (endGameMode === "failure") {
+        modal.innerHTML = `
+        <h2>You Lost!</h2>
+        <p>The Cat caught you!</p>
+        <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
+        `
     }
+    modal.classList.toggle('open-game-modal');
 }
 
 function checkForAwkwardLevel() {
@@ -187,9 +171,16 @@ function drawAsset(position, assetType) {
     fillCell(position[0], position[1], assetType);
 }
 
-
 // **********User generated events**********
-document.addEventListener('keydown', (event) => {
+function activateUserControls() {
+    document.addEventListener('keydown', handleKeydown, false)
+}
+
+function deactivateUserControls() {
+    document.removeEventListener('keydown', handleKeydown, false)
+}
+
+function handleKeydown(event) {
     var coordMouse = findCoordinates(1);
     var button = event.key;
     if (button === " ") { // regenerate a new level if the user presses space
@@ -210,18 +201,17 @@ document.addEventListener('keydown', (event) => {
         }
         // check for victory
         if (checkForVictory()) {
-            location.reload();
+            toggleGameModal("success");
         }
         // move the cat
         activateEnemyAI();
         // check for defeat
         if (checkForFailure()) {
+            toggleGameModal("failure");
             clearInterval(timerInterval);
-            restartLevel();
         }
     }
-
-}, false);
+}
 
 document.addEventListener('keyup', (event) => {
     //  check for a highlighted key and un-highlight it
@@ -326,11 +316,11 @@ function moveCharacter(oldCoordinates, moveDirection, characterType) {
             break;
         case "left":
             newCoordinates[0]--;
-            changeCharacterFaceDirection(characterType, "left");
+            changeCharacterGifAction(characterType, "left");
             break;
         case "right":
             newCoordinates[0]++;
-            changeCharacterFaceDirection(characterType, "right");
+            changeCharacterGifAction(characterType, "right");
             break;
     }
     // check if there is an obstacle in the way
@@ -352,8 +342,11 @@ function moveCharacter(oldCoordinates, moveDirection, characterType) {
 // **********End Game Functions**********
 function checkForVictory() {
     let coordVictory = findCoordinates(5);
+    console.dir(coordVictory);
     if (coordVictory != 'not found') {
-        // alert("You won the game!");
+        //change the graphic at the success coordinates
+        emptyCell(coordVictory[0], coordVictory[1], 'cheese');
+        changeCharacterGifAction('mouse', 'win');
         return true;
     } else {
         return false;
@@ -363,7 +356,8 @@ function checkForVictory() {
 function checkForFailure() {
     let coordFailure = findCoordinates(6);
     if (coordFailure != 'not found') {
-        // alert("You lost the game!");
+        //change the graphic at the failure coordinates
+        changeCharacterGifAction('cat', 'win');
         return true;
     } else {
         return false;
@@ -455,7 +449,6 @@ function calculateDistance(firstPoint, secondPoint) {
 // highlight an arrow key when one button is pressed
 function manipulateArrowKey(direction, highlight) {
     let arrow;
-
     switch (direction) {
         case 'up':
             arrow = document.getElementById('arrow-up');
@@ -473,6 +466,7 @@ function manipulateArrowKey(direction, highlight) {
     if (highlight) {
         arrow.classList.add('highlight');
     } else {
+
         arrow.classList.remove('highlight');
     }
 }
@@ -604,12 +598,11 @@ function addLeadingZeros(number) {
 }
 
 // CSS Manipulation
-function changeCharacterFaceDirection(character, direction) {
+function changeCharacterGifAction(character, action) {
     let ruleList = document.styleSheets[2].cssRules;
-    // console.log(typeof (ruleList[2].selectorText));
     for (let i = 0; i < ruleList.length; i++) {
         if (ruleList[i].selectorText === `.${character}`) {
-            ruleList[i].style.backgroundImage = `url(../images/${character}-${direction}.gif)`;
+            ruleList[i].style.backgroundImage = `url(../images/${character}-${action}.gif)`;
         }
     }
 }
