@@ -245,13 +245,26 @@ footer {
     border: .25rem solid #401122;
     background-color: #892E3D;
     position: absolute;
-    top: 35%;
+    top: 32.5%;
     left: 37.5%;
-    height: 12rem;
+    height: 15rem;
     width: 20rem;
     border-radius: .5rem;
     text-align: center;
 }
 .open-game-modal{
     display: flex;
+}
+.modal-game h2{
+    color:#FFBA49;
+    display: inline-block;
+    width: 80%;
+    
+}
+.details{
+    display: inline-block;
+    width: 60%;
+    background-color: #993344;
+    border: 1px solid #B83D52;
+    font-size: .75rem;
 }

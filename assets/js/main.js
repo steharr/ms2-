@@ -1,14 +1,21 @@
+
+// ****Global Level Grid Variables***
 const gridHeight = 12;
 const gridWidth = 16;
 const corners = calculateCornerCoordinates(gridHeight, gridWidth);
+// ****Global Character Coordinate Variables***
 const startMouse = corners[0];
 const startCat = [gridWidth / 2, gridHeight / 2];
 const startCheese = corners[2];
+// ****Global Difficulty Variables***
+let diff;
 let timeLimit;
 let numberOfObstacles;
 let catSpeedIntegers;
 let timerInterval;
-let diff;
+// ****Global Score Variables***
+let movesProximity;
+let movesTotal;
 
 // trigger event for initialising game once page loads
 document.addEventListener('DOMContentLoaded', initializeGame);
@@ -29,10 +36,14 @@ function initializeGame() {
     }
     countdownTimer(timeLimit);
     activateUserControls();
+    movesProximity = 0;
+    movesTotal = 0;
 }
 
 // restart level
 function restartLevel(hardReset = false) {
+
+    zeroScore();
     clearInterval(timerInterval);
     if (hardReset != true) {
         toggleGameModal();
@@ -49,6 +60,8 @@ function restartLevel(hardReset = false) {
     changeCharacterGifAction('cat', 'left');
     drawAsset(startCheese, "cheese");
     countdownTimer(timeLimit);
+    movesProximity = 0;
+    movesTotal = 0;
 }
 
 function toggleGameModal(endGameMode) {
@@ -56,22 +69,29 @@ function toggleGameModal(endGameMode) {
     clearInterval(timerInterval);
     let modal = document.querySelector(`#end-game-modal`);
     if (endGameMode === "success") {
+        console.log(movesTotal);
+        console.log(movesProximity);
+        let percentageProximity = Math.floor(movesProximity / movesTotal * 100);
+        let score = parseInt(document.getElementById('score').textContent);
         modal.innerHTML = `
         <h2>You Won!</h2>
-        <p>You got the Cheese!</p>
+        <p>You got the Cheese! <br> Your Score: ${score}</p>
+        <p class="details">You spent ${percentageProximity}% of your moves being closely followed by the cat! </p>
         <button class="btn-nav" type="button" onclick="location.reload()">Next Level</button>
         `
     } else if (endGameMode === "failure") {
         modal.innerHTML = `
         <h2>You Lost!</h2>
         <p>The Cat caught you!</p>
+        <p class="details">Tip: Try avoiding the cat</p>
         <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
         `
     }
     else if (endGameMode === "timeup") {
         modal.innerHTML = `
-        <h2>You Ran Out of Time!</h2>
-        <p>You need to go faster!</p>
+        <h2>You Lost!</h2>
+        <p>You ran out of time!</p>
+        <p class="details">Tip: Try going faster</p>
         <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
         `
     }
@@ -97,7 +117,6 @@ function checkForAwkwardLevel() {
         if (checkForImmediateObstacle(asset, 'obstacle', 'right')) {
             obstacleCount++;
         }
-        console.log("asset at ", asset, " has ", obstacleCount, "obstacles");
         if (obstacleCount === 4) {
             isAwkward = true;
         }
@@ -162,7 +181,7 @@ function generateRandomizedLevel(gridHeight, gridWidth, maxObstacles) {
                 if (obstacleAllowed) {
                     // generate a random x and y coordinate
                     let randCoord = [Math.floor(Math.random() * gridWidth), Math.floor(Math.random() * gridHeight)];
-                    console.dir(randCoord);
+
                     // draw an obstacle at that coordinate
                     fillCell(randCoord[0], randCoord[1], 'obstacle');
                     obstacleCount++;
@@ -242,14 +261,17 @@ function handleKeydown(event) {
             moveCharacter(coordMouse, "right", "mouse");
             manipulateArrowKey('right', true);
         }
+
         // check for victory
         if (checkForVictory()) {
+            updateScore(true);
             toggleGameModal("success");
         }
         // move the cat
         activateEnemyAI();
         // check for defeat
         if (checkForFailure()) {
+            updateScore(true);
             toggleGameModal("failure");
         }
     }
@@ -264,6 +286,39 @@ document.addEventListener('keyup', (event) => {
         }
     }
 }, false);
+
+
+
+function updateScore(endGameMode) {
+    let coordMouse = findCoordinates(1);
+    let coordCat = findCoordinates(2);
+    let distance = calculateDistance(coordCat, coordMouse);
+    let incrementScore = 0;
+    let currentScore = document.getElementById('score');
+    // if the game is over, add the bonus scores
+    if (endGameMode) {
+        let minsLeft = parseInt(document.getElementById('time-left-mins').textContent);
+        let secsLeft = parseInt(document.getElementById('time-left-secs').textContent);
+        let totalSecsLeft = minsLeft * 60 + secsLeft;
+        // bonus for time left
+        incrementScore = incrementScore + totalSecsLeft;
+        // bonus for time spent close to cat
+        incrementScore = incrementScore + movesProximity;
+    } else {  // otherwise calculate if the cat is currently within two blocks from the mouse and increment score if so
+        if (Math.abs(distance[0]) <= 1 && Math.abs(distance[1]) <= 1) {
+            incrementScore = incrementScore + 50;
+            movesProximity++;
+        }
+    }
+    // get the score DOM element and update it
+    currentScore.textContent = parseInt(currentScore.textContent) + incrementScore;
+}
+
+function zeroScore() {
+    movesProximity = 0;
+    let currentScore = document.getElementById('score');
+    currentScore.textContent = 00;
+}
 
 // **********Enemy AI**********
 function activateEnemyAI() {
@@ -373,18 +428,20 @@ function moveCharacter(oldCoordinates, moveDirection, characterType) {
         // then fill cell at adjusted coord
         fillCell(newCoordinates[0], newCoordinates[1], characterType);
         // return a boolean to indicate that the character has successfully moved
+        updateScore(false);
+        movesTotal++;
         return true;
     } else {
         // return a boolean to indicate that the character has been blocked
         return false;
     }
+
 }
 
 
 // **********End Game Functions**********
 function checkForVictory() {
     let coordVictory = findCoordinates(5);
-    console.dir(coordVictory);
     if (coordVictory != 'not found') {
         //change the graphic at the success coordinates
         emptyCell(coordVictory[0], coordVictory[1], 'cheese');
@@ -589,7 +646,6 @@ function checkForImmediateObstacle(currentCoords, obstacleClass, direction) {
 // **********Misc Functions**********
 function probability(numerator, denominator) {
     let randomNumberGenerator = Math.floor(Math.random() * (denominator) + 1);
-    console.log(randomNumberGenerator);
     if (randomNumberGenerator <= numerator) {
         return true;
     } else {
