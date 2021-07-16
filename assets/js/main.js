@@ -4,30 +4,40 @@ const corners = calculateCornerCoordinates(gridHeight, gridWidth);
 const startMouse = corners[0];
 const startCat = [gridWidth / 2, gridHeight / 2];
 const startCheese = corners[2];
-const timeLimit = 10;
-var difficulty = [];
-var timerInterval;
+let timeLimit;
+let numberOfObstacles;
+let catSpeedIntegers;
+let timerInterval;
+let diff;
 
+// trigger event for initialising game once page loads
+document.addEventListener('DOMContentLoaded', initializeGame);
 
-// initialize game
-document.addEventListener('DOMContentLoaded', function () {
-    generateRandomizedLevel(gridHeight, gridWidth, 40);
+// function for initialising game
+function initializeGame() {
+    diff = sessionStorage.getItem('difficulty');
+    if (diff === null) {
+        diff = 'easy';
+    }
+    setDifficultyLevel(diff);
+    generateRandomizedLevel(gridHeight, gridWidth, numberOfObstacles);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
     drawAsset(startCheese, "cheese");
-
     if (checkForAwkwardLevel()) {
         location.reload();
     }
     countdownTimer(timeLimit);
-    activateUserControls()
-});
+    activateUserControls();
+}
 
 // restart level
-function restartLevel() {
-    toggleGameModal();
+function restartLevel(hardReset = false) {
+    clearInterval(timerInterval);
+    if (hardReset != true) {
+        toggleGameModal();
+    }
     activateUserControls();
-    changeCharacterGifAction('cat', 'left');
     // get the current grid gamestate layout
     var gameState = createGridArray();
     // clear the level
@@ -36,9 +46,11 @@ function restartLevel() {
     regenerateExistingLevel(gameState);
     drawAsset(startMouse, "mouse");
     drawAsset(startCat, "cat");
+    changeCharacterGifAction('cat', 'left');
     drawAsset(startCheese, "cheese");
     countdownTimer(timeLimit);
 }
+
 function toggleGameModal(endGameMode) {
     deactivateUserControls();
     clearInterval(timerInterval);
@@ -92,7 +104,6 @@ function checkForAwkwardLevel() {
     });
     return isAwkward;
 }
-
 
 function regenerateExistingLevel(gameState) {
     const grid = document.getElementById('game-grid');
@@ -173,6 +184,30 @@ function destroyLevel() {
 
 }
 
+function setDifficultyLevel(level) {
+    switch (level) {
+        case 'easy':
+            timeLimit = 30;
+            numberOfObstacles = 10;
+            catSpeedIntegers = [90, 100];
+            sessionStorage.setItem('difficulty', 'easy');
+            break;
+        case 'medium':
+            timeLimit = 20;
+            numberOfObstacles = 40;
+            catSpeedIntegers = [95, 100];
+            sessionStorage.setItem('difficulty', 'medium');
+            break;
+        case 'hard':
+            timeLimit = 12;
+            numberOfObstacles = 80;
+            catSpeedIntegers = [100, 100];
+            sessionStorage.setItem('difficulty', 'hard');
+            break;
+    }
+
+}
+
 // **********Asset Generation**********
 function drawAsset(position, assetType) {
     emptyCell(position[0], position[1], 'obstacle')
@@ -238,7 +273,7 @@ function activateEnemyAI() {
     var nextMove = determineCatMove(distance);
 
     // var randomChance = Math.floor(Math.random() * 3);
-    var catMove = probability(98, 100);
+    var catMove = probability(catSpeedIntegers[0], catSpeedIntegers[1]);
 
     // if randomChance is true the cat can move
     if (catMove === true) {

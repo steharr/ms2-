@@ -16,7 +16,7 @@ header{
 }
 /******* Main Page Header*******/
 .main-page-overhead{
-    display:flex;
+    display: flex;
     justify-content: center;
     width: 100%;
     color:#FFBA49;
