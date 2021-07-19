@@ -41,6 +41,53 @@ footer {
     align-items: center;
     color:#FFBA49;
 }
+/******* Main Menu*******/
+.game-entry-window{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2rem;
+    width: 40%;
+    border-radius: 1rem;
+    padding: .5rem;
+    border: .25rem solid #401122;
+    background-color: #892E3D;
+    color:#fff;
+}
+.how-to-play{
+    width: 80%;
+    border: .25rem solid #401122;
+    margin-bottom: 1rem;
+}
+.main-menu h2 {
+    text-align: center;
+    color:#FFBA49;
+}
+.btn-main-menu{
+    color:black;
+    font-size: 2rem;
+    padding: 1rem;
+    text-decoration: none;
+    background-color: #F78B52;
+    border: .125rem solid #A4A9AD;
+    border-radius: .5rem;
+    -webkit-transition: background-color 0.35s ease-in-out;
+    -moz-transition: background-color 0.35s ease-in-out;
+    -o-transition: background-color 0.35s ease-in-out;
+    transition: background-color 0.35s ease-in-out;
+}
+.btn-main-menu:hover,
+.btn-main-menu:focus {
+    color:black;
+    background-color: #FFBA49;
+    text-decoration: none;
+}
 /******* Game Console Container*******/
 .main-game-console {
     position: relative;
@@ -259,7 +306,6 @@ footer {
     color:#FFBA49;
     display: inline-block;
     width: 80%;
-    
 }
 .details{
     display: inline-block;
