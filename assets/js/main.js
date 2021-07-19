@@ -42,7 +42,6 @@ function initializeGame() {
 
 // restart level
 function restartLevel(hardReset = false) {
-
     zeroScore();
     clearInterval(timerInterval);
     if (hardReset != true) {
@@ -62,40 +61,6 @@ function restartLevel(hardReset = false) {
     countdownTimer(timeLimit);
     movesProximity = 0;
     movesTotal = 0;
-}
-
-function toggleGameModal(endGameMode) {
-    deactivateUserControls();
-    clearInterval(timerInterval);
-    let modal = document.querySelector(`#end-game-modal`);
-    if (endGameMode === "success") {
-        console.log(movesTotal);
-        console.log(movesProximity);
-        let percentageProximity = Math.floor(movesProximity / movesTotal * 100);
-        let score = parseInt(document.getElementById('score').textContent);
-        modal.innerHTML = `
-        <h2>You Won!</h2>
-        <p>You got the Cheese! <br> Your Score: ${score}</p>
-        <p class="details">You spent ${percentageProximity}% of your moves being closely followed by the cat! </p>
-        <button class="btn-nav" type="button" onclick="location.reload()">Next Level</button>
-        `
-    } else if (endGameMode === "failure") {
-        modal.innerHTML = `
-        <h2>You Lost!</h2>
-        <p>The Cat caught you!</p>
-        <p class="details">Tip: Try avoiding the cat</p>
-        <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
-        `
-    }
-    else if (endGameMode === "timeup") {
-        modal.innerHTML = `
-        <h2>You Lost!</h2>
-        <p>You ran out of time!</p>
-        <p class="details">Tip: Try going faster</p>
-        <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
-        `
-    }
-    modal.classList.toggle('open-game-modal');
 }
 
 function checkForAwkwardLevel() {
@@ -153,10 +118,10 @@ function regenerateExistingLevel(gameState) {
 function generateRandomizedLevel(gridHeight, gridWidth, maxObstacles) {
     const grid = document.getElementById('game-grid');
     for (let i = 0; i < gridHeight; i++) {
-        var row = document.createElement('div');
+        let row = document.createElement('div');
         row.setAttribute('class', 'grid-row');
         for (let j = 0; j < gridWidth; j++) {
-            var cell = document.createElement('div');
+            let cell = document.createElement('div');
             cell.setAttribute('class', 'grid-cell empty');
             // give the cell attributes representing a coordinate system
             cell.dataset.x = j;
@@ -171,7 +136,6 @@ function generateRandomizedLevel(gridHeight, gridWidth, maxObstacles) {
 
     function generateRandomizedObstacles(grid, maxObstacles) {
         let totalCells = gridHeight * gridWidth;
-        let usedCoords = [];
         let obstacleCount = 0;
         let obstacleAllowed;
         for (let i = 0; i < totalCells; i++) {
@@ -190,8 +154,6 @@ function generateRandomizedLevel(gridHeight, gridWidth, maxObstacles) {
         }
 
     }
-
-
 }
 
 // * adapted from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
@@ -213,7 +175,7 @@ function setDifficultyLevel(level) {
             break;
         case 'medium':
             timeLimit = 20;
-            numberOfObstacles = 40;
+            numberOfObstacles = 30;
             catSpeedIntegers = [95, 100];
             sessionStorage.setItem('difficulty', 'medium');
             break;
@@ -288,7 +250,6 @@ document.addEventListener('keyup', (event) => {
 }, false);
 
 
-
 function updateScore(endGameMode) {
     let coordMouse = findCoordinates(1);
     let coordCat = findCoordinates(2);
@@ -325,7 +286,7 @@ function activateEnemyAI() {
     let coordMouse = findCoordinates(1);
     let coordCat = findCoordinates(2);
     let distance = calculateDistance(coordCat, coordMouse);
-    var nextMove = determineCatMove(distance);
+    var nextMove = determineInitialCatMove(distance);
 
     // var randomChance = Math.floor(Math.random() * 3);
     var catMove = probability(catSpeedIntegers[0], catSpeedIntegers[1]);
@@ -334,41 +295,19 @@ function activateEnemyAI() {
     if (catMove === true) {
         // move the cat according to the determined next move, if the move was blocked then recalculate
         if (moveCharacter(coordCat, nextMove[0], "cat") === false) {
-            // console.log("the cats blocked direction was along the " + nextMove[1] + " axis")
-            switch (nextMove[1]) {
-                case 'x':
-                    // check the y axis for free entry and go that way
-                    if (checkForImmediateObstacle(coordCat, 'obstacle', 'up') === false) {
-                        // console.log("the cat decided to try move up");
-                        moveCharacter(coordCat, "up", "cat");
-                        break;
-                    }
-                    if (checkForImmediateObstacle(coordCat, 'obstacle', 'down') === false) {
-                        // console.log("the cat decided to try move down");
-                        moveCharacter(coordCat, "down", "cat");
-                        break;
-                    }
-                    break;
-                case 'y':
-                    // check the x axis for free entry and go that way
-                    if (checkForImmediateObstacle(coordCat, 'obstacle', 'left') === false) {
-                        // console.log("the cat decided to try move left");
-                        moveCharacter(coordCat, "left", "cat");
-                        break;
-                    }
-                    if (checkForImmediateObstacle(coordCat, 'obstacle', 'right') === false) {
-                        // console.log("the cat decided to try move right");
-                        moveCharacter(coordCat, "right", "cat");
-                        break;
-                    }
-                    break;
-            }
+
+            let redeterminedMove = determineSecondaryCatMove(coordCat, coordMouse, nextMove);
+            moveCharacter(coordCat, redeterminedMove, "cat")
         }
     }
-    // compare the absolute value of the distance of the mouse from the cat
-    // in the x direction and the y direction
-    // whichever direction is larger in magnitude, move towards it
-    function determineCatMove(distance) {
+
+    function determineInitialCatMove(distance) {
+        /* Primary decision making function of cat AI:
+            Compares the absolute value of the distance of the mouse from the cat
+            in the x direction and the y direction
+            whichever direction is larger in magnitude, move towards it.
+            Returns the determined direction of the move and its axis for the secondary decision making function to use if neccessary.
+        */
         let determinedMove;
         let determinedMoveAxis;
         var determinedAction = [];
@@ -396,8 +335,64 @@ function activateEnemyAI() {
 
         return determinedAction;
     }
-}
+    function determineSecondaryCatMove(coordCat, coordMouse, failedAction) {
+        /* Secondary decision making function of cat AI:
 
+        */
+        let secondaryMove;
+
+        let oppAxisConverter = {
+            x: 'y',
+            y: 'x'
+        };
+        let axisDirectionsConverter = {
+            x: ['left', 'right'],
+            y: ['up', 'down']
+        }
+
+        let oppAxis = oppAxisConverter[failedAction[1]];
+        let oppAxisDirections = axisDirectionsConverter[oppAxis];
+
+        // check both directions in the opposite axis to see if they are clear
+        let pathCheck = [
+            checkForImmediateObstacle(coordCat, 'obstacle', oppAxisDirections[0]),
+            checkForImmediateObstacle(coordCat, 'obstacle', oppAxisDirections[1])
+        ];
+        // with the array of booleans in pathCheck, follow logic:
+        // if only one path is clear then move in that direction
+        if (pathCheck[0] === true && pathCheck[1] === false) {
+            secondaryMove = oppAxisDirections[1];
+            // moveCharacter(coordCat, pathCheck[0], 'cat');
+        } else if (pathCheck[1] === true && pathCheck[0] === false) {
+            secondaryMove = oppAxisDirections[0];
+            // moveCharacter(coordCat, pathCheck[1], 'cat');
+        } else if (pathCheck[0] === false && pathCheck[1] === false) {
+            // if only both paths are clear then move in the direction on that axis that get the cat closer to the mouse
+            // check the distance from the cat on that specified axis
+            let distanceOnAxis = calculateDistance(coordCat, coordMouse, oppAxis);
+            if (oppAxis === 'x') {
+                if (distanceOnAxis > 0) {
+                    secondaryMove = 'left';
+                    // moveCharacter(coordCat, 'left', 'cat');
+                } else if (distanceOnAxis < 0) {
+                    secondaryMove = 'right';
+                    // moveCharacter(coordCat, 'right', 'cat');
+                }
+            } else if (oppAxis === 'y') {
+                if (distanceOnAxis > 0) {
+                    secondaryMove = 'up';
+                    // moveCharacter(coordCat, 'up', 'cat');
+                } else if (distanceOnAxis < 0) {
+                    secondaryMove = 'down';
+                    // moveCharacter(coordCat, 'down', 'cat');
+                }
+            }
+        } else {
+            console.log('theres nowhere for the cat to go');
+        }
+        return secondaryMove;
+    }
+}
 
 // **********Movement**********
 // Movement function
@@ -512,11 +507,9 @@ function calculateCornerCoordinates(gridHeight, gridWidth) {
 
 // calculates the coordinates of a requested asset
 function findCoordinates(assetId) {
-
     var requestedCoordinates = [];
     var gameState = createGridArray();
     var found;
-
     for (let i = 0; i < gameState.length; i++) {
         requestedCoordinates[0] = gameState[i].indexOf(assetId);
         if (requestedCoordinates[0] != -1) {
@@ -530,16 +523,24 @@ function findCoordinates(assetId) {
     if (found == false) {
         requestedCoordinates = 'not found';
     }
-
-
     return requestedCoordinates;
 }
 
 // calculates axes distances between two points
-function calculateDistance(firstPoint, secondPoint) {
-    var distance = [];
-    distance[0] = firstPoint[0] - secondPoint[0];
-    distance[1] = firstPoint[1] - secondPoint[1];
+function calculateDistance(firstPoint, secondPoint, specifiedAxis = null) {
+    let distance;
+
+    if (specifiedAxis != null) {
+        if (specifiedAxis === 'x') {
+            distance = firstPoint[0] - secondPoint[0];
+        } else if (specifiedAxis === 'y') {
+            distance = firstPoint[1] - secondPoint[1];
+        }
+    } else {
+        distance = [];
+        distance[0] = firstPoint[0] - secondPoint[0];
+        distance[1] = firstPoint[1] - secondPoint[1];
+    }
     return distance;
 }
 
@@ -569,8 +570,6 @@ function manipulateArrowKey(direction, highlight) {
         arrow.classList.remove('highlight');
     }
 }
-
-
 // Add a specified class to a specified cell
 function fillCell(xCoord, yCoord, fillClass) {
     let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
@@ -676,7 +675,6 @@ function countdownTimer(inputSeconds) {
         if (parseInt(elementSecs.textContent) === 0 && parseInt(elementMins.textContent) === 0) {
             clearInterval(timerInterval);
             toggleGameModal('timeup');
-            // restartLevel();
         } else if (parseInt(elementSecs.textContent) === 0) {
             elementMins.textContent = addLeadingZeros(parseInt(elementMins.textContent - 1));
             elementSecs.textContent = 59;
@@ -684,8 +682,6 @@ function countdownTimer(inputSeconds) {
 
     }, 1000);
 }
-
-
 function addLeadingZeros(number) {
     if (number < 10) {
         return "0" + number;
@@ -693,6 +689,39 @@ function addLeadingZeros(number) {
         return number;
     }
 }
+function toggleGameModal(gameMode) {
+    deactivateUserControls();
+    clearInterval(timerInterval);
+    let modal = document.querySelector(`#main-game-modal`);
+    if (gameMode === "success") {
+        let percentageProximity = Math.floor(movesProximity / movesTotal * 100);
+        let score = parseInt(document.getElementById('score').textContent);
+        modal.innerHTML = `
+        <h2>You Won!</h2>
+        <p>You got the Cheese! <br> Your Score: ${score}</p>
+        <p class="details">You spent ${percentageProximity}% of your moves being closely followed by the cat! </p>
+        <button class="btn-nav" type="button" onclick="location.reload()">Next Level</button>
+        `
+    } else if (gameMode === "failure") {
+        modal.innerHTML = `
+        <h2>You Lost!</h2>
+        <p>The Cat caught you!</p>
+        <p class="details">Tip: Try avoiding the cat</p>
+        <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
+        `
+    }
+    else if (gameMode === "timeup") {
+        modal.innerHTML = `
+        <h2>You Lost!</h2>
+        <p>You ran out of time!</p>
+        <p class="details">Tip: Try going faster</p>
+        <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
+        `
+    }
+    modal.classList.toggle('open-game-modal');
+}
+
+
 
 // CSS Manipulation
 function changeCharacterGifAction(character, action) {
