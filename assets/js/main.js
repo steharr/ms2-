@@ -166,6 +166,14 @@ function destroyLevel() {
 }
 
 function setDifficultyLevel(level) {
+    // highlight the active difficulty in the DOM
+    let btnsDiff = document.querySelectorAll('.btn-difficulty-level')
+    btnsDiff.forEach(function (btn) {
+        if (btn.dataset.diff === level) {
+            btn.classList.add('active');
+        }
+    })
+    // internally set the game parameters according to the difficulty
     switch (level) {
         case 'easy':
             timeLimit = 30;

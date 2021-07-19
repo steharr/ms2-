@@ -209,6 +209,9 @@ footer {
 .btn-difficulty-level:focus {
     background-color: #FFBA49;
 }
+.btn-difficulty-level.active{
+    background-color: #FFD085;
+}
 /* Countdown timer and high score */
 .game-console-info{
     display: flex;
