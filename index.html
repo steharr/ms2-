@@ -28,94 +28,21 @@
         </div>
     </header>
     <!-- Main Game Grid -->
-    <section>
-        <div class="main-game-console">
-
-            <div id="game-grid">
+    <section class="game-entry-window">
+        <div class="main-menu">
+            <h2>Welcome to Cat and Mouse!</h2>
+            <h3>How to Play</h3>
+            <div class="instructions">
+                <p>Move the Mouse through the level by pressing the arrow keys</p>
+                <p>Your goal is to reach the cheese!</p>
+                <p>Watch out for the cat on your tail...</p>
             </div>
-
-            <div class="side-game-console">
-
-                <div class="game-console-nav-buttons">
-                    <!-- restart button -->
-                    <button class="btn-nav" type="button" onclick="restartLevel(true);"><i
-                            class="fas fa-undo-alt"></i></button>
-                    <!-- main menu button -->
-                    <a class="btn-nav" href="./main-menu.html"><i class="fas fa-home"></i></a>
-                </div>
-
-                <div class="game-console-game-buttons">
-                    <div class="game-console-setup">
-                        <h2>Level Difficulty</h2>
-                        <!-- level difficulty -->
-                        <div class="level-difficulty">
-                            <button class="btn-difficulty-level" data-diff="easy" type="button"
-                                onclick="setDifficultyLevel('easy');location.reload();">
-                                Easy
-                            </button>
-                            <button class="btn-difficulty-level" data-diff="medium" type="button"
-                                onclick="setDifficultyLevel('medium');location.reload();">
-                                Medium
-                            </button>
-                            <button class="btn-difficulty-level" data-diff="hard" type="button"
-                                onclick="setDifficultyLevel('hard');location.reload();">
-                                Hard
-                            </button>
-                        </div>
-                    </div>
-                    <div class="game-console-info">
-                        <!-- time limit -->
-                        <div class="time-limit-text">
-                            Time Left
-                        </div>
-                        <div class="time-limit-digits">
-                            <span id="time-left-mins">
-                                00
-                            </span>
-                            :
-                            <span id="time-left-secs">
-                                00
-                            </span>
-                        </div>
-                        <!-- score -->
-                        <div class="score-text">
-                            Score
-                        </div>
-                        <div class="score-digits">
-                            <span id="score">
-                                000
-                            </span>
-                        </div>
-                    </div>
-                    <div class="game-console-user-control-feedback">
-                        <!-- arrow buttons -->
-                        <div class="arrows">
-                            <div class="arrows-up">
-                                <button class="controller-button-container" id="arrow-up" type="button" onclick="">
-                                    <i class="fas fa-caret-up"></i>
-                                </button>
-                            </div>
-                            <div class="arrows-left-right">
-                                <button class="controller-button-container" id="arrow-left" type="button" onclick="">
-                                    <i class="fas fa-caret-left"></i>
-                                </button>
-                                <div class="controller-center"><span class="controller-center-circle"></span></div>
-                                <button class="controller-button-container" id="arrow-right" type="button" onclick="">
-                                    <i class="fas fa-caret-right"></i>
-                                </button>
-                            </div>
-                            <div class="arrows-down">
-                                <button class="controller-button-container" id="arrow-down" type="button" onclick="">
-                                    <i class="fas fa-caret-down"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <img class="how-to-play" src="./assets/images/how-to-play.gif"
+                alt="a moving image which shows gameplay of the mouse moving through the level getting chased by a cat">
+            <div class="disclaimer">
+                <p>If stuck, press Spacebar to generate a new level</p>
             </div>
-            <div id="main-game-modal" class="modal-game">
-
-            </div>
+            <a class="btn-main-menu" href="./index.html">Begin!</a>
         </div>
     </section>
 
