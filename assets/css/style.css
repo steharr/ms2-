@@ -26,6 +26,10 @@ header{
     font-size: 2rem;
     color:#FFBA49;
 }
+.link-github:hover,
+.link-github:focus {
+    color: #FFD085; 
+}
 /******* Main Page Footer*******/
 footer {
     width: 100%;
@@ -198,8 +202,6 @@ a.btn-nav {
     text-decoration: none;
     background-color: #FFBA49;
 }
-
-
 /* Level setup buttons */
 .game-console-game-buttons{
     display: flex;
