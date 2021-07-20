@@ -19,119 +19,115 @@
 
 <body>
 
-    <div class="page-container">
-        <!-- game overhead header -->
-        <header>
-            <div class="main-page-overhead">
-                <h1>Cat and Mouse Game</h1>
-                <a class="link-github" href="https://github.com/steharr/ms2-cat-and-mouse-game" target="_blank"
-                    rel="noopener"><i class="fab fa-github"></i></a>
-            </div>
-        </header>
-        <!-- Main Game Grid -->
-        <section>
-            <div class="main-game-console">
+    <!-- game overhead header -->
+    <header>
+        <div class="main-page-overhead">
+            <h1>Cat and Mouse Game</h1>
+            <a class="link-github" href="https://github.com/steharr/ms2-cat-and-mouse-game" target="_blank"
+                rel="noopener"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
+    <!-- Main Game Grid -->
+    <section>
+        <div class="main-game-console">
 
-                <div id="game-grid">
+            <div id="game-grid">
+            </div>
+
+            <div class="side-game-console">
+
+                <div class="game-console-nav-buttons">
+                    <!-- restart button -->
+                    <button class="btn-nav" type="button" onclick="restartLevel(true);"><i
+                            class="fas fa-undo-alt"></i></button>
+                    <!-- main menu button -->
+                    <a class="btn-nav" href="./main-menu.html"><i class="fas fa-home"></i></a>
                 </div>
 
-                <div class="side-game-console">
-
-                    <div class="game-console-nav-buttons">
-                        <!-- restart button -->
-                        <button class="btn-nav" type="button" onclick="restartLevel(true);"><i
-                                class="fas fa-undo-alt"></i></button>
-                        <!-- main menu button -->
-                        <button class="btn-nav" type="button" onclick=""><i class="fas fa-home"></i></button>
+                <div class="game-console-game-buttons">
+                    <div class="game-console-setup">
+                        <h2>Level Difficulty</h2>
+                        <!-- level difficulty -->
+                        <div class="level-difficulty">
+                            <button class="btn-difficulty-level" data-diff="easy" type="button"
+                                onclick="setDifficultyLevel('easy');location.reload();">
+                                Easy
+                            </button>
+                            <button class="btn-difficulty-level" data-diff="medium" type="button"
+                                onclick="setDifficultyLevel('medium');location.reload();">
+                                Medium
+                            </button>
+                            <button class="btn-difficulty-level" data-diff="hard" type="button"
+                                onclick="setDifficultyLevel('hard');location.reload();">
+                                Hard
+                            </button>
+                        </div>
                     </div>
-
-                    <div class="game-console-game-buttons">
-                        <div class="game-console-setup">
-                            <h2>Level Difficulty</h2>
-                            <!-- level difficulty -->
-                            <div class="level-difficulty">
-                                <button class="btn-difficulty-level" data-diff="easy" type="button"
-                                    onclick="setDifficultyLevel('easy');location.reload();">
-                                    Easy
-                                </button>
-                                <button class="btn-difficulty-level" data-diff="medium" type="button"
-                                    onclick="setDifficultyLevel('medium');location.reload();">
-                                    Medium
-                                </button>
-                                <button class="btn-difficulty-level" data-diff="hard" type="button"
-                                    onclick="setDifficultyLevel('hard');location.reload();">
-                                    Hard
-                                </button>
-                            </div>
+                    <div class="game-console-info">
+                        <!-- time limit -->
+                        <div class="time-limit-text">
+                            Time Left
                         </div>
-                        <div class="game-console-info">
-                            <!-- time limit -->
-                            <div class="time-limit-text">
-                                Time Left
-                            </div>
-                            <div class="time-limit-digits">
-                                <span id="time-left-mins">
-                                    00
-                                </span>
-                                :
-                                <span id="time-left-secs">
-                                    00
-                                </span>
-                            </div>
-                            <!-- score -->
-                            <div class="score-text">
-                                Score
-                            </div>
-                            <div class="score-digits">
-                                <span id="score">
-                                    000
-                                </span>
-                            </div>
+                        <div class="time-limit-digits">
+                            <span id="time-left-mins">
+                                00
+                            </span>
+                            :
+                            <span id="time-left-secs">
+                                00
+                            </span>
                         </div>
-                        <div class="game-console-user-control-feedback">
-                            <!-- arrow buttons -->
-                            <div class="arrows">
-                                <div class="arrows-up">
-                                    <button class="controller-button-container" id="arrow-up" type="button" onclick="">
-                                        <i class="fas fa-caret-up"></i>
-                                    </button>
-                                </div>
-                                <div class="arrows-left-right">
-                                    <button class="controller-button-container" id="arrow-left" type="button"
-                                        onclick="">
-                                        <i class="fas fa-caret-left"></i>
-                                    </button>
-                                    <div class="controller-center"><span class="controller-center-circle"></span></div>
-                                    <button class="controller-button-container" id="arrow-right" type="button"
-                                        onclick="">
-                                        <i class="fas fa-caret-right"></i>
-                                    </button>
-                                </div>
-                                <div class="arrows-down">
-                                    <button class="controller-button-container" id="arrow-down" type="button"
-                                        onclick="">
-                                        <i class="fas fa-caret-down"></i>
-                                    </button>
-                                </div>
+                        <!-- score -->
+                        <div class="score-text">
+                            Score
+                        </div>
+                        <div class="score-digits">
+                            <span id="score">
+                                000
+                            </span>
+                        </div>
+                    </div>
+                    <div class="game-console-user-control-feedback">
+                        <!-- arrow buttons -->
+                        <div class="arrows">
+                            <div class="arrows-up">
+                                <button class="controller-button-container" id="arrow-up" type="button" onclick="">
+                                    <i class="fas fa-caret-up"></i>
+                                </button>
+                            </div>
+                            <div class="arrows-left-right">
+                                <button class="controller-button-container" id="arrow-left" type="button" onclick="">
+                                    <i class="fas fa-caret-left"></i>
+                                </button>
+                                <div class="controller-center"><span class="controller-center-circle"></span></div>
+                                <button class="controller-button-container" id="arrow-right" type="button" onclick="">
+                                    <i class="fas fa-caret-right"></i>
+                                </button>
+                            </div>
+                            <div class="arrows-down">
+                                <button class="controller-button-container" id="arrow-down" type="button" onclick="">
+                                    <i class="fas fa-caret-down"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="main-game-modal" class="modal-game">
-
-                </div>
             </div>
-        </section>
+            <div id="main-game-modal" class="modal-game">
 
-        <!-- Footer -->
-        <footer>
-            <div class="footer-contents">
-                <div id="copyright">
-                    <p>&#169; Stephen Harrold 2021</p>
-                </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-contents">
+            <div id="copyright">
+                <p>&#169; Stephen Harrold 2021</p>
+            </div>
+        </div>
+    </footer>
+
 
 
 

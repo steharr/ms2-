@@ -5,15 +5,14 @@
 body{
     background-color: #F78B52;
     font-family: 'Otomanopee One', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 header{
     background-color: #892E3D;
 }
 
-.page-container{
-    position:relative;
-    min-height: 100vh;
-}
 /******* Main Page Header*******/
 .main-page-overhead{
     display: flex;
@@ -31,8 +30,9 @@ header{
 footer {
     width: 100%;
     height: 5rem;
-    position: absolute;
-    bottom: 0;
+    /* position: absolute; */
+    margin-top: auto;
+    /* bottom: 0; */
     background-color: #56172E;
 }
 .footer-contents{
@@ -59,6 +59,19 @@ footer {
     border: .25rem solid #401122;
     background-color: #892E3D;
     color:#fff;
+    margin-bottom: 2rem;;
+}
+.instructions{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: #993344;
+    border: 1px solid #B83D52;
+    margin-bottom: 1rem;
+}
+.instructions p{
+    margin: 0;
 }
 .how-to-play{
     width: 80%;
@@ -149,10 +162,10 @@ footer {
     flex-direction: column;
     align-items:center;
     width: 100%;
-    background-color: #993344;
     padding: .25rem;
     margin-left: .25rem;
     border-radius: .25rem;
+    background-color: #993344;
     border: 1px solid #B83D52;
 }
 /* Upper corner buttons */
@@ -163,6 +176,10 @@ footer {
     width:100%;
 }
 .btn-nav{
+    color:black;
+    text-decoration: none;
+    height: 2rem;
+    text-align: center;
     margin-left: .25rem;
     background-color: #F78B52;
     border: .125rem solid #A4A9AD;
@@ -172,10 +189,17 @@ footer {
     -o-transition: background-color 0.35s ease-in-out;
     transition: background-color 0.35s ease-in-out;
 }
+a.btn-nav {
+    width: 2rem;
+}
 .btn-nav:hover,
 .btn-nav:focus {
+    color:black;
+    text-decoration: none;
     background-color: #FFBA49;
 }
+
+
 /* Level setup buttons */
 .game-console-game-buttons{
     display: flex;
