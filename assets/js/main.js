@@ -49,7 +49,7 @@ function restartLevel(hardReset = false) {
     }
     activateUserControls();
     // get the current grid gamestate layout
-    var gameState = createGridArray();
+    const gameState = createGridArray();
     // clear the level
     destroyLevel();
     // redraw the level
@@ -65,7 +65,7 @@ function restartLevel(hardReset = false) {
 
 function checkForAwkwardLevel() {
     const assets = [startMouse, startCat, startCheese];
-    var isAwkward = false;
+    let isAwkward = false;
     // check in vicinty of all assets to see if there is an obstacle in the way
     assets.forEach((asset) => {
         let obstacleCount = 0;
@@ -92,10 +92,10 @@ function checkForAwkwardLevel() {
 function regenerateExistingLevel(gameState) {
     const grid = document.getElementById('game-grid');
     for (let i = 0; i < gameState.length; i++) {
-        var row = document.createElement('div');
+        let row = document.createElement('div');
         row.setAttribute('class', 'grid-row');
         for (let j = 0; j < gameState[i].length; j++) {
-            var cell = document.createElement('div');
+            let cell = document.createElement('div');
             if (gameState[i][j] === 3) {
                 cell.setAttribute('class', 'grid-cell obstacle');
             } else {
@@ -167,12 +167,12 @@ function destroyLevel() {
 
 function setDifficultyLevel(level) {
     // highlight the active difficulty in the DOM
-    let btnsDiff = document.querySelectorAll('.btn-difficulty-level')
+    let btnsDiff = document.querySelectorAll('.btn-difficulty-level');
     btnsDiff.forEach(function (btn) {
         if (btn.dataset.diff === level) {
             btn.classList.add('active');
         }
-    })
+    });
     // internally set the game parameters according to the difficulty
     switch (level) {
         case 'easy':
@@ -199,22 +199,22 @@ function setDifficultyLevel(level) {
 
 // **********Asset Generation**********
 function drawAsset(position, assetType) {
-    emptyCell(position[0], position[1], 'obstacle')
+    emptyCell(position[0], position[1], 'obstacle');
     fillCell(position[0], position[1], assetType);
 }
 
 // **********User generated events**********
 function activateUserControls() {
-    document.addEventListener('keydown', handleKeydown, false)
+    document.addEventListener('keydown', handleKeydown, false);
 }
 
 function deactivateUserControls() {
-    document.removeEventListener('keydown', handleKeydown, false)
+    document.removeEventListener('keydown', handleKeydown, false);
 }
 
 function handleKeydown(event) {
-    var coordMouse = findCoordinates(1);
-    var button = event.key;
+    let coordMouse = findCoordinates(1);
+    let button = event.key;
     if (button === " ") { // regenerate a new level if the user presses space
         location.reload();
     } else { //allow the user to control their character
@@ -286,7 +286,7 @@ function updateScore(endGameMode) {
 function zeroScore() {
     movesProximity = 0;
     let currentScore = document.getElementById('score');
-    currentScore.textContent = 00;
+    currentScore.textContent = 0;
 }
 
 // **********Enemy AI**********
@@ -294,10 +294,8 @@ function activateEnemyAI() {
     let coordMouse = findCoordinates(1);
     let coordCat = findCoordinates(2);
     let distance = calculateDistance(coordCat, coordMouse);
-    var nextMove = determineInitialCatMove(distance);
-
-    // var randomChance = Math.floor(Math.random() * 3);
-    var catMove = probability(catSpeedIntegers[0], catSpeedIntegers[1]);
+    let nextMove = determineInitialCatMove(distance);
+    let catMove = probability(catSpeedIntegers[0], catSpeedIntegers[1]);
 
     // if randomChance is true the cat can move
     if (catMove === true) {
@@ -305,7 +303,7 @@ function activateEnemyAI() {
         if (moveCharacter(coordCat, nextMove[0], "cat") === false) {
 
             let redeterminedMove = determineSecondaryCatMove(coordCat, coordMouse, nextMove);
-            moveCharacter(coordCat, redeterminedMove, "cat")
+            moveCharacter(coordCat, redeterminedMove, "cat");
         }
     }
 
@@ -318,7 +316,7 @@ function activateEnemyAI() {
         */
         let determinedMove;
         let determinedMoveAxis;
-        var determinedAction = [];
+        let determinedAction = [];
 
         if (Math.abs(distance[0]) > Math.abs(distance[1])) {
 
@@ -356,7 +354,7 @@ function activateEnemyAI() {
         let axisDirectionsConverter = {
             x: ['left', 'right'],
             y: ['up', 'down']
-        }
+        };
 
         let oppAxis = oppAxisConverter[failedAction[1]];
         let oppAxisDirections = axisDirectionsConverter[oppAxis];
@@ -471,13 +469,13 @@ function checkForFailure() {
 // Grid array generator: scans the game grid and creates an array which details what asset in each square
 // gives the game state
 // Identifiers for each character:
-// empty = 0, mouse = 1, cat=2, obstacle=3, cheese=4
+// empty = 0, mouse = 1, cat=2, obstacle=3, cheese=4, mouse&cheese=5, cat&mouse=6
 function createGridArray() {
-    var gridArray = [];
-    var rows = document.getElementsByClassName('grid-row');
-    for (row of rows) {
-        var gridRow = [];
-        Array.from(row.children).forEach(function (cell) {
+    let gridArray = [];
+    const rows = document.getElementsByClassName('grid-row');
+    for (let row of rows) {
+        let gridRow = [];
+        Array.from(row.children).forEach((cell) => {
             if (cell.classList.contains('empty')) {
                 gridRow.push(0);
             } else if (cell.classList.contains('mouse') && cell.classList.contains('cat')) {
@@ -501,7 +499,7 @@ function createGridArray() {
 
 // calculates the corner coordinates of the grid so that the level can be generated dynamically more easily
 function calculateCornerCoordinates(gridHeight, gridWidth) {
-    var corners = [];
+    const corners = [];
     // top left
     corners.push([0, 0]);
     // top right
@@ -515,9 +513,9 @@ function calculateCornerCoordinates(gridHeight, gridWidth) {
 
 // calculates the coordinates of a requested asset
 function findCoordinates(assetId) {
-    var requestedCoordinates = [];
-    var gameState = createGridArray();
-    var found;
+    let requestedCoordinates = [];
+    const gameState = createGridArray();
+    let found;
     for (let i = 0; i < gameState.length; i++) {
         requestedCoordinates[0] = gameState[i].indexOf(assetId);
         if (requestedCoordinates[0] != -1) {
@@ -664,10 +662,10 @@ function probability(numerator, denominator) {
 function countdownTimer(inputSeconds) {
     const elementMins = document.getElementById('time-left-mins');
     const elementSecs = document.getElementById('time-left-secs');
-    var startCountdownSeconds;
-    var startCountdownMinutes = addLeadingZeros(Math.floor(inputSeconds / 60));
+    let startCountdownSeconds;
+    let startCountdownMinutes = addLeadingZeros(Math.floor(inputSeconds / 60));
 
-    startCountdownSeconds = inputSeconds - (startCountdownMinutes * 60)
+    startCountdownSeconds = inputSeconds - (startCountdownMinutes * 60);
     if (startCountdownSeconds === 0) {
         startCountdownMinutes = parseInt(startCountdownMinutes) - 1;
         startCountdownMinutes = addLeadingZeros(startCountdownMinutes);
@@ -709,14 +707,14 @@ function toggleGameModal(gameMode) {
         <p>You got the Cheese! <br> Your Score: ${score}</p>
         <p class="details">You spent ${percentageProximity}% of your moves being closely followed by the cat! </p>
         <button class="btn-nav" type="button" onclick="location.reload()">Next Level</button>
-        `
+        `;
     } else if (gameMode === "failure") {
         modal.innerHTML = `
         <h2>You Lost!</h2>
         <p>The Cat caught you!</p>
         <p class="details">Tip: Try avoiding the cat</p>
         <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
-        `
+        `;
     }
     else if (gameMode === "timeup") {
         modal.innerHTML = `
@@ -724,12 +722,10 @@ function toggleGameModal(gameMode) {
         <p>You ran out of time!</p>
         <p class="details">Tip: Try going faster</p>
         <button class="btn-nav" type="button" onclick="restartLevel()">Restart</button>
-        `
+        `;
     }
     modal.classList.toggle('open-game-modal');
 }
-
-
 
 // CSS Manipulation
 function changeCharacterGifAction(character, action) {

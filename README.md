@@ -226,6 +226,26 @@ During the development phase of the site, I encountered a number of significant 
 * **Root Cause and Fix**  
 
 
+### Javascript Validator Results
+In order to validate the quality of my Javascript Code, I passed it through the [Jshint](https://jshint.com/) linter to ensure there were no major issues.
+
+When passed into the linter i received no error messages and 13 warnings. In the 13 warnings there were three warning types. Below details how these warnings were adressed:
+
+* *Missing Semicolon*    
+
+   These were missed during development and were simple to fix. Since this was my first time coding a major Javascript project, it was inevitable that I would miss out on some semicolons.
+
+* *Don't use extra leading zeros '00'*  
+
+   The objective of the function 'zeroScore' is to set the visible score on the scoreboard to zero. When coding, I had inputted the code to set the text content of the element to equal a value with a leading zero. To fix this warning, I removed the leading zero.
+
+* *Functions declared within loops referencing an outer scoped variable may lead to confusing semantics. (gridRow)* 
+
+   The objective of the function 'createGridArray' is to create a two dimensional array describing the game state of the level. The function has to first loop through each **row** of the game grid and then loop through each game **cell** in order to obtain the required information. 
+   Due to the complexity of this function, I decided to use a **for...of** loop when looping through the rows in order to made the code appear more readable than if I was to use an i iterator. From my perspective, using **"for (let row of rows)"** was more easily understandable than **"for (let i = 0; i < rows.length; i++)"** as it explains clearly that the computer is working through each row in this loop. 
+
+   As a result of this decision, I had to use some slightly complex syntax when looping through the game grid **cells**. The **.forEach** method I used resulted in a callback function being used inside my original for loop. This is why the linter highlighted this warning to me. To improve the semantics, I changed the syntax for the **.forEach** loop from a callback function syntax to a arrow function syntax. Previously it was **".forEach(function (cell) .."** and I changed it to **".forEach((cell) .."**. Even though this did not remove the warning from the linter, I felt it was sufficient to make the code easier to understand as **".forEach((cell) .."** makes it more clear that the computer is working through each cell.
+
 ### HTML Validator Results
 After passing my code through the HTML validator for the first time
 
