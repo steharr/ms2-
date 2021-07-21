@@ -729,7 +729,7 @@ function toggleGameModal(gameMode) {
 
 // CSS Manipulation
 function changeCharacterGifAction(character, action) {
-    let ruleList = document.styleSheets[2].cssRules;
+    let ruleList = document.styleSheets[1].cssRules;
     for (let i = 0; i < ruleList.length; i++) {
         if (ruleList[i].selectorText === `.${character}`) {
             ruleList[i].style.backgroundImage = `url(../images/${character}-${action}.gif)`;

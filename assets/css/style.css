@@ -11,13 +11,20 @@ body{
     flex-direction: column;
 }
 button {
-    font-family: 'Otomanopee One', sans-serif; 
+    font-family: 'Otomanopee One', sans-serif;
 }
 header{
     background-color: #892E3D;
 }
 h1 {
     margin:.25rem;
+}
+h2 {
+    margin: 0; 
+}
+p {
+    margin-top: .25rem;
+    margin-bottom: .25rem;
 }
 /******* Main Page Header*******/
 .main-page-overhead{
@@ -40,9 +47,7 @@ h1 {
 footer {
     width: 100%;
     height: 5rem;
-    /* position: absolute; */
     margin-top: auto;
-    /* bottom: 0; */
     background-color: #56172E;
 }
 .footer-contents{
@@ -204,6 +209,9 @@ footer {
     transition: background-color 0.35s ease-in-out;
 }
 a.btn-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 2rem;
 }
 .btn-nav:hover,
