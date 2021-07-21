@@ -3,6 +3,7 @@
 
 /******* General Classes *******/
 body{
+    margin: 0;
     background-color: #F78B52;
     font-family: 'Otomanopee One', sans-serif;
     min-height: 100vh;
@@ -12,7 +13,9 @@ body{
 header{
     background-color: #892E3D;
 }
-
+h1 {
+    margin:.25rem;
+}
 /******* Main Page Header*******/
 .main-page-overhead{
     display: flex;
@@ -64,6 +67,10 @@ footer {
     background-color: #892E3D;
     color:#fff;
     margin-bottom: 2rem;;
+}
+.main-menu h2,
+.main-menu h3 {
+    margin: 0.25rem;
 }
 .instructions{
     display: flex;
