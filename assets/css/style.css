@@ -10,6 +10,9 @@ body{
     display: flex;
     flex-direction: column;
 }
+button {
+    font-family: 'Otomanopee One', sans-serif; 
+}
 header{
     background-color: #892E3D;
 }
