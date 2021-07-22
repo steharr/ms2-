@@ -217,14 +217,29 @@ Used to create wireframes
 
 ### **Notable Bugs Occurring During Development**
 During the development phase of the site, I encountered a number of significant bugs while testing the output of my code. They were all mistakes which led to important lessons learned for future projects. These are documented below:
-#### **Misplaced Nav Bar**
+#### **Game Characters Starting in Obscured Positions**
+Due to the randomness of the level generator, I was encountering a bug where the characters spawned in positions where they couldnt move due to obstacles surrounding them. This was inevitably going to happen with any random level generation. To correct this issue, I created a `checkForAwkwardLevel` function which checks the surrounding blocks of each character and returns a boolean based on whether a character is obscured. This function is then fired whenever a new level is generated. If the function returns true then the page is reloaded so that a new level is generated again.
 
-<!-- <img src="assets/documents/testing\error_misplaced_navbar.png" alt="misplaced navbar error" width="250"/>  -->
+<img src="assets/documents/testing/notable_bug_obscured_characters.png" alt="bug blocked characters" width="400"/>  
 
-* **Description**  
- 
-* **Root Cause and Fix**  
+   *-The picture above is from early on in development before the game graphics were added. The mouse is represented by a blue square and can be seen to be obscured by grey obstacle blocks*
 
+
+#### **Challenges Refining Cat AI Decision Making**
+When working on the Cat AI, I encountered an issue where the Cat was choosing to move in a disadvantagous manner when he encountered an obstacle.
+If the Cat was blocked from moving along a particular axis, he would wrongly prioritise moving in a specific direction along the opposite axis e.g if the cat was blocked in the x direction, he would always take the option of going up on the y axis, even if going down was a better decision.
+
+<img src="assets/documents/testing/notable_bug_obscured_ai.png" alt="calculate distance function" width="500"/> 
+
+To correct this issue, I refactored the Cat AI and introduced logic which took into account the position of the Mouse so that the Cat would make better decisions.
+
+#### **Countdown Timer Speeding Up Bug**
+When I initially implemented the countdown timer on the game page, I encountered a bug while testing where the timer would speed up each time the user died or restarted a level. The timer was constructed using a `setInterval` method. Whenever the user died or chose to restart a level, the page wasnt reloaded and therefore the interval was not cleared. In order to correct this issue, I stored the ID of the interval in a global variable called `timerInterval`. Whenever the game needed to be restarted or the user dies, the game will then clear the interval function that has this global ID variable using `clearInterval(timerInterval)`
+
+#### **Distance Calculation Function Not Consistent**
+In order to improve the Cat AI, I adjusted my `calculateDistance` function so that it could calculate the distance between two points along a specified axis. I used an if statement to calculate what coordinates need to be used for the required input. e.g. if the specified axis was equal to x, then only the x coodinates of each point needed to be used by the function. Originally this if statement contained two equal symbols in its syntax e.g. **(specifiedAxis == 'x')**. This was providing me unreliable results. I therefore changed the operator to a strict equals operator to correct this issue. 
+
+<img src="assets/documents/testing/notable_bug_strict.png" alt="calculate distance function" width="300"/> 
 
 ### Javascript Validator Results
 In order to validate the quality of my Javascript Code, I passed it through the [Jshint linter](https://jshint.com/) to ensure there were no major issues.
