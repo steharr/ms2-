@@ -282,25 +282,68 @@ To analyse the Performance, Accessibility and User Experience of my site, I used
 #### Results
 **Main Menu Page** 
 
-<img src="assets/documents/testing/lighthouse_inital_index.png" alt="css validator passed screen" width="400"/>
+<img src="assets/documents/testing/lighthouse_inital_index.png" alt="lighthouse scores initial" width="400"/>
 
 * Performance of Main Menu Page  
    The performance score of the page was not perfect, however due to time constraints I was not able to improve it. For future releases, I would improve this score by replacing the *How to Play* gif image with a more efficient filetype for animations such as MPEG4
  
 **Game Page**  
 
-<img src="assets/documents/testing/lighthouse_inital_game.png" alt="css validator passed screen" width="400"/>
+<img src="assets/documents/testing/lighthouse_inital_game.png" alt="lighthouse scores initial" width="400"/>
 
 * Improving Accessibilty Score for Game Page  
    The results from the Lighthouse tool for accessibilty showed that the buttons on the side game console of the page did not have accessible names. In order to address this I gave each button element an `aria-label` attribute to clearly describe the action of the button.
    The results also showed that the links on the side game console and Navbar did not have discernible names. In order to address this I also gave these elements an `aria-label` attribute. The final result after these changes are below:
 
-<img src="assets/documents/testing/lighthouse_final_game.png" alt="css validator passed screen" width="400"/>
+<img src="assets/documents/testing/lighthouse_final_game.png" alt="lighthouse scores final" width="400"/>
 
 ### User Stories Validation
 
-<!-- **O1 - "with this site I want to get offers for jobs in software development"**  
-Of all of the user stories this is the only one which cannot be fully validated yet as I have not yet used this site for job applications. I am confident however that it will satisfy this in the future. -->
+#### Site Owner:
+1. *As as developer I want to design a game I would enjoy playing*  
+   I thoroughly enjoy playing the game. I find the main game loop very addicting. I often found myself getting lost in gameplay while I was carrying out testing.
+
+2. *As as developer I want to design a game with a basic artificial intelligence*  
+   The enemy cat character has a basic artificial intelligence that responds to the users moves. This creates thrilling in-game chases. The cat has two layers of decision making which can be seen in the `activateEnemyAI` function of the **main.js** file. The cat first checks its distance to the mouse in the x and y axis. Whichever axis is larger, the cat will attempt to move. If this attempt is blocked by an obstacle then the cat carries out the second layer of decision making. This involves taking the axis of the initial attempted move and checking the opposite axis i.e. if the cat was blocked in x direction, the cat then checks the y axis for free paths.
+
+3. *As as developer I want to create something that I can use in my portfolio*  
+   This project has a high level of complexity and therefore is definately something I would include in my portfolio
+
+4. *As as developer I want to design a game with some level of difficulty that requires strategic thinking*
+   The game is challenging as the user has to outwit an advancing enemy character. There is multiple strategies which can be used depending on the level layout.
+
+5. *As as developer I want to design a game which is unique on each playthrough*  
+   This is achieved through the randomness of the in-game level generator. It is also achieved by the organic artificial intelligence of the cat which varies depending on the position of the users character.
+
+#### Site Viewer:
+1. *As a user playing a game I want the base game mechanic to be satisfying*  
+   The base game chasing mechanic is very satisfying due to the intelligence of the cat. The cat character is quite menancing (particularly at the hard difficulty) due to the responsive nature of its movements. The user also is put under presssure due to the inclusion of a time limit. The combination of these two elements gives the user an adrenaline rush as they are playing the game.
+
+2. *As a user playing a game I want to be rewarded for progress*   
+   This story is satisfied by the inclusion of a score counter. The users score is calculated as they navigate through the level. The scoring system rewards moves that are in close proximity with the cat in order to encourage risk taking gameplay. If the user is successful in reaching the end game, they are also given statistics detailing how close they were to the cat.
+
+   <img src="assets/documents/testing/user_story_rewarding.png" alt="game scoring system" width="400"/>
+
+3. *As a user playing a game I want to have a challenge which I can overcome*  
+   I have tested the game with multiple friends and family. It is possible to complete all three difficulty levels of the game. Each presents a challenge for the user.
+
+4. *As a user playing a game I want the game graphics to be visually appealling*   
+   The colors of the game are deliberately chosen to be vibrant in order to make the experience of playing more enjoyable. The gifs used for the various assets of the game make the game board feel dynamic.
+
+   <img src="assets/documents/testing/user_story_graphics.png" alt="game graphics" width="250"/>
+
+5. *As a user playing a game I want to enjoy playing the game*   
+From testing the game with friends and family and through playing the game myself as a user, I can conclude that it is an enjoyable game.
+
+6. *As a user playing a game I want the controls to be responsive*  
+The controls of the game are responsive. During testing I received no complaints about unresponsive movements. There are visual directional buttons included in the side game console which light up when buttons are pressed. This gives the user additional feedback about their movements when playing the game.
+
+   <img src="assets/documents/testing/user_story_arrows.png" alt="game directional buttons" width="150"/>
+
+7. *As a user playing a game I want multiple levels in the game*  
+   Multiple difficulty levels exist in the game. Due to the randomness of the level generator, no two level layouts are the same.
+
+   <img src="assets/documents/testing/user_story_levels.png" alt="game level settings" width="250"/> 
 
 ***
 
