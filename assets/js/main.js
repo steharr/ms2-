@@ -343,7 +343,7 @@ function activateEnemyAI() {
     }
     function determineSecondaryCatMove(coordCat, coordMouse, failedAction) {
         /* Secondary decision making function of cat AI:
-
+        takes the axis of the initial attempted move by the cat and checks the oppsite axis i.e. if the cat was blocked in x direction, the cat then checks y axis for free paths.
         */
         let secondaryMove;
 
@@ -368,10 +368,8 @@ function activateEnemyAI() {
         // if only one path is clear then move in that direction
         if (pathCheck[0] === true && pathCheck[1] === false) {
             secondaryMove = oppAxisDirections[1];
-            // moveCharacter(coordCat, pathCheck[0], 'cat');
         } else if (pathCheck[1] === true && pathCheck[0] === false) {
             secondaryMove = oppAxisDirections[0];
-            // moveCharacter(coordCat, pathCheck[1], 'cat');
         } else if (pathCheck[0] === false && pathCheck[1] === false) {
             // if only both paths are clear then move in the direction on that axis that get the cat closer to the mouse
             // check the distance from the cat on that specified axis
@@ -379,18 +377,14 @@ function activateEnemyAI() {
             if (oppAxis === 'x') {
                 if (distanceOnAxis > 0) {
                     secondaryMove = 'left';
-                    // moveCharacter(coordCat, 'left', 'cat');
                 } else if (distanceOnAxis < 0) {
                     secondaryMove = 'right';
-                    // moveCharacter(coordCat, 'right', 'cat');
                 }
             } else if (oppAxis === 'y') {
                 if (distanceOnAxis > 0) {
                     secondaryMove = 'up';
-                    // moveCharacter(coordCat, 'up', 'cat');
                 } else if (distanceOnAxis < 0) {
                     secondaryMove = 'down';
-                    // moveCharacter(coordCat, 'down', 'cat');
                 }
             }
         } else {
