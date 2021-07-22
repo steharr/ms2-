@@ -1,5 +1,10 @@
-# **Cat and Mouse**
-Cat and Mouse is a desktop-only browser game where the user controls a mouse navigating through a level full of obstacles to get to a block of cheese. The mouse is being chased by a cat through the level which encourages the user to be strategic with each move they make. The user also has to reach the cheese before a time limit runs out. This encourages the user to make drastic decisions to reach the goal. The end result is a fast-paced tactical chase game.
+# [**Cat and Mouse Game**](https://steharr.github.io/ms2-cat-and-mouse-game/index.html)
+
+<img src="assets/documents/mockup/mockup.png" alt="calculate distance function" width="800"/> 
+
+Cat and Mouse is a **desktop-only** browser game where the user controls a mouse navigating through a level full of obstacles to get to a block of cheese. The mouse is being chased by a cat through the level which encourages the user to be strategic with each move they make. The user also has to reach the cheese before a time limit runs out. This encourages the user to make drastic decisions to reach the goal. The end result is a fast-paced tactical chase game.
+
+The live site is available [here.](https://steharr.github.io/ms2-cat-and-mouse-game/index.html)
 
 This game idea arose from a previous experimentation project where I was attempting to make a Tetris clone. I ended up with a basic prototype of a grid game where you control a blue block that is being chased by a red block. This was a key inspiration for this project. The prototype is available [here.](https://github.com/steharr/js-prototype-chasing-game)
 
@@ -7,14 +12,6 @@ This game idea arose from a previous experimentation project where I was attempt
 The **five planes of user experience design** developed by Jesse James Garrett was used as the conceptual framework for the development process of this site
 
 ### **Strategy Plane**
-There were two perspectives I needed to take into account when planning out the strategy of my site. These perspectives would help me to create a list of user stories to use when designing the site. These perspectives were:
-
-  * Site Owner Perspective = Game Developer
-  
-  * Site Viewer Perspective = 
-
-For the perspective of ....
-For the perspective of ....
 
 ### **User Stories**
 
