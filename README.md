@@ -280,11 +280,22 @@ My site used FontAwesome for various icons throughout the site. These warnings w
 To analyse the Performance, Accessibility and User Experience of my site, I used [Lighthouse](https://developers.google.com/web/tools/lighthouse) in Chrome developer tools.
 
 #### Results
+**Main Menu Page** 
 
-* Improving Performance Score  
+<img src="assets/documents/testing/lighthouse_inital_index.png" alt="css validator passed screen" width="400"/>
 
-* Improving Best Practices Score   
+* Performance of Main Menu Page  
+   The performance score of the page was not perfect, however due to time constraints I was not able to improve it. For future releases, I would improve this score by replacing the *How to Play* gif image with a more efficient filetype for animations such as MPEG4
+ 
+**Game Page**  
 
+<img src="assets/documents/testing/lighthouse_inital_game.png" alt="css validator passed screen" width="400"/>
+
+* Improving Accessibilty Score for Game Page  
+   The results from the Lighthouse tool for accessibilty showed that the buttons on the side game console of the page did not have accessible names. In order to address this I gave each button element an `aria-label` attribute to clearly describe the action of the button.
+   The results also showed that the links on the side game console and Navbar did not have discernible names. In order to address this I also gave these elements an `aria-label` attribute. The final result after these changes are below:
+
+<img src="assets/documents/testing/lighthouse_final_game.png" alt="css validator passed screen" width="400"/>
 
 ### User Stories Validation
 
