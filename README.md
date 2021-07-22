@@ -163,7 +163,6 @@ For the Mouse, I used two moving gifs from [animatedimages.org](https://www.anim
 * *Obstacle*  
 The barrel obstacle was created using an image available from [Canva](https://www.canva.com/)
 
-
 #### Colour Palette
 In order to choose an overall colour palette for the pages I used the colour scheme generator site [Coolors](https://coolors.co/). The color palette was generated using the color of the grass texture as input. I chose a collection of colors which worked best with the green color.
 
@@ -173,12 +172,40 @@ In order to choose an overall colour palette for the pages I used the colour sch
 ***
 ## Features
 ### Existing Features
-|Feature|Description|Location|
-|:--:|:--:| :--:|
-
+* **Main Menu**  
+The main menu of the game instructs the user how to play and gives a demo of the game in action.
+* **Level Generator**  
+The level generator is semi random and will produce a level depending on the users chosen difficulty level.
+* **User Controlled Character**  
+The Mouse character can be controlled to navigate through levels using the arrow keys.
+* **Enemy Character with Advanced AI**  
+An enemy Cat character follows the user around the map and makes intelligent decisions when he encounters obstacles. The frequency of the cats movements depends on the chosen difficulty of the user.
+* **Chasing Mechanic**  
+An thrilling chase is given by the cat to the user.
+* **Difficulty Selection**     
+User can choose how hard the game should be. Three options are available: Easy, Medium & Hard. Each determines the amount of obstacles in the level, the speed of the cat and the time limit.
+* **End Game Modals**  
+If the user gets caught by the cat, runs out of time or reaches the cheese they are then prompted with an end game modal screen.  
+* **Score Calculator**  
+As the user moves their character throughout the level, their score is calculated and displayed on the side game console. The scoring system takes into account how close they are to the cat, how long they spent in proximity to the cat and how much time they had left when the reached the cheese. 
+* **Vibrant and Dynamic Game Graphics**   
+The game level has vibrant colors and textures. The characters of the game are moving gifs which makes the game graphics dynamic.
+* **Restart Button**  
+The user can choose to restart a level if desired.
 
 ### Features Left to Implement
-
+* **Smaller Screen Compatability**  
+The game is currently only playable on a desktop screen. For future releases, it is top priority to have the game playable on mobile. 
+* **Treacherous Level Obstacles**  
+The obstacles of the level are currently all the same. For future releases, the inclusion of treacherous obstacles such as mousetraps will be included. This will make it more challenging for the user when navigating through the level.
+* **Sound Effects**  
+Sound effects will be added during key game moments to enhance the user experience.  
+* **Multiple Enemies**  
+Multiple Cat enemy levels will be added for users who want an even greater challenge. 
+* **Fetch Quests**  
+Fetch quest levels where the mouse needs to retreive objects and move to a location will be added in order to freshen up gameplay.
+* **Powerups**  
+Powerups for both the Cat and the Mouse will be added in order to make the game more exciting and varied.
 
 ## Technologies Used
 
@@ -190,8 +217,6 @@ Extension I used to see in real time the effect that the changes I was making to
 For markup
 * [CSS](https://en.wikipedia.org/wiki/CSS)  
 For styling the site
-* [Boostrap Framework](https://getbootstrap.com/)  
-I used the bootstrap grid system to help me design responsive layouts and I made customized versions of various boostrap components throughout the page
 * [Google Fonts](https://fonts.google.com/)  
 For the font used in the site
 * [Font Awesome](https://fontawesome.com/)  
@@ -201,19 +226,20 @@ For version control
 * [GitHub](https://github.com/)  
 For storing my files and for hosting the site on Github Pages
 * [Canva](https://www.canva.com/)  
-I used a premium version of this tool to create various images throughout the site, most notably the project card images
+I used a premium version of this tool to create various images throughout the site
 * [favicon-generator.org](https://www.favicon-generator.org/)  
 Used to generate a favicon for the site from an image I created using Canva
 * [resizeimage.net](https://resizeimage.net/)  
-Used to resize images on the page to improve Lighthouse scores
+Used to resize images on the page
+* [ezgif.com](https://ezgif.com/)  
+Used to resize gifs on the page
 * [placeholder.com](https://placeholder.com/)  
 I used this site to create small blocks of colour for the colour palette section of this README
-* [Balsamiq](https://balsamiq.com/  
+* [Balsamiq](https://balsamiq.com/)  
 Used to create wireframes
 ***
 
 ## Testing
-
 
 ### **Notable Bugs Occurring During Development**
 During the development phase of the site, I encountered a number of significant bugs while testing the output of my code. They were all mistakes which led to important lessons learned for future projects. These are documented below:
@@ -229,7 +255,7 @@ Due to the randomness of the level generator, I was encountering a bug where the
 When working on the Cat AI, I encountered an issue where the Cat was choosing to move in a disadvantagous manner when he encountered an obstacle.
 If the Cat was blocked from moving along a particular axis, he would wrongly prioritise moving in a specific direction along the opposite axis e.g if the cat was blocked in the x direction, he would always take the option of going up on the y axis, even if going down was a better decision.
 
-<img src="assets/documents/testing/notable_bug_obscured_ai.png" alt="calculate distance function" width="500"/> 
+<img src="assets/documents/testing/notable_bug_obscured_ai.png" alt="cat ai decision making graphic" width="500"/> 
 
 To correct this issue, I refactored the Cat AI and introduced logic which took into account the position of the Mouse so that the Cat would make better decisions.
 
@@ -262,12 +288,14 @@ When passed into the linter i received no error messages and 13 warnings. In the
    As a result of this decision, I had to use some slightly complex syntax when looping through the game grid **cells**. The **.forEach** method I used resulted in a callback function being used inside my original for loop. This is why the linter highlighted this warning to me. To improve the semantics, I changed the syntax for the **.forEach** loop from a callback function syntax to a arrow function syntax. Previously it was **".forEach(function (cell) .."** and I changed it to **".forEach((cell) .."**. Even though this did not remove the warning from the linter, I felt it was sufficient to make the code easier to understand as **".forEach((cell) .."** makes it more clear that the computer is working through each cell.
 
 ### HTML Validator Results
-In order to validate the quality of my CSS Code, I passed it through the [W3C HTML Validator](https://validator.w3.org/) for both pages of my site to ensure there were no major issues. The only error message I got was linked to the **game.html** page of the site
+In order to validate the quality of my HTML Code, I passed it through the [W3C HTML Validator](https://validator.w3.org/) for both pages of my site to ensure there were no major issues. The only error message I got was linked to the **game.html** page of the site
 
 #### Error Messages
 
-*Bad Value Error*
+*Bad Value Error*  
+
 <img src="assets/documents/testing/html_validator_error1.png" alt="html validator error" width="600"/>  
+
 This error was caused by a `script` element I was using in the game.html page of the site. The element contained backslash characters which I changed to forward slashes to correct this error.
 
 ### HTML Validator Final Results
@@ -280,12 +308,15 @@ In order to validate the quality of my CSS Code, I passed it through the [W3C CS
 #### Errors
 
 *Not Found Error*
+
 <img src="assets/documents/testing/css_validator_error1.png" alt="css validator error" width="600"/>  
+
 This error was caused by a `link` element I was using in the index.html page of the site. The element contained backslash characters which I changed to forward slashes to correct this error.
 
 #### Warnings
 
 *Unknown Vendor Extensions*
+
 My site used FontAwesome for various icons throughout the site. These warnings were linked to multiple vendor prefixes by FontAwesome used in order to ensure compatibility across different browsers. From researching this validator warning online, I understood that these vendor extensions are outside of the scope of the validator since they are proprietary code. 
 
 ### CSS Validator Final Result
