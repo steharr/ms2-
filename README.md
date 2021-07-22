@@ -140,8 +140,8 @@ I also created a wireframes for how the game could look on smaller screen device
 
 #### Wireframes:
 
-* [Game Console Layout](assets\documents\wireframes\game-console-layout.png)
-* [Game Console Layout - Smaller Devices](assets\documents\wireframes\game-console-layout-smaller-devices.png)
+* [Game Console Layout](assets/documents/wireframes/game-console-layout.png)
+* [Game Console Layout - Smaller Devices](assets/documents/wireframes/game-console-layout-smaller-devices.png)
 
 ### **Surface Plane**
 
@@ -219,7 +219,7 @@ Used to create wireframes
 During the development phase of the site, I encountered a number of significant bugs while testing the output of my code. They were all mistakes which led to important lessons learned for future projects. These are documented below:
 #### **Misplaced Nav Bar**
 
-<!-- <img src="assets\documents\testing\error_misplaced_navbar.png" alt="misplaced navbar error" width="250"/>  -->
+<!-- <img src="assets/documents/testing\error_misplaced_navbar.png" alt="misplaced navbar error" width="250"/>  -->
 
 * **Description**  
  
@@ -227,7 +227,7 @@ During the development phase of the site, I encountered a number of significant 
 
 
 ### Javascript Validator Results
-In order to validate the quality of my Javascript Code, I passed it through the [Jshint](https://jshint.com/) linter to ensure there were no major issues.
+In order to validate the quality of my Javascript Code, I passed it through the [Jshint linter](https://jshint.com/) to ensure there were no major issues.
 
 When passed into the linter i received no error messages and 13 warnings. In the 13 warnings there were three warning types. Below details how these warnings were adressed:
 
@@ -247,18 +247,34 @@ When passed into the linter i received no error messages and 13 warnings. In the
    As a result of this decision, I had to use some slightly complex syntax when looping through the game grid **cells**. The **.forEach** method I used resulted in a callback function being used inside my original for loop. This is why the linter highlighted this warning to me. To improve the semantics, I changed the syntax for the **.forEach** loop from a callback function syntax to a arrow function syntax. Previously it was **".forEach(function (cell) .."** and I changed it to **".forEach((cell) .."**. Even though this did not remove the warning from the linter, I felt it was sufficient to make the code easier to understand as **".forEach((cell) .."** makes it more clear that the computer is working through each cell.
 
 ### HTML Validator Results
-After passing my code through the HTML validator for the first time
+In order to validate the quality of my CSS Code, I passed it through the [W3C HTML Validator](https://validator.w3.org/) for both pages of my site to ensure there were no major issues. The only error message I got was linked to the **game.html** page of the site
 
 #### Error Messages
 
+*Bad Value Error*
+<img src="assets/documents/testing/html_validator_error1.png" alt="html validator error" width="600"/>  
+This error was caused by a `script` element I was using in the game.html page of the site. The element contained backslash characters which I changed to forward slashes to correct this error.
 
-#### Warnings
-
+### HTML Validator Final Results
+<img src="assets/documents/testing/html_validator_success_game.png" alt="css validator passed screen" width="300"/>
+<img src="assets/documents/testing/html_validator_success_index.png" alt="css validator passed screen" width="300"/>
 
 ### CSS Validator
-After passing my code through the CSS validator for the first time
+In order to validate the quality of my CSS Code, I passed it through the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) to ensure there were no major issues. After the first time passing it through the validator, I noticed there were errors and warnings linked to external Bootstrap files. I had included Bootstrap early on in my project in order to help me quickly put together the game console. As the project progressed, I was using more custom CSS in order to achieve the results I needed. Eventually, my project was not significantly enhanced by the inclusion of Bootstrap so I decided to remove it once I saw the CSS validation errors/warnings that were coming from it. The second time I passed my code I recieved the following errors and warnings:
+
+#### Errors
+
+*Not Found Error*
+<img src="assets/documents/testing/css_validator_error1.png" alt="css validator error" width="600"/>  
+This error was caused by a `link` element I was using in the index.html page of the site. The element contained backslash characters which I changed to forward slashes to correct this error.
 
 #### Warnings
+
+*Unknown Vendor Extensions*
+My site used FontAwesome for various icons throughout the site. These warnings were linked to multiple vendor prefixes by FontAwesome used in order to ensure compatibility across different browsers. From researching this validator warning online, I understood that these vendor extensions are outside of the scope of the validator since they are proprietary code. 
+
+### CSS Validator Final Result
+<img src="assets/documents/testing/css_validator_success.png" alt="css validator passed screen" width="600"/>
 
 ### Lighthouse
 To analyse the Performance, Accessibility and User Experience of my site, I used [Lighthouse](https://developers.google.com/web/tools/lighthouse) in Chrome developer tools.
