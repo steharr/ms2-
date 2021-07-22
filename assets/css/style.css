@@ -121,12 +121,13 @@ footer {
     text-decoration: none;
 }
 /******* Game Console Container*******/
+.game-container{
+    display: flex;
+    justify-content: center;
+}
 .main-game-console {
-    position: relative;
     display: flex;
     margin-top: 2rem;
-    margin-left: 20%;
-    margin-right: 20%;
     border-radius: 1rem;
     padding: .5rem;
     border: .25rem solid #401122;
