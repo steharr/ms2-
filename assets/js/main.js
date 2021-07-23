@@ -673,7 +673,7 @@ function toggleGameModal(gameMode) {
         <h2>You Won!</h2>
         <p>You got the Cheese! <br> Your Score: ${score}</p>
         <p class="details">You spent ${percentageProximity}% of your moves being closely followed by the cat! </p>
-        <button class="btn-nav" type="button" onclick="location.reload()">Next Level</button>
+        <button class="btn-nav" type="button" onclick="location.reload()">Play Again</button>
         `;
     } else if (gameMode === "failure") {
         modal.innerHTML = `
