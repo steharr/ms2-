@@ -17,6 +17,10 @@ let timerInterval;
 let movesProximity;
 let movesTotal;
 
+
+
+// **************** GAME LOOP FUNCTIONS **************** //
+
 // trigger event for initialising game once page loads
 document.addEventListener('DOMContentLoaded', initializeGame);
 
@@ -61,6 +65,52 @@ function restartLevel(hardReset = false) {
     countdownTimer(timeLimit);
     movesProximity = 0;
     movesTotal = 0;
+}
+
+// **************** LEVEL GENERATION FUNCTIONS **************** //
+
+// Level Generator: creates a game grid based on a given height and width value
+// * create rows accord. to height
+// * in each row, create multiple cells accord. to width
+function generateRandomizedLevel(gridHeight, gridWidth, maxObstacles) {
+    const grid = document.getElementById('game-grid');
+    for (let i = 0; i < gridHeight; i++) {
+        let row = document.createElement('div');
+        row.setAttribute('class', 'grid-row');
+        for (let j = 0; j < gridWidth; j++) {
+            let cell = document.createElement('div');
+            cell.setAttribute('class', 'grid-cell empty');
+            // give the cell attributes representing a coordinate system
+            cell.dataset.x = j;
+            cell.dataset.y = i;
+            // append the cell to the row
+            row.appendChild(cell);
+        }
+        // append the row to the grid
+        grid.appendChild(row);
+    }
+    generateRandomizedObstacles(grid, maxObstacles);
+
+    function generateRandomizedObstacles(grid, maxObstacles) {
+        let totalCells = gridHeight * gridWidth;
+        let obstacleCount = 0;
+        let obstacleAllowed;
+        for (let i = 0; i < totalCells; i++) {
+            if (obstacleCount < maxObstacles) {
+                // probability that the obstacle will occur
+                obstacleAllowed = probability(2, 10);
+                if (obstacleAllowed) {
+                    // generate a random x and y coordinate
+                    let randCoord = [Math.floor(Math.random() * gridWidth), Math.floor(Math.random() * gridHeight)];
+
+                    // draw an obstacle at that coordinate
+                    fillCell(randCoord[0], randCoord[1], 'obstacle');
+                    obstacleCount++;
+                }
+            }
+        }
+
+    }
 }
 
 function checkForAwkwardLevel() {
@@ -112,50 +162,6 @@ function regenerateExistingLevel(gameState) {
     }
 }
 
-// Level Generator: creates a game grid based on a given height and width value
-// * create rows accord. to height
-// * in each row, create multiple cells accord. to width
-function generateRandomizedLevel(gridHeight, gridWidth, maxObstacles) {
-    const grid = document.getElementById('game-grid');
-    for (let i = 0; i < gridHeight; i++) {
-        let row = document.createElement('div');
-        row.setAttribute('class', 'grid-row');
-        for (let j = 0; j < gridWidth; j++) {
-            let cell = document.createElement('div');
-            cell.setAttribute('class', 'grid-cell empty');
-            // give the cell attributes representing a coordinate system
-            cell.dataset.x = j;
-            cell.dataset.y = i;
-            // append the cell to the row
-            row.appendChild(cell);
-        }
-        // append the row to the grid
-        grid.appendChild(row);
-    }
-    generateRandomizedObstacles(grid, maxObstacles);
-
-    function generateRandomizedObstacles(grid, maxObstacles) {
-        let totalCells = gridHeight * gridWidth;
-        let obstacleCount = 0;
-        let obstacleAllowed;
-        for (let i = 0; i < totalCells; i++) {
-            if (obstacleCount < maxObstacles) {
-                // probability that the obstacle will occur
-                obstacleAllowed = probability(2, 10);
-                if (obstacleAllowed) {
-                    // generate a random x and y coordinate
-                    let randCoord = [Math.floor(Math.random() * gridWidth), Math.floor(Math.random() * gridHeight)];
-
-                    // draw an obstacle at that coordinate
-                    fillCell(randCoord[0], randCoord[1], 'obstacle');
-                    obstacleCount++;
-                }
-            }
-        }
-
-    }
-}
-
 // * adapted from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
 function destroyLevel() {
     const grid = document.getElementById('game-grid');
@@ -165,45 +171,8 @@ function destroyLevel() {
 
 }
 
-function setDifficultyLevel(level) {
-    // highlight the active difficulty in the DOM
-    let btnsDiff = document.querySelectorAll('.btn-difficulty-level');
-    btnsDiff.forEach(function (btn) {
-        if (btn.dataset.diff === level) {
-            btn.classList.add('active');
-        }
-    });
-    // internally set the game parameters according to the difficulty
-    switch (level) {
-        case 'easy':
-            timeLimit = 30;
-            numberOfObstacles = 10;
-            catSpeedIntegers = [90, 100];
-            sessionStorage.setItem('difficulty', 'easy');
-            break;
-        case 'medium':
-            timeLimit = 20;
-            numberOfObstacles = 30;
-            catSpeedIntegers = [95, 100];
-            sessionStorage.setItem('difficulty', 'medium');
-            break;
-        case 'hard':
-            timeLimit = 12;
-            numberOfObstacles = 80;
-            catSpeedIntegers = [100, 100];
-            sessionStorage.setItem('difficulty', 'hard');
-            break;
-    }
+// **************** USER CONTROLS  **************** //
 
-}
-
-// **********Asset Generation**********
-function drawAsset(position, assetType) {
-    emptyCell(position[0], position[1], 'obstacle');
-    fillCell(position[0], position[1], assetType);
-}
-
-// **********User generated events**********
 function activateUserControls() {
     document.addEventListener('keydown', handleKeydown, false);
 }
@@ -247,46 +216,43 @@ function handleKeydown(event) {
     }
 }
 
-document.addEventListener('keyup', (event) => {
-    //  check for a highlighted key and un-highlight it
-    let highlightCheck = document.getElementsByClassName('highlight');
-    if (highlightCheck.length > 0) {
-        for (let i = 0; i < highlightCheck.length; i++) {
-            highlightCheck[i].classList.remove('highlight');
-        }
+// **************** MOVEMENT FUNCTIONS  **************** //
+
+function moveCharacter(oldCoordinates, moveDirection, characterType) {
+    let newCoordinates = [oldCoordinates[0], oldCoordinates[1]];
+    // then determine which coordinate needs to be incremented or decremented
+    switch (moveDirection) {
+        case "up":
+            newCoordinates[1]--;
+            break;
+        case "down":
+            newCoordinates[1]++;
+            break;
+        case "left":
+            newCoordinates[0]--;
+            changeCharacterGifAction(characterType, "left");
+            break;
+        case "right":
+            newCoordinates[0]++;
+            changeCharacterGifAction(characterType, "right");
+            break;
     }
-}, false);
-
-
-function updateScore(endGameMode) {
-    let coordMouse = findCoordinates(1);
-    let coordCat = findCoordinates(2);
-    let distance = calculateDistance(coordCat, coordMouse);
-    let incrementScore = 0;
-    let currentScore = document.getElementById('score');
-    // if the game is over, add the bonus scores
-    if (endGameMode) {
-        let minsLeft = parseInt(document.getElementById('time-left-mins').textContent);
-        let secsLeft = parseInt(document.getElementById('time-left-secs').textContent);
-        let totalSecsLeft = minsLeft * 60 + secsLeft;
-        // bonus for time left
-        incrementScore = incrementScore + totalSecsLeft;
-        // bonus for time spent close to cat
-        incrementScore = incrementScore + movesProximity;
-    } else {  // otherwise calculate if the cat is currently within two blocks from the mouse and increment score if so
-        if (Math.abs(distance[0]) <= 1 && Math.abs(distance[1]) <= 1) {
-            incrementScore = incrementScore + 50;
-            movesProximity++;
-        }
+    // check if there is an obstacle in the way
+    let obstacleCheck = checkForObstacle(newCoordinates[0], newCoordinates[1], 'obstacle');
+    if (obstacleCheck === false) {
+        // first empty the current cell
+        emptyCell(oldCoordinates[0], oldCoordinates[1], characterType);
+        // then fill cell at adjusted coord
+        fillCell(newCoordinates[0], newCoordinates[1], characterType);
+        // return a boolean to indicate that the character has successfully moved
+        updateScore(false);
+        movesTotal++;
+        return true;
+    } else {
+        // return a boolean to indicate that the character has been blocked
+        return false;
     }
-    // get the score DOM element and update it
-    currentScore.textContent = parseInt(currentScore.textContent) + incrementScore;
-}
 
-function zeroScore() {
-    movesProximity = 0;
-    let currentScore = document.getElementById('score');
-    currentScore.textContent = 0;
 }
 
 // **********Enemy AI**********
@@ -394,71 +360,8 @@ function activateEnemyAI() {
     }
 }
 
-// **********Movement**********
-// Movement function
-function moveCharacter(oldCoordinates, moveDirection, characterType) {
-    let newCoordinates = [oldCoordinates[0], oldCoordinates[1]];
-    // then determine which coordinate needs to be incremented or decremented
-    switch (moveDirection) {
-        case "up":
-            newCoordinates[1]--;
-            break;
-        case "down":
-            newCoordinates[1]++;
-            break;
-        case "left":
-            newCoordinates[0]--;
-            changeCharacterGifAction(characterType, "left");
-            break;
-        case "right":
-            newCoordinates[0]++;
-            changeCharacterGifAction(characterType, "right");
-            break;
-    }
-    // check if there is an obstacle in the way
-    let obstacleCheck = checkForObstacle(newCoordinates[0], newCoordinates[1], 'obstacle');
-    if (obstacleCheck === false) {
-        // first empty the current cell
-        emptyCell(oldCoordinates[0], oldCoordinates[1], characterType);
-        // then fill cell at adjusted coord
-        fillCell(newCoordinates[0], newCoordinates[1], characterType);
-        // return a boolean to indicate that the character has successfully moved
-        updateScore(false);
-        movesTotal++;
-        return true;
-    } else {
-        // return a boolean to indicate that the character has been blocked
-        return false;
-    }
 
-}
-
-
-// **********End Game Functions**********
-function checkForVictory() {
-    let coordVictory = findCoordinates(5);
-    if (coordVictory != 'not found') {
-        //change the graphic at the success coordinates
-        emptyCell(coordVictory[0], coordVictory[1], 'cheese');
-        changeCharacterGifAction('mouse', 'win');
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function checkForFailure() {
-    let coordFailure = findCoordinates(6);
-    if (coordFailure != 'not found') {
-        //change the graphic at the failure coordinates
-        changeCharacterGifAction('cat', 'win');
-        return true;
-    } else {
-        return false;
-    }
-}
-
-// **********Coordinate System Information**********
+// **************** COORDINATE SYSTEM INFORMATION FUNCTIONS  **************** //
 
 // Grid array generator: scans the game grid and creates an array which details what asset in each square
 // gives the game state
@@ -544,50 +447,6 @@ function calculateDistance(firstPoint, secondPoint, specifiedAxis = null) {
     return distance;
 }
 
-
-// **********DOM Manipulation**********
-// highlight an arrow key when one button is pressed
-function manipulateArrowKey(direction, highlight) {
-    let arrow;
-    switch (direction) {
-        case 'up':
-            arrow = document.getElementById('arrow-up');
-            break;
-        case 'down':
-            arrow = document.getElementById('arrow-down');
-            break;
-        case 'left':
-            arrow = document.getElementById('arrow-left');
-            break;
-        case 'right':
-            arrow = document.getElementById('arrow-right');
-            break;
-    }
-    if (highlight) {
-        arrow.classList.add('highlight');
-    } else {
-
-        arrow.classList.remove('highlight');
-    }
-}
-// Add a specified class to a specified cell
-function fillCell(xCoord, yCoord, fillClass) {
-    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
-    let cellClasses = targetCell.classList;
-    if (cellClasses.contains('empty')) {
-        targetCell.classList.remove('empty');
-    }
-    targetCell.classList.add(fillClass);
-}
-// Remove a specified class to a specified cell
-function emptyCell(xCoord, yCoord, emptyClass) {
-    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
-    let cellClasses = targetCell.classList;
-    if (cellClasses.contains(emptyClass)) {
-        targetCell.classList.remove(emptyClass);
-    }
-    targetCell.classList.add('empty');
-}
 // Check for the prescence a specified class to a specified cell
 function checkForObstacle(xCoord, yCoord, obstacleClass) {
 
@@ -639,20 +498,84 @@ function checkForImmediateObstacle(currentCoords, obstacleClass, direction) {
     } else {
         return false; //else return false
     }
-
 }
 
-// **********Misc Functions**********
-function probability(numerator, denominator) {
-    let randomNumberGenerator = Math.floor(Math.random() * (denominator) + 1);
-    if (randomNumberGenerator <= numerator) {
-        return true;
+// **************** DOM MANIPULATION FUNCTIONS  **************** //
+
+function drawAsset(position, assetType) {
+    emptyCell(position[0], position[1], 'obstacle');
+    fillCell(position[0], position[1], assetType);
+}
+
+// Add a specified class to a specified cell
+function fillCell(xCoord, yCoord, fillClass) {
+    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
+    let cellClasses = targetCell.classList;
+    if (cellClasses.contains('empty')) {
+        targetCell.classList.remove('empty');
+    }
+    targetCell.classList.add(fillClass);
+}
+
+// Remove a specified class to a specified cell
+function emptyCell(xCoord, yCoord, emptyClass) {
+    let targetCell = document.querySelector(`[data-x='${xCoord}'][data-y='${yCoord}']`);
+    let cellClasses = targetCell.classList;
+    if (cellClasses.contains(emptyClass)) {
+        targetCell.classList.remove(emptyClass);
+    }
+    targetCell.classList.add('empty');
+}
+
+// event listener for highlighting side game console directional arrows
+document.addEventListener('keyup', (event) => {
+    //  check for a highlighted key and un-highlight it
+    let highlightCheck = document.getElementsByClassName('highlight');
+    if (highlightCheck.length > 0) {
+        for (let i = 0; i < highlightCheck.length; i++) {
+            highlightCheck[i].classList.remove('highlight');
+        }
+    }
+}, false);
+
+// highlight an arrow key when one button is pressed
+function manipulateArrowKey(direction, highlight) {
+    let arrow;
+    switch (direction) {
+        case 'up':
+            arrow = document.getElementById('arrow-up');
+            break;
+        case 'down':
+            arrow = document.getElementById('arrow-down');
+            break;
+        case 'left':
+            arrow = document.getElementById('arrow-left');
+            break;
+        case 'right':
+            arrow = document.getElementById('arrow-right');
+            break;
+    }
+    if (highlight) {
+        arrow.classList.add('highlight');
     } else {
-        return false;
+
+        arrow.classList.remove('highlight');
     }
 }
 
-// **********Game Console information**********
+// **************** CSS MANIPULATION  **************** //
+
+function changeCharacterGifAction(character, action) {
+    let ruleList = document.styleSheets[1].cssRules;
+    for (let i = 0; i < ruleList.length; i++) {
+        if (ruleList[i].selectorText === `.${character}`) {
+            ruleList[i].style.backgroundImage = `url(../images/${character}-${action}.gif)`;
+        }
+    }
+}
+
+// **************** SCOREBOARD & TIMER FUNCTIONS  **************** //
+
 function countdownTimer(inputSeconds) {
     const elementMins = document.getElementById('time-left-mins');
     const elementSecs = document.getElementById('time-left-secs');
@@ -682,13 +605,63 @@ function countdownTimer(inputSeconds) {
 
     }, 1000);
 }
-function addLeadingZeros(number) {
-    if (number < 10) {
-        return "0" + number;
+function updateScore(endGameMode) {
+    let coordMouse = findCoordinates(1);
+    let coordCat = findCoordinates(2);
+    let distance = calculateDistance(coordCat, coordMouse);
+    let incrementScore = 0;
+    let currentScore = document.getElementById('score');
+    // if the game is over, add the bonus scores
+    if (endGameMode) {
+        let minsLeft = parseInt(document.getElementById('time-left-mins').textContent);
+        let secsLeft = parseInt(document.getElementById('time-left-secs').textContent);
+        let totalSecsLeft = minsLeft * 60 + secsLeft;
+        // bonus for time left
+        incrementScore = incrementScore + totalSecsLeft;
+        // bonus for time spent close to cat
+        incrementScore = incrementScore + movesProximity;
+    } else {  // otherwise calculate if the cat is currently within two blocks from the mouse and increment score if so
+        if (Math.abs(distance[0]) <= 1 && Math.abs(distance[1]) <= 1) {
+            incrementScore = incrementScore + 50;
+            movesProximity++;
+        }
+    }
+    // get the score DOM element and update it
+    currentScore.textContent = parseInt(currentScore.textContent) + incrementScore;
+}
+
+function zeroScore() {
+    movesProximity = 0;
+    let currentScore = document.getElementById('score');
+    currentScore.textContent = 0;
+}
+
+
+// **************** END GAME FUNCTIONS  **************** //
+
+function checkForVictory() {
+    let coordVictory = findCoordinates(5);
+    if (coordVictory != 'not found') {
+        //change the graphic at the success coordinates
+        emptyCell(coordVictory[0], coordVictory[1], 'cheese');
+        changeCharacterGifAction('mouse', 'win');
+        return true;
     } else {
-        return number;
+        return false;
     }
 }
+
+function checkForFailure() {
+    let coordFailure = findCoordinates(6);
+    if (coordFailure != 'not found') {
+        //change the graphic at the failure coordinates
+        changeCharacterGifAction('cat', 'win');
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function toggleGameModal(gameMode) {
     deactivateUserControls();
     clearInterval(timerInterval);
@@ -721,12 +694,55 @@ function toggleGameModal(gameMode) {
     modal.classList.toggle('open-game-modal');
 }
 
-// CSS Manipulation
-function changeCharacterGifAction(character, action) {
-    let ruleList = document.styleSheets[1].cssRules;
-    for (let i = 0; i < ruleList.length; i++) {
-        if (ruleList[i].selectorText === `.${character}`) {
-            ruleList[i].style.backgroundImage = `url(../images/${character}-${action}.gif)`;
+// **************** MISC. FUNCTIONS  **************** //
+
+function setDifficultyLevel(level) {
+    // highlight the active difficulty in the DOM
+    let btnsDiff = document.querySelectorAll('.btn-difficulty-level');
+    btnsDiff.forEach(function (btn) {
+        if (btn.dataset.diff === level) {
+            btn.classList.add('active');
         }
+    });
+    // internally set the game parameters according to the difficulty
+    switch (level) {
+        case 'easy':
+            timeLimit = 30;
+            numberOfObstacles = 10;
+            catSpeedIntegers = [90, 100];
+            sessionStorage.setItem('difficulty', 'easy');
+            break;
+        case 'medium':
+            timeLimit = 20;
+            numberOfObstacles = 30;
+            catSpeedIntegers = [95, 100];
+            sessionStorage.setItem('difficulty', 'medium');
+            break;
+        case 'hard':
+            timeLimit = 12;
+            numberOfObstacles = 80;
+            catSpeedIntegers = [100, 100];
+            sessionStorage.setItem('difficulty', 'hard');
+            break;
     }
 }
+
+function probability(numerator, denominator) {
+    let randomNumberGenerator = Math.floor(Math.random() * (denominator) + 1);
+    if (randomNumberGenerator <= numerator) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function addLeadingZeros(number) {
+    if (number < 10) {
+        return "0" + number;
+    } else {
+        return number;
+    }
+}
+
+
+
