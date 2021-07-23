@@ -17,7 +17,7 @@ The **five planes of user experience design** developed by Jesse James Garrett w
 
 #### Site Owner:
 
-As as developer I want to...
+As a developer I want to...
 
 1. Design a game I would enjoy playing
 2. Design a game with a basic artificial intelligence
@@ -32,7 +32,7 @@ As a user playing a game...
 1. I want the base game mechanic to be satisfying
 2. I want to be rewarded for progress
 3. I want to have a challenge which I can overcome
-4. I want the game graphics to be visually appealling
+4. I want the game graphics to be visually appealing
 5. I want to enjoy playing the game
 6. I want the controls to be responsive
 7. I want multiple levels in the game
@@ -75,7 +75,7 @@ In order to plan out the development process, I created a list of features which
 |Sound Effects|Sounds for key moments in the game|6|
 |Fetch Quests|Levels where Mouse has to retrieve item and return to base|5|
 |Multiple Enemies|Multiple Cat enemies to evade|4|
-|OOP - JS Classes|Seemlessly readable code with classes/objects|4|
+|OOP - JS Classes|More Easily readable code with classes/objects|4|
 |Multiple Device Compatible|Playable on Phone as well as desktop|3|
 |Powerups|Enable mouse and/or cat to move more quickly through the level|2|
 |Animated Avatars|Character assets show animated movement from block to block|1|
@@ -86,16 +86,16 @@ In order to plan out the development process, I created a list of features which
 I decided that each level should be composed of a series of cells which make up a grid. Each cell in the grid would have its own coordinate with an x-value and a y-value. This resulted in a game coordinate system which all functions in the game could use to make calculations. I wanted the ability to represent the grid as a two dimensional Array of numbers. One of the first things I planned to program was a 'game state' function to calculate this Array and fill it with codes indicating what was in each cell. This ended up begin called `createGridArray`. An example of how this could be used: If the value of cell (2,1) in the grid array was equal to 2, this meant the Cat was located in the cell with coordinates x=2, y=1. These coordinates could then be compared with the coordinates of the Mouse by the Cat AI in order to make decisions.
 
 2. Game Graphics  
-I had been doing some reseacrh on how Javascript games are made and one option for the game graphics I saw was to use the javascript **CanvasAPI**. I decided against this because I was new to Javascript and felt that I could more easily achieve the results I needed with vanilla Javascript DOM manipulation. I thought that in order to understand it fully, the **CanvasAPI** would require a certain amount of time I didnt have. The game graphics therefore ended up being `div` elements with background colors and images. Each `div` element had a data attributes for x and y coordinates.
+I had been doing some research on how JavaScript games are made and one option for the game graphics I saw was to use the JavaScript **CanvasAPI**. I decided against this because I was new to JavaScript and felt that I could more easily achieve the results I needed with vanilla JavaScript DOM manipulation. I thought that in order to understand it fully, the **CanvasAPI** would require a certain amount of time I didnt have. The game graphics therefore ended up being `div` elements with background colors and images. Each `div` element had a data attributes for x and y coordinates.
 
 3. Level Generation  
-I wanted the level generation to be varied and organic. In order to achieve this I decided that the level generator would be semi random. I decided to create a generator that randomly placed obstacles on the level according to inputted difficulty variables. During the testing stages of the project, I would then create rules for the generator in order to combat potential issues that could arise from random level generation. i.e. levels where the user starts in a obscured position would need to be addressed.
+I wanted the level generation to be varied and organic. In order to achieve this I decided that the level generator would be semi random. I decided to create a generator that randomly placed obstacles on the level according to inputted difficulty variables. During the testing stages of the project, I would then create rules for the generator in order to combat potential issues that could arise from random level generation. i.e. levels where the user starts in an obscured position would need to be addressed.
 
 4. Movement Mechanics  
-I decied that movement was only possible in the x and y direction in order to keep the progrmming as simple as possible. The characters would only be able to move one cell along these axes at a time. 
+I decided that movement was only possible in the x and y direction in order to keep the programming as simple as possible. The characters would only be able to move one cell along these axes at a time. 
 
 5. Enemy AI  
-I decided that enemy movement would only occur once the user moved their character i.e. the cat would not make a move unless the user had made a move themselves. This was partially a technically decision; it would be alot easier for me to program the game events this way. It also could be argued that stylistically this matched with the game; cats stalk their prey and pounce on them when they make a movement.
+I decided that enemy movement would only occur once the user moved their character i.e. the cat would not make a move unless the user had made a move themselves. This was partially a technically decision; it would be a lot easier for me to program the game events this way. It also could be argued that stylistically this matched with the game; cats stalk their prey and pounce on them when they make a movement.
 
 ### **Structure Plane**
 For the structure plane, I used my user stories and my scope plane feature list to help me plan out the structure of the site. 
@@ -115,7 +115,7 @@ The footer contains a simple copyright watermark
 
 ##### **Landing Page (Main Menu)**
 * *Main Menu*    
-A centered main menu block greets the user as they enter the site. The main menu details the control system of the game and gives a demonstration of the game in action. I initally thought I would implement an image to give a demonstration of the game. Over the course of the project this evolved to using a moving gif which showed gameplay. Finally, the main menu also includes a button to go to the game screen.
+A centered main menu block greets the user as they enter the site. The main menu details the control system of the game and gives a demonstration of the game in action. I initially thought I would implement an image to give a demonstration of the game. Over the course of the project this evolved to using a moving gif which showed gameplay. Finally, the main menu also includes a button to go to the game screen.
 
 ##### **Game Page**
 
@@ -123,17 +123,17 @@ A centered main menu block greets the user as they enter the site. The main menu
 The game console houses the graphical display of the game and other key information for the user
 
 * *Game Grid*  
-The game grid depicits the level containing the characters of the game. The grid contains a number of cells, some of which have obstacles. There is a 'success' grid for the cheese. The cat and mouse characters move along the cells without any obstacles.
+The game grid depicts the level containing the characters of the game. The grid contains a number of cells, some of which have obstacles. There is a 'success' grid for the cheese. The cat and mouse characters move along the cells without any obstacles.
 
 * *Side Game Console*  
-At the side of the main game console, information for the user is on display. This includes a time limit and a score counter. There is a directional arrows which give feedback on the user moves. At the top right of the console, there is a button for restarting a level and a button to take the user back to the main menu.  
+At the side of the main game console, information for the user is on display. This includes a time limit and a score counter. There are directional arrows which give feedback on the user moves. At the top right of the console, there is a button for restarting a level and a button to take the user back to the main menu.  
   
 ### **Skeleton Plane**
 The majority of this project was focused on developing internal game logic and DOM manipulation systems. Therefore, for the skeleton plane, I felt I only needed to focus on creating a basic schematic of game console before I began coding. The only wireframe I created was for the game console layout.
 
 I was clear in my mind about how the game was going to be arranged on the page. The other elements of the site such as the main menu could be easily created late in the development process because they were purely functional and did not require a high amount of effort.
 
-I also created a wireframes for how the game could look on smaller screen devices such as iPad and Phone. These were not used in the end as I did not have enough time to make the game compatable on these devices.
+I also created a wireframe for how the game could look on smaller screen devices such as iPad and Phone. These were not used in the end as I did not have enough time to make the game compatible on these devices.
 
 #### Wireframes:
 
@@ -142,7 +142,7 @@ I also created a wireframes for how the game could look on smaller screen device
 
 ### **Surface Plane**
 
-As mentioned previously, the idea for the game originated from a basic [chasing game prototype](https://github.com/steharr/js-prototype-chasing-game) I had made previously when practising Javascript in preparation for this project. As a result of this, I didnt work on the surface plane until I had fleshed out the key game chasing mechanics. 
+As mentioned previously, the idea for the game originated from a basic [chasing game prototype](https://github.com/steharr/js-prototype-chasing-game) I had made previously when practising JavaScript in preparation for this project. As a result of this, I didn't work on the surface plane until I had fleshed out the key game chasing mechanics. 
 
 #### Game Aesthetic
 
@@ -176,22 +176,22 @@ The level generator is semi random and will produce a level depending on the use
 * **User Controlled Character**  
 The Mouse character can be controlled to navigate through levels using the arrow keys.
 * **Enemy Character with Advanced AI**  
-An enemy Cat character follows the user around the map and makes intelligent decisions when he encounters obstacles. The frequency of the cats movements depends on the chosen difficulty of the user.
+An enemy Cat character follows the user around the map and makes intelligent decisions when he encounters obstacles. The frequency of the cat's movements depend on the chosen difficulty of the user.
 * **Chasing Mechanic**  
-An thrilling chase is given by the cat to the user.
+A thrilling chase is given by the cat to the user.
 * **Difficulty Selection**     
-User can choose how hard the game should be. Three options are available: Easy, Medium & Hard. Each determines the amount of obstacles in the level, the speed of the cat and the time limit.
+User can choose how hard the game should be. Three options are available: Easy, Medium & Hard. Each determines the number of obstacles in the level, the speed of the cat and the time limit.
 * **End Game Modals**  
 If the user gets caught by the cat, runs out of time or reaches the cheese they are then prompted with an end game modal screen.  
 * **Score Calculator**  
-As the user moves their character throughout the level, their score is calculated and displayed on the side game console. The scoring system takes into account how close they are to the cat, how long they spent in proximity to the cat and how much time they had left when the reached the cheese. 
+As the user moves their character throughout the level, their score is calculated and displayed on the side game console. The scoring system takes into account how close they are to the cat, how long they spent in proximity to the cat and how much time they had left when the reached they cheese. 
 * **Vibrant and Dynamic Game Graphics**   
 The game level has vibrant colors and textures. The characters of the game are moving gifs which makes the game graphics dynamic.
 * **Restart Button**  
 The user can choose to restart a level if desired.
 
 ### Features Left to Implement
-* **Smaller Screen Compatability**  
+* **Smaller Screen Compatibility**  
 The game is currently only playable on a desktop screen. For future releases, it is top priority to have the game playable on mobile. 
 * **Treacherous Level Obstacles**  
 The obstacles of the level are currently all the same. For future releases, the inclusion of treacherous obstacles such as mousetraps will be included. This will make it more challenging for the user when navigating through the level.
@@ -200,7 +200,7 @@ Sound effects will be added during key game moments to enhance the user experien
 * **Multiple Enemies**  
 Multiple Cat enemy levels will be added for users who want an even greater challenge. 
 * **Fetch Quests**  
-Fetch quest levels where the mouse needs to retreive objects and move to a location will be added in order to freshen up gameplay.
+Fetch quest levels where the mouse needs to retrieve objects and move to a location will be added in order to freshen up gameplay.
 * **Powerups**  
 Powerups for both the Cat and the Mouse will be added in order to make the game more exciting and varied.
 
@@ -229,7 +229,7 @@ Used to generate a favicon for the site from an image I created using Canva
 * [resizeimage.net](https://resizeimage.net/)  
 Used to resize images on the page
 * [ezgif.com](https://ezgif.com/)  
-Used to resize gifs on the page
+Used to edit gifs on the page
 * [placeholder.com](https://placeholder.com/)  
 I used this site to create small blocks of colour for the colour palette section of this README
 * [Balsamiq](https://balsamiq.com/)  
@@ -249,29 +249,29 @@ Due to the randomness of the level generator, I was encountering a bug where the
 
 
 #### **Challenges Refining Cat AI Decision Making**
-When working on the Cat AI, I encountered an issue where the Cat was choosing to move in a disadvantagous manner when he encountered an obstacle.
-If the Cat was blocked from moving along a particular axis, he would wrongly prioritise moving in a specific direction along the opposite axis e.g if the cat was blocked in the x direction, he would always take the option of going up on the y axis, even if going down was a better decision.
+When working on the Cat AI, I encountered an issue where the Cat was choosing to move in a disadvantageous manner when he encountered an obstacle.
+If the Cat was blocked from moving along a particular axis, he would wrongly prioritise moving in a specific direction along the opposite axis e.g. if the cat was blocked in the x direction, he would always take the option of going up on the y axis, even if going down was a better decision.
 
 <img src="assets/documents/testing/notable_bug_obscured_ai.png" alt="cat ai decision making graphic" width="500"/> 
 
 To correct this issue, I refactored the Cat AI and introduced logic which took into account the position of the Mouse so that the Cat would make better decisions.
 
 #### **Countdown Timer Speeding Up Bug**
-When I initially implemented the countdown timer on the game page, I encountered a bug while testing where the timer would speed up each time the user died or restarted a level. The timer was constructed using a `setInterval` method. Whenever the user died or chose to restart a level, the page wasnt reloaded and therefore the interval was not cleared. In order to correct this issue, I stored the ID of the interval in a global variable called `timerInterval`. Whenever the game needed to be restarted or the user dies, the game will then clear the interval function that has this global ID variable using `clearInterval(timerInterval)`
+When I initially implemented the countdown timer on the game page, I encountered a bug while testing where the timer would speed up each time the user died or restarted a level. The timer was constructed using a `setInterval` method. Whenever the user died or chose to restart a level, the page wasn't reloaded and therefore the interval was not cleared. In order to correct this issue, I stored the ID of the interval in a global variable called `timerInterval`. Whenever the game needed to be restarted or the user dies, the game will then clear the interval function that has this global ID variable using `clearInterval(timerInterval)`
 
 #### **Distance Calculation Function Not Consistent**
-In order to improve the Cat AI, I adjusted my `calculateDistance` function so that it could calculate the distance between two points along a specified axis. I used an if statement to calculate what coordinates need to be used for the required input. e.g. if the specified axis was equal to x, then only the x coodinates of each point needed to be used by the function. Originally this if statement contained two equal symbols in its syntax e.g. **(specifiedAxis == 'x')**. This was providing me unreliable results. I therefore changed the operator to a strict equals operator to correct this issue. 
+In order to improve the Cat AI, I adjusted my `calculateDistance` function so that it could calculate the distance between two points along a specified axis. I used an if statement to calculate what coordinates need to be used for the required input. e.g. if the specified axis was equal to x, then only the x coordinates of each point needed to be used by the function. Originally this if statement contained two equal symbols in its syntax e.g. **(specifiedAxis == 'x')**. This was providing me unreliable results. I therefore changed the operator to a strict equals operator to correct this issue. 
 
 <img src="assets/documents/testing/notable_bug_strict.png" alt="calculate distance function" width="300"/> 
 
-### Javascript Validator Results
-In order to validate the quality of my Javascript Code, I passed it through the [Jshint linter](https://jshint.com/) to ensure there were no major issues.
+### JavaScript Validator Results
+In order to validate the quality of my JavaScript Code, I passed it through the [Jshint linter](https://jshint.com/) to ensure there were no major issues.
 
-When passed into the linter i received no error messages and 13 warnings. In the 13 warnings there were three warning types. Below details how these warnings were adressed:
+When passed into the linter, I received no error messages and 13 warnings. In the 13 warnings there were three warning types. Below details how these warnings were addressed:
 
 * *Missing Semicolon*    
 
-   These were missed during development and were simple to fix. Since this was my first time coding a major Javascript project, it was inevitable that I would miss out on some semicolons.
+   These were missed during development and were simple to fix. Since this was my first time coding a major JavaScript project, it was inevitable that I would miss out on some semicolons.
 
 * *Don't use extra leading zeros '00'*  
 
@@ -280,9 +280,9 @@ When passed into the linter i received no error messages and 13 warnings. In the
 * *Functions declared within loops referencing an outer scoped variable may lead to confusing semantics. (gridRow)* 
 
    The objective of the function 'createGridArray' is to create a two dimensional array describing the game state of the level. The function has to first loop through each **row** of the game grid and then loop through each game **cell** in order to obtain the required information. 
-   Due to the complexity of this function, I decided to use a **for...of** loop when looping through the rows in order to made the code appear more readable than if I was to use an i iterator. From my perspective, using **"for (let row of rows)"** was more easily understandable than **"for (let i = 0; i < rows.length; i++)"** as it explains clearly that the computer is working through each row in this loop. 
+   Due to the complexity of this function, I decided to use a **for...of** loop when looping through the rows in order to made the code appear more readable than if I was to use an `i` iterator. From my perspective, using **"for (let row of rows)"** was more easily understandable than **"for (let i = 0; i < rows.length; i++)"** as it explains clearly that the computer is working through each row in this loop. 
 
-   As a result of this decision, I had to use some slightly complex syntax when looping through the game grid **cells**. The **.forEach** method I used resulted in a callback function being used inside my original for loop. This is why the linter highlighted this warning to me. To improve the semantics, I changed the syntax for the **.forEach** loop from a callback function syntax to a arrow function syntax. Previously it was **".forEach(function (cell) .."** and I changed it to **".forEach((cell) .."**. Even though this did not remove the warning from the linter, I felt it was sufficient to make the code easier to understand as **".forEach((cell) .."** makes it more clear that the computer is working through each cell.
+   As a result of this decision, I had to use some slightly complex syntax when looping through the game grid **cells**. The **.forEach** method I used resulted in a callback function being used inside my original for loop. This is why the linter highlighted this warning to me. To improve the semantics, I changed the syntax for the **.forEach** loop from a callback function syntax to an arrow function syntax. Previously it was **".forEach(function (cell) .."** and I changed it to **".forEach((cell) => .."**. Even though this did not remove the warning from the linter, I felt it was sufficient to make the code easier to understand as **".forEach((cell) .."** makes it more clear that the computer is working through each cell.
 
 ### HTML Validator Results
 In order to validate the quality of my HTML Code, I passed it through the [W3C HTML Validator](https://validator.w3.org/) for both pages of my site to ensure there were no major issues. The only error message I got was linked to the **game.html** page of the site
@@ -300,7 +300,7 @@ This error was caused by a `script` element I was using in the game.html page of
 <img src="assets/documents/testing/html_validator_success_index.png" alt="css validator passed screen" width="300"/>
 
 ### CSS Validator
-In order to validate the quality of my CSS Code, I passed it through the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) to ensure there were no major issues. After the first time passing it through the validator, I noticed there were errors and warnings linked to external Bootstrap files. I had included Bootstrap early on in my project in order to help me quickly put together the game console. As the project progressed, I was using more custom CSS in order to achieve the results I needed. Eventually, my project was not significantly enhanced by the inclusion of Bootstrap so I decided to remove it once I saw the CSS validation errors/warnings that were coming from it. The second time I passed my code I recieved the following errors and warnings:
+In order to validate the quality of my CSS Code, I passed it through the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) to ensure there were no major issues. After the first time passing it through the validator, I noticed there were errors and warnings linked to external Bootstrap files. I had included Bootstrap early on in my project in order to help me quickly put together the game console. As the project progressed, I was using more custom CSS in order to achieve the results I needed. Eventually, my project was not significantly enhanced by the inclusion of Bootstrap so I decided to remove it once I saw the CSS validation errors/warnings that were coming from it. The second time I passed my code I received the following errors and warnings:
 
 #### Errors
 
@@ -334,33 +334,33 @@ To analyse the Performance, Accessibility and User Experience of my site, I used
 
 <img src="assets/documents/testing/lighthouse_inital_game.png" alt="lighthouse scores initial" width="400"/>
 
-* Improving Accessibilty Score for Game Page  
-   The results from the Lighthouse tool for accessibilty showed that the buttons on the side game console of the page did not have accessible names. In order to address this I gave each button element an `aria-label` attribute to clearly describe the action of the button.
-   The results also showed that the links on the side game console and Navbar did not have discernible names. In order to address this I also gave these elements an `aria-label` attribute. The final result after these changes are below:
+* Improving Accessibility Score for Game Page  
+   The results from the Lighthouse tool for accessibility showed that the buttons on the side game console of the page did not have accessible names. In order to address this, I gave each button element an `aria-label` attribute to clearly describe the action of the button.
+   The results also showed that the links on the side game console and Navbar did not have discernible names. In order to address this, I also gave these elements an `aria-label` attribute. The final result after these changes are below:
 
 <img src="assets/documents/testing/lighthouse_final_game.png" alt="lighthouse scores final" width="400"/>
 
 ### User Stories Validation
 
 #### Site Owner:
-1. *As as developer I want to design a game I would enjoy playing*  
+1. *As a developer I want to design a game that I would enjoy playing*  
    I thoroughly enjoy playing the game. I find the main game loop very addicting. I often found myself getting lost in gameplay while I was carrying out testing.
 
-2. *As as developer I want to design a game with a basic artificial intelligence*  
+2. *As a developer I want to design a game with a basic artificial intelligence*  
    The enemy cat character has a basic artificial intelligence that responds to the users moves. This creates thrilling in-game chases. The cat has two layers of decision making which can be seen in the `activateEnemyAI` function of the **main.js** file. The cat first checks its distance to the mouse in the x and y axis. Whichever axis is larger, the cat will attempt to move. If this attempt is blocked by an obstacle then the cat carries out the second layer of decision making. This involves taking the axis of the initial attempted move and checking the opposite axis i.e. if the cat was blocked in x direction, the cat then checks the y axis for free paths.
 
-3. *As as developer I want to create something that I can use in my portfolio*  
-   This project has a high level of complexity and therefore is definately something I would include in my portfolio
+3. *As a developer I want to create something that I can use in my portfolio*  
+   This project has a high level of complexity and therefore is definitely something I would include in my portfolio
 
-4. *As as developer I want to design a game with some level of difficulty that requires strategic thinking*
-   The game is challenging as the user has to outwit an advancing enemy character. There is multiple strategies which can be used depending on the level layout.
+4. *As a developer I want to design a game with some level of difficulty that requires strategic thinking*
+   The game is challenging as the user has to outwit an advancing enemy character. There are multiple strategies which can be used depending on the level layout.
 
-5. *As as developer I want to design a game which is unique on each playthrough*  
-   This is achieved through the randomness of the in-game level generator. It is also achieved by the organic artificial intelligence of the cat which varies depending on the position of the users character.
+5. *As a developer I want to design a game which is unique on each playthrough*  
+   This is achieved through the randomness of the in-game level generator. It is also achieved by the organic artificial intelligence of the cat which varies depending on the position of the user's character.
 
 #### Site Viewer:
 1. *As a user playing a game I want the base game mechanic to be satisfying*  
-   The base game chasing mechanic is very satisfying due to the intelligence of the cat. The cat character is quite menancing (particularly at the hard difficulty) due to the responsive nature of its movements. The user also is put under presssure due to the inclusion of a time limit. The combination of these two elements gives the user an adrenaline rush as they are playing the game.
+   The base game chasing mechanic is very satisfying due to the intelligence of the cat. The cat character is quite menacing (particularly at the hard difficulty) due to the responsive nature of its movements. The user also is put under pressure due to the inclusion of a time limit. The combination of these two elements gives the user an adrenaline rush as they are playing the game.
 
 2. *As a user playing a game I want to be rewarded for progress*   
    This story is satisfied by the inclusion of a score counter. The users score is calculated as they navigate through the level. The scoring system rewards moves that are in close proximity with the cat in order to encourage risk taking gameplay. If the user is successful in reaching the end game, they are also given statistics detailing how close they were to the cat.
@@ -370,7 +370,7 @@ To analyse the Performance, Accessibility and User Experience of my site, I used
 3. *As a user playing a game I want to have a challenge which I can overcome*  
    I have tested the game with multiple friends and family. It is possible to complete all three difficulty levels of the game. Each presents a challenge for the user.
 
-4. *As a user playing a game I want the game graphics to be visually appealling*   
+4. *As a user playing a game I want the game graphics to be visually appealing*   
    The colors of the game are deliberately chosen to be vibrant in order to make the experience of playing more enjoyable. The gifs used for the various assets of the game make the game board feel dynamic.
 
    <img src="assets/documents/testing/user_story_graphics.png" alt="game graphics" width="250"/>
@@ -391,9 +391,9 @@ The controls of the game are responsive. During testing I received no complaints
 ***
 
 ## Version Control
-* To begin the project I created a remote repository on Github by choosing the **New Repository** button and following the on screen steps.
+* To begin the project, I created a remote repository on Github by choosing the **New Repository** button and following the on screen steps.
 * I then created a local repository using Git:
-   *  I created a directory on my computer called **template**
+   *  I created a directory on my computer called **MS2**
    *  I opened the directory using VS code and started a terminal
    *  I initialized the directory as a Git repository using the command `git init`
    *  I added a README to the file using the command `git add README.md`
@@ -416,7 +416,7 @@ The controls of the game are responsive. During testing I received no complaints
 ## Credits
 
 ### Code
-
+* `destroyLevel` function - code was adapted from [javascript.tutorial.net](https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/)
 
 ### Content
 All written content was created by me
@@ -424,8 +424,16 @@ All written content was created by me
 ### Media
 
 * Images
+   * bg-grass-blurred - image taken from [freestocktextures.com](https://freestocktextures.com/texture/green-grass-background-2,944.html) and edited using [Canva](https://www.canva.com/) 
+   * cat-left-gif & cat-right.gif - image taken from [animatedimages.org](https://www.animatedimages.org/img-animated-cat-image-0184-58551.htm) and edited using [ezgif.com](https://ezgif.com/) 
+   * cat-win.gif - image taken from [animatedimages.org](https://www.animatedimages.org/img-animated-cat-image-0173-58540.htm) 
+   * mouse-left-gif & mouse-right.gif - image taken from [animatedimages.org](https://www.animatedimages.org/img-animated-mouse-image-0364-63245.htm) and edited using [ezgif.com](https://ezgif.com/) 
+   * mouse-win.gif - image taken from [animatedimages.org](https://www.animatedimages.org/img-animated-mouse-image-0367-63248.htm) 
+   * how-to-play.gif - gif created using [ScreenToGif](https://www.screentogif.com/)
+   * crate.png - image taken from [Canva](https://www.canva.com/)  
+   * cheese.gif - image taken from [animatedimages.org](https://www.animatedimages.org/img-animated-cheese-image-0009-103825.htm) 
 
 ### Acknowledgements
 
 * My mentor, **Spencer Barriball** who guided me through this project.
-* Fellow **Code Institute** students on Slack who helped troubleshoot issues and give me inspiration for this project
+* Fellow **Code Institute** students on Slack who helped troubleshoot issues and give me inspiration for this project 
