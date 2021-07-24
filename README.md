@@ -415,7 +415,7 @@ The controls of the game are responsive. During testing I received no complaints
    *  When I was ready to commit my first set of changes, I used the `git add .` and the `git commit -m "Initial commit"` commands in my terminal
    
 * In order to store my commits remotely on Github, I linked my local repository to the remote repository:
-   * In my VS code terminal, I used the command `git remote add origin https://github.com/steharr/` and `git remote -v`
+   * In my VS code terminal, I used the command `git remote add origin https://github.com/steharr/ms2-cat-and-mouse-game` and `git remote -v`
 
 * Throughout the development process, I would regularly push my commits to Github using the `git push` command 
 
