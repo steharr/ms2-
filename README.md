@@ -255,7 +255,7 @@ Due to the randomness of the level generator, I was encountering a bug where the
 When working on the Cat AI, I encountered an issue where the Cat was choosing to move in a disadvantageous manner when he encountered an obstacle.
 If the Cat was blocked from moving along a particular axis, he would wrongly prioritise moving in a specific direction along the opposite axis e.g. if the cat was blocked in the x direction, he would always take the option of going up on the y axis, even if going down was a better decision.
 
-<img src="assets/documents/testing/notable_bug_obscured_ai.png" alt="cat ai decision making graphic" width="500"/> 
+<img src="assets/documents/testing/notable_bug_obscured_ai.png" alt="cat ai decision making graphic" width="700"/> 
 
 To correct this issue, I refactored the Cat AI and introduced logic which took into account the position of the Mouse so that the Cat would make better decisions.
 
@@ -266,6 +266,17 @@ When I initially implemented the countdown timer on the game page, I encountered
 In order to improve the Cat AI, I adjusted my `calculateDistance` function so that it could calculate the distance between two points along a specified axis. I used an if statement to calculate what coordinates need to be used for the required input. e.g. if the specified axis was equal to x, then only the x coordinates of each point needed to be used by the function. Originally this if statement contained two equal symbols in its syntax e.g. **(specifiedAxis == 'x')**. This was providing me unreliable results. I therefore changed the operator to a strict equals operator to correct this issue. 
 
 <img src="assets/documents/testing/notable_bug_strict.png" alt="calculate distance function" width="300"/> 
+
+#### **Remaining Unfixed Bugs In Game**
+Due to time constraints, there are still two notable bugs which can occur in the game which I was unable to fix. These are documented below.
+
+* **Possibility of Unwinnable Level due to Randomised Level Generation**  
+Due to the randomness of the level generation, there is a small chance that the level setup generated will make it impossible for the user to win. I have made sure the characters always spawn with the ability to move i.e. they spawn with at least one free path in their immediate vicinity. However there is still a possibility that the generator will spawn a wall of obstacles around them further away from their immediate vicinity. From my testing experience this issue does not occur often, however it still needs to be addressed. To solve this in the short term for this first release, the user has the ability to regenerate a level using the spacebar button if they are stuck. This is explained in the main menu screen. In the long term for future releases, I plan to write a maze solving function which calculates if the level generated can actually be solved.
+
+   <img src="assets/documents/testing/unfixed_bug_obscured_wall.png" alt="level where user cannot get past wall" width="400"/>
+
+* **Immediate Start to Game Timer Without Pause**  
+The game countdown timer begins immediately once the user has loaded the page. When testing with other users, I received feedback that this can catch the user off guard. For future releases the game timer will begin as soon as the first key depression occurs. This would mean that the game begins on the users terms.
 
 ### JavaScript Validator Results
 In order to validate the quality of my JavaScript Code, I passed it through the [Jshint linter](https://jshint.com/) to ensure there were no major issues.
@@ -355,7 +366,7 @@ To analyse the Performance, Accessibility and User Experience of my site, I used
 3. *As a developer I want to create something that I can use in my portfolio*  
    This project has a high level of complexity and therefore is definitely something I would include in my portfolio
 
-4. *As a developer I want to design a game with some level of difficulty that requires strategic thinking*
+4. *As a developer I want to design a game with some level of difficulty that requires strategic thinking*  
    The game is challenging as the user has to outwit an advancing enemy character. There are multiple strategies which can be used depending on the level layout.
 
 5. *As a developer I want to design a game which is unique on each playthrough*  
