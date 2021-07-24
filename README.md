@@ -48,20 +48,19 @@ In order to plan out the development process, I created a list of features which
 |Feature|Description|Importance (1-10)|
 |:--:|:--:|:--:|
 |Level Generator|A generator to create a level on the game page|10|
-|User Controlled Character|a character that can be controlled with arrow keys|10|
+|User Controlled Character|A character that can be controlled with arrow keys|10|
 |Enemy Character with Basic AI|An enemy character that follows the user around the map|10|
 |Chasing Mechanic|An organic and looming chase given by the cat to the user|10|
 |Character Collision Detection|Characters can recognise obstacles around them|10|
 |Competent Enemy AI|Enemy AI has the ability to act after detecting an obstacle|10|
 |Multiple Level Layout|Level generator can make multiple levels|9|
-|User Success Feedback|When the user gets the goal destination the game loop will terminate appropriately|8|
+|User Success Feedback|When the user gets to the goal destination the game loop will terminate appropriately|8|
 |Enemy Capture Feedback|When the users mouse character gets caught by the cat the game loop will terminate appropriately|8|
 |Time Limit| A countdown to encourage the user to make drastic moves|8|
 |Restart Button|User can restart a level at any point|8|
 |Character Graphics|Visual animations/images for cat and mouse|8|
 |Level Aesthetics|Visual layout of obstacles that mouse has to navigate|8|
 |Difficulty Selection|User can choose how hard the game should be|8|
-|Level Aesthetics|Visual layout of obstacles that mouse has to navigate|8|
 |Winning Screen Modal|Success Modal|6|
 |Losing Screen Modal|Failure Modal|6|
 
@@ -70,12 +69,12 @@ In order to plan out the development process, I created a list of features which
 |:--:|:--:|:--:|
 |Main Menu|A main menu for the user to initialise the game, also shows instructions on how to play |6|
 |High Scores|Score calculation based on close evades with the cat|6|
-|Advanced Enemy AI|Enemy Cat AI can calculate the nearest route to the goal destination and play defensively|6|
+|Advanced Enemy AI|Enemy Cat AI can calculate the best possible move when confronted by obstacles|6|
 |Treacherous Level Obstacles|Mouse can get killed if he moves into certain obstacles |6|
 |Sound Effects|Sounds for key moments in the game|6|
 |Fetch Quests|Levels where Mouse has to retrieve item and return to base|5|
 |Multiple Enemies|Multiple Cat enemies to evade|4|
-|OOP - JS Classes|More Easily readable code with classes/objects|4|
+|OOP - JS Classes|More easily readable code with classes/objects|4|
 |Multiple Device Compatible|Playable on Phone as well as desktop|3|
 |Powerups|Enable mouse and/or cat to move more quickly through the level|2|
 |Animated Avatars|Character assets show animated movement from block to block|1|
@@ -86,7 +85,7 @@ In order to plan out the development process, I created a list of features which
 I decided that each level should be composed of a series of cells which make up a grid. Each cell in the grid would have its own coordinate with an x-value and a y-value. This resulted in a game coordinate system which all functions in the game could use to make calculations. I wanted the ability to represent the grid as a two dimensional Array of numbers. One of the first things I planned to program was a 'game state' function to calculate this Array and fill it with codes indicating what was in each cell. This ended up begin called `createGridArray`. An example of how this could be used: If the value of cell (2,1) in the grid array was equal to 2, this meant the Cat was located in the cell with coordinates x=2, y=1. These coordinates could then be compared with the coordinates of the Mouse by the Cat AI in order to make decisions.
 
 2. Game Graphics  
-I had been doing some research on how JavaScript games are made and one option for the game graphics I saw was to use the JavaScript **CanvasAPI**. I decided against this because I was new to JavaScript and felt that I could more easily achieve the results I needed with vanilla JavaScript DOM manipulation. I thought that in order to understand it fully, the **CanvasAPI** would require a certain amount of time I didnt have. The game graphics therefore ended up being `div` elements with background colors and images. Each `div` element had a data attributes for x and y coordinates.
+I had been doing some research on how JavaScript games are made and one option for the game graphics I saw was to use the JavaScript **CanvasAPI**. I decided against this because I was new to JavaScript and felt that I could more easily achieve the results I needed with vanilla JavaScript DOM manipulation. I thought that in order to understand it fully, the **CanvasAPI** would require a certain amount of time I didnt have. The game graphics therefore ended up being `div` elements with background colors and images. Each `div` element had a data attributes for x and y coordinates. For future releases, I would look into using **CanvasAPI**. 
 
 3. Level Generation  
 I wanted the level generation to be varied and organic. In order to achieve this I decided that the level generator would be semi random. I decided to create a generator that randomly placed obstacles on the level according to inputted difficulty variables. During the testing stages of the project, I would then create rules for the generator in order to combat potential issues that could arise from random level generation. i.e. levels where the user starts in an obscured position would need to be addressed.
@@ -95,7 +94,7 @@ I wanted the level generation to be varied and organic. In order to achieve this
 I decided that movement was only possible in the x and y direction in order to keep the programming as simple as possible. The characters would only be able to move one cell along these axes at a time. 
 
 5. Enemy AI  
-I decided that enemy movement would only occur once the user moved their character i.e. the cat would not make a move unless the user had made a move themselves. This was partially a technically decision; it would be a lot easier for me to program the game events this way. It also could be argued that stylistically this matched with the game; cats stalk their prey and pounce on them when they make a movement.
+I decided that enemy movement would only occur once the user moved their character i.e. the cat would not make a move unless the user had made a move themselves. This was partially a technical decision, it would be a lot easier for me to program the game events this way. It also could be argued that stylistically this matched with the game; cats stalk their prey and pounce on them when they make a movement.
 
 ### **Structure Plane**
 For the structure plane, I used my user stories and my scope plane feature list to help me plan out the structure of the site. 
@@ -108,7 +107,7 @@ For the overall structure of the site, I planned for two pages in total. The lan
 
 ##### **Generic Site Elements** 
 * *Header*    
-The header of the site contains the title of the game and a Github link to the repository over to the right side.
+The header of the site contains the title of the game and a Github link to the repository.
 
 * *Footer*  
 The footer contains a simple copyright watermark
@@ -122,11 +121,11 @@ A centered main menu block greets the user as they enter the site. The main menu
 * *Main Game Console*  
 The game console houses the graphical display of the game and other key information for the user
 
-* *Game Grid*  
-The game grid depicts the level containing the characters of the game. The grid contains a number of cells, some of which have obstacles. There is a 'success' grid for the cheese. The cat and mouse characters move along the cells without any obstacles.
+   * *Game Grid*  
+   The game grid depicts the level containing the characters of the game. The grid contains a number of cells, some of which have obstacles. There is a 'success' grid for the cheese. The cat and mouse characters move along the cells without any obstacles.
 
-* *Side Game Console*  
-At the side of the main game console, information for the user is on display. This includes a time limit and a score counter. There are directional arrows which give feedback on the user moves. At the top right of the console, there is a button for restarting a level and a button to take the user back to the main menu.  
+   * *Side Game Console*  
+   At the side of the main game console, information for the user is on display. This includes a time limit and a score counter. There are directional arrows which give feedback on the user moves. At the top right of the console, there is a button for restarting a level and a button to take the user back to the main menu.  
   
 ### **Skeleton Plane**
 The majority of this project was focused on developing internal game logic and DOM manipulation systems. Therefore, for the skeleton plane, I felt I only needed to focus on creating a basic schematic of game console before I began coding. The only wireframe I created was for the game console layout.
@@ -146,7 +145,7 @@ As mentioned previously, the idea for the game originated from a basic [chasing 
 
 #### Game Aesthetic
 
-Once I had the base game mechanics developed, I then started to work on the aesthetic of the game. I researched common 'chasing' archetypes in popular media. I had many different ideas (e.g. Cowboys chasing Indians, Police chasing Criminals, the Predator chasing Schwarzenegger). The idea that made the most sense in terms of the feel of how the game played was **cats chasing mice**. I was particularly inspired by the famous Tom and Jerry cartoon. The game always felt most enjoyable when you were being closely followed by the enemy which was similar in fashion to the close chases of that cartoon. 
+Once I had the base game mechanics developed, I then started to work on the aesthetic of the game. I researched common 'chasing' archetypes in popular media. I had many different ideas e.g. Cowboys chasing Indians, Police chasing Criminals, the Predator chasing Schwarzenegger. The idea that fit best with the overall feel of the game was a **cat chasing a mouse**. I was particularly inspired by the famous "Tom and Jerry" cartoon. The game always felt most enjoyable when you were being closely followed by the enemy which was similar in fashion to the close chases of that cartoon. 
 
 Once I had the idea that the game characters were to be a cat and mouse, I then decided on the aesthetics of the game levels. Since the game showed an overhead viewpoint, I wanted the color of the board to be vibrant. I decided the game would be set in a garden and the game floor would be grass.
 
@@ -162,6 +161,8 @@ The barrel obstacle was created using an image available from [Canva](https://ww
 
 #### Colour Palette
 In order to choose an overall colour palette for the pages I used the colour scheme generator site [Coolors](https://coolors.co/). The color palette was generated using the color of the grass texture as input. I chose a collection of colors which worked best with the green color.
+
+<img src="assets/documents/surface/color-palette.png" alt="the color palette of the game" width="600"/> 
 
 #### Font
 * The font of the site is [Otomanopee One](https://fonts.google.com/specimen/Otomanopee+One?query=Otomanopee+One)
@@ -214,6 +215,8 @@ Extension I used to see in real time the effect that the changes I was making to
 For markup
 * [CSS](https://en.wikipedia.org/wiki/CSS)  
 For styling the site
+* [JavaScript](https://en.wikipedia.org/wiki/JavaScript)  
+For programming the dynamic elements of the site and for the internal game logic
 * [Google Fonts](https://fonts.google.com/)  
 For the font used in the site
 * [Font Awesome](https://fontawesome.com/)  
@@ -225,13 +228,13 @@ For storing my files and for hosting the site on Github Pages
 * [Canva](https://www.canva.com/)  
 I used a premium version of this tool to create various images throughout the site
 * [favicon-generator.org](https://www.favicon-generator.org/)  
-Used to generate a favicon for the site from an image I created using Canva
+Used to generate a favicon for the site from the mouse gif
 * [resizeimage.net](https://resizeimage.net/)  
 Used to resize images on the page
 * [ezgif.com](https://ezgif.com/)  
 Used to edit gifs on the page
-* [placeholder.com](https://placeholder.com/)  
-I used this site to create small blocks of colour for the colour palette section of this README
+* [ScreenToGif](https://www.screentogif.com/)  
+Used to to create the demonstration gif on the main menu
 * [Balsamiq](https://balsamiq.com/)  
 Used to create wireframes
 ***
